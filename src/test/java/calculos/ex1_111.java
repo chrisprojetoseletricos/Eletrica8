@@ -4,8 +4,8 @@ import chc.eletrica8.entidades.Carga;
 import chc.eletrica8.entidades.Circuito;
 import chc.eletrica8.entidades.Fonte;
 import chc.eletrica8.entidades.Projeto;
-import chc.eletrica8.entidades.QuadroFinal;
-import chc.eletrica8.entidades.QuadroGeral;
+import chc.eletrica8.entidades.Quadro;
+
 import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.servico.ProjetoService;
@@ -23,37 +23,41 @@ public class ex1_111 {
         fonte.setTensaoFN(220);
         fonte.setProjeto(pro);
 
-        QuadroGeral QGF = new QuadroGeral();
+        Quadro QGF = new Quadro();
         QGF.setNome("QGF");
         QGF.setFonte(fonte);
+        
+        Quadro CCM3 = new Quadro();
+        CCM3.setNome("CCM3");
+        CCM3.setQuadroGeral(QGF);
 
-        QuadroFinal CCM1 = new QuadroFinal();
+        Quadro CCM1 = new Quadro();
         CCM1.setNome("CCM1");
-        CCM1.setQuadroGeral(QGF);
+        CCM1.setQuadroGeral(CCM3);
 
-        QuadroFinal CCM2 = new QuadroFinal();
+        Quadro CCM2 = new Quadro();
         CCM2.setNome("CCM2");
         CCM2.setQuadroGeral(QGF);
 
-        QuadroFinal QDL = new QuadroFinal();
+        Quadro QDL = new Quadro();
         QDL.setNome("QDL");
         QDL.setQuadroGeral(QGF);
 
         Circuito CIR_1 = new Circuito();
         CIR_1.setNome("CIR_1");
-        CIR_1.setQuadroFinal(CCM1);
+        CIR_1.setQuadro(CCM1);
         Circuito CIR_2 = new Circuito();
         CIR_2.setNome("CIR_2");
-        CIR_2.setQuadroFinal(CCM2);
+        CIR_2.setQuadro(CCM2);
         Circuito CIR_3 = new Circuito();
         CIR_3.setNome("CIR_3");
-        CIR_3.setQuadroFinal(CCM2);
+        CIR_3.setQuadro(CCM2);
         Circuito CIR_FL = new Circuito();
         CIR_FL.setNome("CIR_FL");
-        CIR_FL.setQuadroFinal(QDL);
+        CIR_FL.setQuadro(QDL);
         Circuito CIR_IN = new Circuito();
         CIR_IN.setNome("CIR_IN");
-        CIR_IN.setQuadroFinal(QDL);
+        CIR_IN.setQuadro(QDL);
 
         Carga motor1 = new Carga();
         motor1.setNome("Motor1");
@@ -121,9 +125,9 @@ public class ex1_111 {
         QDL.getCircuitos().add(CIR_FL);
         QDL.getCircuitos().add(CIR_IN);
 
-        QGF.getListaQuadrosFinais().add(CCM1);
-        QGF.getListaQuadrosFinais().add(CCM2);
-        QGF.getListaQuadrosFinais().add(QDL);
+        QGF.getQuadros().add(CCM1);
+        QGF.getQuadros().add(CCM2);
+        QGF.getQuadros().add(QDL);
 
         fonte.getQuadros().add(QGF);
 

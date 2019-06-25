@@ -5,13 +5,15 @@
  */
 package calculos;
 
-import chc.eletrica8.servico.QuadroGeralService;
+import chc.eletrica8.servico.ProjetoService;
+import chc.eletrica8.servico.QuadroService;
 
 public class testeService {
 
     public static void main(String[] args) {
 
-        QuadroGeralService.removeById(1);
-       
+        ProjetoService.removeById(1);
+        //QuadroService.removeById(1);
+
     }
 }

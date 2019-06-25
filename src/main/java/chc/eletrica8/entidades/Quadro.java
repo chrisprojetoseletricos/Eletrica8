@@ -1,5 +1,7 @@
 package chc.eletrica8.entidades;
 
+import chc.eletrica8.calculos.PotenciaDemandada;
+import chc.eletrica8.calculos.PotenciaInstalada;
 import chc.eletrica8.enums.Instalacao;
 import chc.eletrica8.enums.TempAmbiente;
 import chc.eletrica8.enums.UnidadePotencia;
@@ -30,19 +32,23 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Quadro")
 @TableModel
-public class QuadroFinal implements Serializable, Entidade<QuadroFinal> {
+public class Quadro implements Serializable, Entidade<Quadro> {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Fonte fonte;
+
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    private QuadroGeral quadroGeral;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    private QuadroParcial quadroParcial;
-    @OneToMany(mappedBy = "quadroFinal", targetEntity = Circuito.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Circuito> circuitos = new ArrayList<Circuito>();
+    private Quadro quadroGeral;
+    @OneToMany(mappedBy = "quadroGeral",targetEntity = Quadro.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Quadro> quadros = new ArrayList<>();
+
+    @OneToMany(mappedBy = "quadro", targetEntity = Circuito.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Circuito> circuitos = new ArrayList<>();
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     private Condutor condutor;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
@@ -64,75 +70,63 @@ public class QuadroFinal implements Serializable, Entidade<QuadroFinal> {
     private Instalacao instalacao;
 
     public double getPotenciaDemandada(UnidadePotencia unidadeDestino) {
-        double valor = 0;
+        double total;
 
-        try {
-            for (Circuito c : this.getCircuitos()) {
-                for (Carga e : c.getListaCarga()) {
-                    valor += e.getQuantidade() * e.getPotenciaDemandada(unidadeDestino) * e.getfSimu();
-                }
-            }
-        } catch (Exception e) {
-        }
+        total = new PotenciaDemandada()//
+                .withQuadro(clonarSemID())//
+                .withUnidadeDestino(unidadeDestino)//
+                .valor();
 
-        return valor;
+        return total;
     }
 
     public double getPotenciaInstalada(UnidadePotencia unidadeDestino) {
-        double valor = 0;
-
-        try {
-            for (Circuito c : this.getCircuitos()) {
-                for (Carga e : c.getListaCarga()) {
-                    valor += e.getQuantidade() * e.getPotenciaInstalada(unidadeDestino);
-                }
-            }
-        } catch (Exception e) {
-        }
-
-        return valor;
+        return new PotenciaInstalada()//
+                .withQuadro(clonarSemID())//
+                .withUnidadeDestino(unidadeDestino)//
+                .valor();
     }
 
     /**
-     * @return the circuitos
+     * @return the fonte
      */
-    public List<Circuito> getCircuitos() {
-        return circuitos;
+    public Fonte getFonte() {
+        return fonte;
     }
 
     /**
-     * @param circuitos the circuitos to set
+     * @param fonte the fonte to set
      */
-    public void setCircuitos(List<Circuito> circuitos) {
-        this.circuitos = circuitos;
+    public void setFonte(Fonte fonte) {
+        this.fonte = fonte;
     }
 
     /**
      * @return the quadroGeral
      */
-    public QuadroGeral getQuadroGeral() {
+    public Quadro getQuadroGeral() {
         return quadroGeral;
     }
 
     /**
      * @param quadroGeral the quadroGeral to set
      */
-    public void setQuadroGeral(QuadroGeral quadroGeral) {
+    public void setQuadroGeral(Quadro quadroGeral) {
         this.quadroGeral = quadroGeral;
     }
 
     /**
-     * @return the quadroParcial
+     * @return the quadrosFinais
      */
-    public QuadroParcial getQuadroParcial() {
-        return quadroParcial;
+    public List<Quadro> getQuadros() {
+        return quadros;
     }
 
     /**
-     * @param quadroParcial the quadroParcial to set
+     * @param quadros the quadrosFinais to set
      */
-    public void setQuadroParcial(QuadroParcial quadroParcial) {
-        this.quadroParcial = quadroParcial;
+    public void setQuadros(List<Quadro> quadros) {
+        this.quadros = quadros;
     }
 
     public Instalacao getInstalacao() {
@@ -157,6 +151,14 @@ public class QuadroFinal implements Serializable, Entidade<QuadroFinal> {
 
     public void setTempAmbiente(TempAmbiente tempAmbiente) {
         this.tempAmbiente = tempAmbiente;
+    }
+
+    public List<Circuito> getCircuitos() {
+        return circuitos;
+    }
+
+    public void setCircuitos(List<Circuito> circuitos) {
+        this.circuitos = circuitos;
     }
 
     public Condutor getCondutor() {
@@ -244,10 +246,10 @@ public class QuadroFinal implements Serializable, Entidade<QuadroFinal> {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof QuadroFinal)) {
+        if (!(object instanceof Quadro)) {
             return false;
         }
-        QuadroFinal other = (QuadroFinal) object;
+        Quadro other = (Quadro) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -260,18 +262,16 @@ public class QuadroFinal implements Serializable, Entidade<QuadroFinal> {
     }
 
     @Override
-    public QuadroFinal clonarSemID() {
-        QuadroFinal q = copiar();
+    public Quadro clonarSemID() {
+        Quadro q = copiar();
         q.setId(null);
         return q;
     }
 
     @Override
-    public QuadroFinal copiar() {
-        QuadroFinal q = new QuadroFinal();
+    public Quadro copiar() {
+        Quadro q = new Quadro();
         q.setId(id);
-        q.setQuadroGeral(quadroGeral);
-        q.setQuadroParcial(quadroParcial);
         q.setNome(nome);
         q.setCondutor(condutor);
         q.setCurto(curto);
@@ -292,7 +292,7 @@ public class QuadroFinal implements Serializable, Entidade<QuadroFinal> {
     public void apagar() {
 
         id = 0;
-        getCircuitos().clear();
+        circuitos.clear();
         condutor = null;
         curto = null;
         usoDeDR = null;

@@ -38,11 +38,7 @@ public class Circuito implements Serializable, Entidade<Circuito> {
 
     private Integer id;
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
-    private QuadroParcial quadroParcial;
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
-    private QuadroFinal quadroFinal;
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
-    private QuadroGeral quadroGeral;
+    private Quadro quadro;
     @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
     @Column(colName = "Condutor", colPosition = 1)
     private Condutor condutor;
@@ -65,44 +61,17 @@ public class Circuito implements Serializable, Entidade<Circuito> {
     /**
      * @return the quadroParcial
      */
-    public QuadroParcial getQuadroParcial() {
-        return quadroParcial;
+    public Quadro getQuadro() {
+        return quadro;
     }
 
     /**
-     * @param quadroParcial the quadroParcial to set
+     * @param quadro the quadroParcial to set
      */
-    public void setQuadroParcial(QuadroParcial quadroParcial) {
-        this.quadroParcial = quadroParcial;
+    public void setQuadro(Quadro quadro) {
+        this.quadro = quadro;
     }
 
-    /**
-     * @return the quadroFinal
-     */
-    public QuadroFinal getQuadroFinal() {
-        return quadroFinal;
-    }
-
-    /**
-     * @param quadroFinal the quadroFinal to set
-     */
-    public void setQuadroFinal(QuadroFinal quadroFinal) {
-        this.quadroFinal = quadroFinal;
-    }
-
-    /**
-     * @return the quadroGeral
-     */
-    public QuadroGeral getQuadroGeral() {
-        return quadroGeral;
-    }
-
-    /**
-     * @param quadroGeral the quadroGeral to set
-     */
-    public void setQuadroGeral(QuadroGeral quadroGeral) {
-        this.quadroGeral = quadroGeral;
-    }
 
     public List<Carga> getListaCarga() {
         return listaCarga;
@@ -188,9 +157,8 @@ public class Circuito implements Serializable, Entidade<Circuito> {
         Circuito c = new Circuito();
         c.setId(id);
         c.setNome(nome);
-        c.setQuadroParcial(getQuadroParcial());
-        c.setQuadroFinal(getQuadroFinal());
-        c.setQuadroGeral(getQuadroGeral());
+        c.setQuadro(getQuadro());
+
         c.setCondutor(condutor);
         c.setCurto(curto);
         return c;
@@ -199,9 +167,7 @@ public class Circuito implements Serializable, Entidade<Circuito> {
     @Override
     public void apagar() {
         id = 0;
-        quadroFinal = null;
-        quadroGeral = null;
-        quadroParcial = null;
+        quadro = null;
         condutor = null;
         curto = null;
         listaCarga.clear();

@@ -8,6 +8,7 @@ package chc.eletrica8.entidades;
 import chc.eletrica8.calculos.Corrente;
 import chc.eletrica8.calculos.PotenciaDemandadaCarga;
 import chc.eletrica8.calculos.PotenciaInstaladaCarga;
+
 import chc.eletrica8.controle.Ids;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.UnidadePotencia;
@@ -26,8 +27,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
-
 /**
  *
  * @author chris
@@ -43,7 +42,7 @@ public class Carga implements Serializable, Entidade<Carga> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(colName = "Id", colPosition = 0)
     private Integer id;
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Circuito circuito;
     @Column(colName = "Ligação", colPosition = 4)
     private String ligacaoReal;

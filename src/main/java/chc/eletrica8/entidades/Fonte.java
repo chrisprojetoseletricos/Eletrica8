@@ -40,8 +40,8 @@ public class Fonte implements Serializable, Entidade<Fonte> {
     private Projeto projeto;
     @Column(colName = "Concessionária", colPosition = 2)
     private String concessionaria;
-    @OneToMany(mappedBy = "fonte", targetEntity = QuadroGeral.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<QuadroGeral> quadrosGerais = new ArrayList<>();
+    @OneToMany(mappedBy = "fonte", targetEntity = Quadro.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Quadro> quadros = new ArrayList<>();
     @Column(colName = "Nome", colPosition = 0)
     private String nome;
     @Column(colName = "TensãoFN", colPosition = 1)
@@ -51,7 +51,7 @@ public class Fonte implements Serializable, Entidade<Fonte> {
 
     public double getPotenciaInstalada(UnidadePotencia unidadeDestino) {
         double total = 0;
-        for (QuadroGeral quadro : this.getQuadros()) {
+        for (Quadro quadro : this.getQuadros()) {
             total += quadro.getPotenciaInstalada(unidadeDestino);
         }
         return total;
@@ -59,7 +59,7 @@ public class Fonte implements Serializable, Entidade<Fonte> {
 
     public double getPotenciaDemandada(UnidadePotencia unidadeDestino) {
         double total = 0;
-        List<QuadroGeral> lista = this.getQuadros();
+        List<Quadro> lista = this.getQuadros();
         for (int i = 0; i < lista.size(); i++) {
             total += lista.get(i).getPotenciaDemandada(unidadeDestino);
         }
@@ -82,12 +82,12 @@ public class Fonte implements Serializable, Entidade<Fonte> {
         this.concessionaria = concessionaria;
     }
 
-    public List<QuadroGeral> getQuadros() {
-        return quadrosGerais;
+    public List<Quadro> getQuadros() {
+        return quadros;
     }
 
-    public void setQuadros(List<QuadroGeral> quadros) {
-        this.quadrosGerais = quadros;
+    public void setQuadros(List<Quadro> quadros) {
+        this.quadros = quadros;
     }
 
     public Projeto getProjeto() {
@@ -164,8 +164,8 @@ public class Fonte implements Serializable, Entidade<Fonte> {
         f.setTensaoFN(tensaoFN);
         f.setProjeto(projeto);
 
-        for (QuadroGeral q : quadrosGerais) {
-            f.quadrosGerais.add(q);
+        for (Quadro q : quadros) {
+            f.quadros.add(q);
         }
         return f;
     }
@@ -175,7 +175,7 @@ public class Fonte implements Serializable, Entidade<Fonte> {
 
         id = 0;
         concessionaria = "";
-        quadrosGerais.clear();
+        quadros.clear();
         nome = "";
         tensaoFN = 0;
     }
