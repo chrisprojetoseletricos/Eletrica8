@@ -1,7 +1,7 @@
 package chc.eletrica8.entidades;
 
-import chc.eletrica8.calculos.PotenciaDemandada;
-import chc.eletrica8.calculos.PotenciaInstalada;
+import chc.eletrica8.calculos.PotenciaDemandadaQuadro;
+import chc.eletrica8.calculos.PotenciaInstaladaQuadro;
 import chc.eletrica8.enums.Instalacao;
 import chc.eletrica8.enums.TempAmbiente;
 import chc.eletrica8.enums.UnidadePotencia;
@@ -72,8 +72,8 @@ public class Quadro implements Serializable, Entidade<Quadro> {
     public double getPotenciaDemandada(UnidadePotencia unidadeDestino) {
         double total;
 
-        total = new PotenciaDemandada()//
-                .withQuadro(clonarSemID())//
+        total = new PotenciaDemandadaQuadro()//
+                .withQuadro(this)//
                 .withUnidadeDestino(unidadeDestino)//
                 .valor();
 
@@ -81,8 +81,8 @@ public class Quadro implements Serializable, Entidade<Quadro> {
     }
 
     public double getPotenciaInstalada(UnidadePotencia unidadeDestino) {
-        return new PotenciaInstalada()//
-                .withQuadro(clonarSemID())//
+        return new PotenciaInstaladaQuadro()//
+                .withQuadro(this)//
                 .withUnidadeDestino(unidadeDestino)//
                 .valor();
     }

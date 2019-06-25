@@ -1,5 +1,7 @@
 package calculos;
 
+import chc.eletrica8.calculos.CalculoUtils;
+import chc.eletrica8.calculos.CalculoUtils.MODELO_INSTALACAO;
 import chc.eletrica8.entidades.Carga;
 import chc.eletrica8.entidades.Circuito;
 import chc.eletrica8.entidades.Fonte;
@@ -10,7 +12,7 @@ import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.servico.ProjetoService;
 
-public class ex1_111 {
+public class ex1_1 {
 
     public static void main(String[] args) {
 
@@ -134,6 +136,24 @@ public class ex1_111 {
         pro.getFontes().add(fonte);
 
         ProjetoService.salva(pro);
+        
+         UnidadePotencia unidade = UnidadePotencia.VA;
+        double demanda = new CalculoUtils()//
+                .comFonte(fonte)//
+                .comModelo(MODELO_INSTALACAO.INDUSTRIAL)//
+                .getPotenciaDemandada(unidade);
+        double potInstalada = new CalculoUtils()//
+                .comFonte(fonte).comModelo(MODELO_INSTALACAO.INDUSTRIAL)//
+                .getPotenciaInstalada(unidade);
+        double fatorDemanda = demanda / potInstalada;
+
+        System.out.println("Demanda: " + demanda + " " + unidade);
+        System.out.println("Potência instalada: " + potInstalada + " " + unidade);
+        System.out.println("Fator demanda: " + fatorDemanda);
+
+        //Demanda: 725323.3924744732 VA
+        //Potência instalada: 1086152.8840336066 VA
+        //Fator demanda: 0.667791250326442
 
     }
 }

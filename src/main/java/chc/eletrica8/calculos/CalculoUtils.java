@@ -3,8 +3,6 @@ package chc.eletrica8.calculos;
 import chc.eletrica8.entidades.Fonte;
 import chc.eletrica8.enums.UnidadePotencia;
 
-
-
 public class CalculoUtils {
 
     public enum MODELO_INSTALACAO {
@@ -26,8 +24,11 @@ public class CalculoUtils {
     }
 
     public double getPotenciaDemandada(UnidadePotencia UnidadeDestino) {
-
-        return fonte.getPotenciaDemandada(UnidadeDestino);
+        double valor = 0;
+        if (modelo.equals(MODELO_INSTALACAO.INDUSTRIAL)){
+            valor = fonte.getPotenciaDemandada(UnidadeDestino);
+        }
+        return valor;
     }
 
     public double getPotenciaInstalada(UnidadePotencia UnidadeDestino) {

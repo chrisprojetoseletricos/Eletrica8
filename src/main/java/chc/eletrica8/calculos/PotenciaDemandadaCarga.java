@@ -3,8 +3,6 @@ package chc.eletrica8.calculos;
 import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.enums.Usabilidade;
 
-
-
 public class PotenciaDemandadaCarga {
 
     private double potencia;
@@ -27,41 +25,16 @@ public class PotenciaDemandadaCarga {
             } else if (unidadeDestino == UnidadePotencia.W) {
                 valor = fatorCompensacaoPerdas * ((this.getPotenciaEmW() * fd) + (perdasReator));
             }
-        }
-        if (usabilidade == Usabilidade.ILUMINACAO_FLUORESCENTE) {
-            if (unidadeDestino == UnidadePotencia.VA) {
-                valor = fatorCompensacaoPerdas * this.getPotenciaEmW() * fd / fp;
-            } else if (unidadeDestino == UnidadePotencia.W) {
-                valor = fatorCompensacaoPerdas * this.getPotenciaEmW() * fd;
-            }
-        }
-        if (usabilidade == Usabilidade.ILUMINACAO_INCADESCENTE) {
-            if (unidadeDestino == UnidadePotencia.VA) {
-                valor = this.getPotenciaEmVA() * fd;
-            } else if (unidadeDestino == UnidadePotencia.W) {
-                valor = this.getPotenciaEmW() * fd;
-            }
-        }
-        if (usabilidade == Usabilidade.GERAL) {
-            if (unidadeDestino == UnidadePotencia.VA) {
-                valor = this.getPotenciaEmVA() * fd;
-            } else if (unidadeDestino == UnidadePotencia.W) {
-                valor = this.getPotenciaEmW() * fd;
-            }
-        }
-        if (usabilidade == Usabilidade.MOTOR) {
+        } else if (usabilidade == Usabilidade.MOTOR) {
             if (unidadeDestino == UnidadePotencia.VA) {
                 valor = this.getPotenciaEmVA() * this.fu / this.rendimento;
             } else if (unidadeDestino == UnidadePotencia.W) {
                 valor = this.getPotenciaEmW() * this.fu / this.rendimento;
             }
-        }
-        if (usabilidade == Usabilidade.EQUIPAMENTOS_ESPECIAIS) {
-            if (unidadeDestino == UnidadePotencia.VA) {
-                valor = this.getPotenciaEmVA() * fd;
-            } else if (unidadeDestino == UnidadePotencia.W) {
-                valor = this.getPotenciaEmW() * fd;
-            }
+        } else if (unidadeDestino == UnidadePotencia.VA) {
+            valor = this.getPotenciaEmVA() * fd;
+        } else if (unidadeDestino == UnidadePotencia.W) {
+            valor = this.getPotenciaEmW() * fd;
         }
 
         return valor;

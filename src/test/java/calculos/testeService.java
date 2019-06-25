@@ -12,7 +12,7 @@ public class testeService {
 
     public static void main(String[] args) {
 
-        ProjetoService.removeById(1);
+        ProjetoService.removeById(3);
         //QuadroService.removeById(1);
 
     }

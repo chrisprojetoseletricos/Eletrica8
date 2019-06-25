@@ -5,7 +5,7 @@ import chc.eletrica8.entidades.Circuito;
 import chc.eletrica8.entidades.Quadro;
 import chc.eletrica8.enums.UnidadePotencia;
 
-public class PotenciaInstalada {
+public class PotenciaDemandadaQuadro {
 
     private Quadro quadro;
     private UnidadePotencia unidadeDestino;
@@ -16,30 +16,30 @@ public class PotenciaInstalada {
         try {
             for (Circuito c : quadro.getCircuitos()) {
                 for (Carga e : c.getListaCarga()) {
-                    valor += e.getQuantidade() * e.getPotenciaInstalada(unidadeDestino);
+                    valor += e.getQuantidade() * e.getPotenciaDemandada(unidadeDestino) * e.getfSimu();
                 }
             }
         } catch (Exception e) {
         }
+        for (Quadro quadroFinal : quadro.getQuadros()) {
 
-        for (Quadro quadro : quadro.getQuadros()) {
-
-            for (Circuito c : quadro.getCircuitos()) {
+            for (Circuito c : quadroFinal.getCircuitos()) {
                 for (Carga e : c.getListaCarga()) {
-                    valor += e.getQuantidade() * e.getPotenciaInstalada(unidadeDestino);
+                    valor += e.getQuantidade() * e.getPotenciaDemandada(unidadeDestino) * e.getfSimu();
                 }
             }
 
         }
+
         return valor;
     }
 
-    public PotenciaInstalada withQuadro(Quadro quadroParcial) {
+    public PotenciaDemandadaQuadro withQuadro(Quadro quadroParcial) {
         this.quadro = quadroParcial;
         return this;
     }
 
-    public PotenciaInstalada withUnidadeDestino(UnidadePotencia unidadeDestino) {
+    public PotenciaDemandadaQuadro withUnidadeDestino(UnidadePotencia unidadeDestino) {
         this.unidadeDestino = unidadeDestino;
         return this;
     }

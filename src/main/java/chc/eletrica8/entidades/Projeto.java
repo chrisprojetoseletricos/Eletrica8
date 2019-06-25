@@ -23,8 +23,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-
-
 /**
  *
  * @author chris
@@ -37,7 +35,7 @@ public class Projeto implements Serializable, Entidade<Projeto> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    
+
     private Integer id;
     @Column(colName = "Nome", colPosition = 0)
     private String nome;
