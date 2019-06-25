@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="11d2184a-722d-498a-be5b-134f6f2fdfa3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     EQUIPAMENTO."ID" AS EQUIPAMENTO_ID,
+     EQUIPAMENTO."CORRENTE" AS EQUIPAMENTO_CORRENTE,
+     EQUIPAMENTO."DEMANDA" AS EQUIPAMENTO_DEMANDA,
+     EQUIPAMENTO."DESCRICAO" AS EQUIPAMENTO_DESCRICAO,
+     EQUIPAMENTO."FSIMU" AS EQUIPAMENTO_FSIMU,
+     EQUIPAMENTO."FD" AS EQUIPAMENTO_FD,
+     EQUIPAMENTO."FP" AS EQUIPAMENTO_FP,
+     EQUIPAMENTO."FS" AS EQUIPAMENTO_FS,
+     EQUIPAMENTO."FU" AS EQUIPAMENTO_FU,
+     EQUIPAMENTO."LIGACAO" AS EQUIPAMENTO_LIGACAO,
+     EQUIPAMENTO."LIGACAOREAL" AS EQUIPAMENTO_LIGACAOREAL,
+     EQUIPAMENTO."LOCALIZACAO" AS EQUIPAMENTO_LOCALIZACAO,
+     EQUIPAMENTO."NPOLOS" AS EQUIPAMENTO_NPOLOS,
+     EQUIPAMENTO."NOME" AS EQUIPAMENTO_NOME,
+     EQUIPAMENTO."PERDASREATOR" AS EQUIPAMENTO_PERDASREATOR,
+     EQUIPAMENTO."POTENCIA" AS EQUIPAMENTO_POTENCIA,
+     EQUIPAMENTO."QUANTIDADE" AS EQUIPAMENTO_QUANTIDADE,
+     EQUIPAMENTO."RENDIMENTO" AS EQUIPAMENTO_RENDIMENTO,
+     EQUIPAMENTO."TENSAO" AS EQUIPAMENTO_TENSAO,
+     EQUIPAMENTO."UNIDADE" AS EQUIPAMENTO_UNIDADE,
+     EQUIPAMENTO."USABILIDADE" AS EQUIPAMENTO_USABILIDADE,
+     EQUIPAMENTO."CIRCUITO_ID" AS EQUIPAMENTO_CIRCUITO_ID
+FROM
+     "PUBLIC"."EQUIPAMENTO" EQUIPAMENTO]]>
+	</queryString>
+	<field name="EQUIPAMENTO_ID" class="java.lang.Integer"/>
+	<field name="EQUIPAMENTO_CORRENTE" class="java.lang.Double"/>
+	<field name="EQUIPAMENTO_DEMANDA" class="java.lang.Double"/>
+	<field name="EQUIPAMENTO_DESCRICAO" class="java.lang.String"/>
+	<field name="EQUIPAMENTO_FSIMU" class="java.lang.Double"/>
+	<field name="EQUIPAMENTO_FD" class="java.lang.Double"/>
+	<field name="EQUIPAMENTO_FP" class="java.lang.Double"/>
+	<field name="EQUIPAMENTO_FS" class="java.lang.Double"/>
+	<field name="EQUIPAMENTO_FU" class="java.lang.Double"/>
+	<field name="EQUIPAMENTO_LIGACAO" class="java.lang.String"/>
+	<field name="EQUIPAMENTO_LIGACAOREAL" class="java.lang.String"/>
+	<field name="EQUIPAMENTO_LOCALIZACAO" class="java.lang.String"/>
+	<field name="EQUIPAMENTO_NPOLOS" class="java.lang.Integer"/>
+	<field name="EQUIPAMENTO_NOME" class="java.lang.String"/>
+	<field name="EQUIPAMENTO_PERDASREATOR" class="java.lang.Double"/>
+	<field name="EQUIPAMENTO_POTENCIA" class="java.lang.Double"/>
+	<field name="EQUIPAMENTO_QUANTIDADE" class="java.lang.Integer"/>
+	<field name="EQUIPAMENTO_RENDIMENTO" class="java.lang.Double"/>
+	<field name="EQUIPAMENTO_TENSAO" class="java.lang.Double"/>
+	<field name="EQUIPAMENTO_UNIDADE" class="java.lang.String"/>
+	<field name="EQUIPAMENTO_USABILIDADE" class="java.lang.String"/>
+	<field name="EQUIPAMENTO_CIRCUITO_ID" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="99" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="99" uuid="ecf95f3a-eb93-4846-9c63-383a8fad52c6"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="208" y="0" width="347" height="99" uuid="b118fa37-ea0f-433d-8585-50df47e20c2a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="40" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="208" height="99" uuid="eb0910d2-1b47-4c50-a604-33b08dbb9efd"/>
+				<imageExpression><![CDATA["/home/chris/NetBeansProjects/Eletrica7/src/main/resources/imagens/logotipo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="208" height="35" uuid="24bd153b-6b82-4eda-89ef-5a292f176202"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Todos os Equipamentos]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="1" width="555" height="19" uuid="0a9799af-285e-444e-b613-cbb96afe14d8"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="11" y="0" width="100" height="20" uuid="c4885409-302b-44f3-9069-72a0b9c9daa6"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Tipo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="0" width="52" height="20" uuid="ff7f3c60-1db7-4539-9ce1-0266c269a6b4"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Potência:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="163" y="1" width="24" height="19" uuid="0ba56e19-20a1-4331-a9cc-866c4e80ce62"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Uni:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="187" y="0" width="38" height="20" uuid="821aa054-4702-44c1-8fc8-2fd4016b0ae4"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Quant.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="225" y="0" width="58" height="20" uuid="dc082f87-346a-42b4-9893-9fa24ad8138f"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Tensão (V):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="283" y="1" width="71" height="19" uuid="eccb1c4a-229e-4a68-9513-c837a3ab1fbb"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Corrente (A):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="354" y="0" width="80" height="20" uuid="4b53962d-6762-40a3-aa79-421d81084beb"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Demanda (VA):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="434" y="1" width="48" height="19" uuid="d51b3b2e-9318-40a7-b188-4d9c98860c1e"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Ligação:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="18" width="555" height="1" uuid="74330497-9493-4919-b3ee-ada2d8c035aa"/>
+			</line>
+			<line>
+				<reportElement x="555" y="0" width="1" height="18" uuid="9398141d-451e-429e-8f2d-59488558fd6c"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="18" uuid="32fd3535-7440-4b64-9757-bcef493f5edd"/>
+			</line>
+			<textField>
+				<reportElement x="11" y="0" width="100" height="20" uuid="98da58d3-fcac-48d5-9586-18ee6832899d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{EQUIPAMENTO_USABILIDADE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0">
+				<reportElement x="111" y="1" width="52" height="20" uuid="6a4af2e1-b7f9-4ef1-8a0d-2c5df682edc8"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{EQUIPAMENTO_POTENCIA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="163" y="0" width="24" height="20" uuid="17c7bd1f-03e8-4ae2-afb0-eefd2be23d94"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{EQUIPAMENTO_UNIDADE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="187" y="0" width="38" height="20" uuid="a27593ee-2295-4c77-8bb4-19afac3daddd"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{EQUIPAMENTO_QUANTIDADE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0">
+				<reportElement x="225" y="1" width="58" height="20" uuid="ade00ffc-bca3-4214-8d68-74d1adec8c0e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{EQUIPAMENTO_TENSAO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0">
+				<reportElement x="283" y="0" width="71" height="20" uuid="4321b88b-d3cb-4df9-804c-aeaedddb7f5d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{EQUIPAMENTO_CORRENTE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0">
+				<reportElement x="354" y="1" width="80" height="20" uuid="e991811d-f61e-4f3e-beee-586b16520d41"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{EQUIPAMENTO_DEMANDA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="434" y="0" width="48" height="20" uuid="332910d4-2c0b-423f-b412-f03bd6218ac4"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{EQUIPAMENTO_LIGACAOREAL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

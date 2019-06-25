@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="11d2184a-722d-498a-be5b-134f6f2fdfa3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     CIRCUITO."ID" AS CIRCUITO_ID,
+     CIRCUITO."CORRENTEIB" AS CIRCUITO_CORRENTEIB,
+     CIRCUITO."NOME" AS CIRCUITO_NOME,
+     CIRCUITO."CONDUTOR_ID" AS CIRCUITO_CONDUTOR_ID,
+     CIRCUITO."CURTO_ID" AS CIRCUITO_CURTO_ID,
+     CIRCUITO."QUADRO_ID" AS CIRCUITO_QUADRO_ID
+FROM
+     "PUBLIC"."CIRCUITO" CIRCUITO]]>
+	</queryString>
+	<field name="CIRCUITO_ID" class="java.lang.Integer"/>
+	<field name="CIRCUITO_CORRENTEIB" class="java.lang.Double"/>
+	<field name="CIRCUITO_NOME" class="java.lang.String"/>
+	<field name="CIRCUITO_CONDUTOR_ID" class="java.lang.Integer"/>
+	<field name="CIRCUITO_CURTO_ID" class="java.lang.Integer"/>
+	<field name="CIRCUITO_QUADRO_ID" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="99" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="99" uuid="ecf95f3a-eb93-4846-9c63-383a8fad52c6"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="208" y="0" width="347" height="99" uuid="b118fa37-ea0f-433d-8585-50df47e20c2a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="40" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="208" height="99" uuid="eb0910d2-1b47-4c50-a604-33b08dbb9efd"/>
+				<imageExpression><![CDATA["/home/chris/NetBeansProjects/Eletrica7/src/main/resources/imagens/logotipo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="153" height="35" uuid="24bd153b-6b82-4eda-89ef-5a292f176202"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Todos os Circuitos]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" uuid="0a9799af-285e-444e-b613-cbb96afe14d8"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="1" y="0" width="46" height="20" uuid="14bf78a6-a947-4e77-bceb-1c944ecd6981"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="47" y="0" width="78" height="20" uuid="4baea2ee-fbdf-40a8-8596-993769c333bf"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Corrente Ib (A):]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="18" width="555" height="1" uuid="74330497-9493-4919-b3ee-ada2d8c035aa"/>
+			</line>
+			<line>
+				<reportElement x="555" y="0" width="1" height="18" uuid="9398141d-451e-429e-8f2d-59488558fd6c"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="18" uuid="32fd3535-7440-4b64-9757-bcef493f5edd"/>
+			</line>
+			<textField>
+				<reportElement x="1" y="0" width="46" height="20" uuid="6d2f8f1d-0a6b-4a42-952f-9c010b53ec97"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CIRCUITO_NOME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.0">
+				<reportElement x="47" y="0" width="68" height="20" uuid="bac0d694-10c5-48f5-90cc-c5c3f2326c19"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CIRCUITO_CORRENTEIB}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>
