@@ -34,9 +34,9 @@ public class Fonte implements Serializable, Entidade<Fonte> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    
+
     private Integer id;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Projeto projeto;
     @Column(colName = "Concessionária", colPosition = 2)
     private String concessionaria;
@@ -48,6 +48,9 @@ public class Fonte implements Serializable, Entidade<Fonte> {
     private double tensaoFN;
     @Lob
     private String descricao;
+
+    public void Fonte() {
+    }
 
     public double getPotenciaInstalada(UnidadePotencia unidadeDestino) {
         double total = 0;
@@ -163,10 +166,17 @@ public class Fonte implements Serializable, Entidade<Fonte> {
         f.setConcessionaria(concessionaria);
         f.setTensaoFN(tensaoFN);
         f.setProjeto(projeto);
-
-        for (Quadro q : quadros) {
-            f.quadros.add(q);
+        f.setDescricao(descricao);
+        
+        List<Quadro> lista = new ArrayList<>();
+        for (int i = 0; i < quadros.size(); i++) {
+            Quadro qua = new Quadro();
+            qua = quadros.get(i).clonarSemID();
+            qua.setFonte(f);
+            lista.add(qua);
         }
+        f.setQuadros(lista);
+
         return f;
     }
 

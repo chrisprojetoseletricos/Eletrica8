@@ -6,8 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-
-
 public class JpaDAO<T extends Entidade<T>> {
 
     private static final EntityManager ENTITY_MANAGER = ConnectionFactory.getEntityManager();
@@ -32,13 +30,17 @@ public class JpaDAO<T extends Entidade<T>> {
 
         TypedQuery<T> query = ENTITY_MANAGER.createQuery(expres, ENTITYCLASS);
 
-        if (!(parameter.length == 0)) {
+        try {
+
             int i = 0;
             for (int x = 0; x < parameter.length - 1; x++) {
 
                 query.setParameter((String) parameter[i], parameter[i + 1]);
                 i += 2;
             }
+
+        } catch (Exception e) {
+
         }
         List<T> lista = query.getResultList();
         return lista;

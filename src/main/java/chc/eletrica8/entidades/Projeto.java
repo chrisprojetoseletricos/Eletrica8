@@ -138,9 +138,16 @@ public class Projeto implements Serializable, Entidade<Projeto> {
         p.setAutor(autor);
         p.setDataProjeto(dataProjeto);
         p.setDescricao(descricao);
-        for (Fonte f : fontes) {
-            p.fontes.add(f);
+
+        List<Fonte> lista = new ArrayList<>();
+        for (int i = 0; i < fontes.size(); i++) {
+            Fonte fo = new Fonte();
+            fo = fontes.get(i).clonarSemID();
+            fo.setProjeto(p);
+            lista.add(fo);
         }
+        p.setFontes(lista);
+
         return p;
     }
 

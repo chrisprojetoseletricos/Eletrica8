@@ -46,14 +46,14 @@ public class Circuito implements Serializable, Entidade<Circuito> {
     @Column(colName = "Dados CC", colPosition = 2)
     private Curto curto;
     @OneToMany(mappedBy = "circuito", targetEntity = Carga.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Carga> listaCarga = new ArrayList<>();
+    private List<Carga> cargas = new ArrayList<>();
     @Column(colName = "Circuito", colPosition = 0)
     private String nome;
 
     public double getCorrenteIB() {
         double correnteIB ;
         correnteIB = new CorrenteIB()//
-                .withCarga(listaCarga)//
+                .withCarga(cargas)//
                 .valor();
         return correnteIB;
     }
@@ -74,8 +74,15 @@ public class Circuito implements Serializable, Entidade<Circuito> {
 
 
     public List<Carga> getListaCarga() {
-        return listaCarga;
+        return cargas;
 
+    }
+
+    /**
+     * @param listaCarga the listaCarga to set
+     */
+    public void setListaCarga(List<Carga> listaCarga) {
+        this.cargas = listaCarga;
     }
 
     public void excluiCarga(Carga carga) {
@@ -84,7 +91,7 @@ public class Circuito implements Serializable, Entidade<Circuito> {
         if (lista.contains(carga)) {
             lista.remove(carga);
         }
-        listaCarga = lista;
+        setListaCarga(lista);
     }
 
     public void setId(Integer id) {
@@ -157,10 +164,18 @@ public class Circuito implements Serializable, Entidade<Circuito> {
         Circuito c = new Circuito();
         c.setId(id);
         c.setNome(nome);
-        c.setQuadro(getQuadro());
-
+        c.setQuadro(quadro);
         c.setCondutor(condutor);
         c.setCurto(curto);
+        
+        List<Carga> lista = new ArrayList<>();
+        for(int i = 0;i<cargas.size();i++){
+            Carga ca = new Carga();
+            ca = cargas.get(i).clonarSemID();
+            ca.setCircuito(c);
+            lista.add(ca);
+        }
+        c.setListaCarga(lista);
         return c;
     }
 
@@ -170,7 +185,7 @@ public class Circuito implements Serializable, Entidade<Circuito> {
         quadro = null;
         condutor = null;
         curto = null;
-        listaCarga.clear();
+        cargas.clear();
         nome = "";
     }
 }

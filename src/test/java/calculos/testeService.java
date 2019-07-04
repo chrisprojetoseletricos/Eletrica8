@@ -5,15 +5,18 @@
  */
 package calculos;
 
+import chc.eletrica8.entidades.Fonte;
+import chc.eletrica8.entidades.Projeto;
+import chc.eletrica8.servico.FonteService;
 import chc.eletrica8.servico.ProjetoService;
-import chc.eletrica8.servico.QuadroService;
 
 public class testeService {
 
     public static void main(String[] args) {
 
-        ProjetoService.removeById(3);
-        //QuadroService.removeById(1);
+       Fonte fonte = FonteService.getById(1).clonarSemID();
+       
+       FonteService.salva(fonte);
 
     }
 }

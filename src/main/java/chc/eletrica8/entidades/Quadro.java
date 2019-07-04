@@ -34,8 +34,6 @@ import javax.persistence.Table;
 @TableModel
 public class Quadro implements Serializable, Entidade<Quadro> {
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -44,7 +42,7 @@ public class Quadro implements Serializable, Entidade<Quadro> {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Quadro quadroGeral;
-    @OneToMany(mappedBy = "quadroGeral",targetEntity = Quadro.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "quadroGeral", targetEntity = Quadro.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Quadro> quadros = new ArrayList<>();
 
     @OneToMany(mappedBy = "quadro", targetEntity = Circuito.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -283,7 +281,17 @@ public class Quadro implements Serializable, Entidade<Quadro> {
         q.setUsoDeDR(usoDeDR);
         q.setInstalacao(instalacao);
         q.setTempAmbiente(tempAmbiente);
-        q.setCircuitos(circuitos);
+        q.setFonte(fonte);
+        q.setQuadroGeral(quadroGeral);
+
+        List<Circuito> lista = new ArrayList<>();
+        for (int i = 0; i < circuitos.size(); i++) {
+            Circuito ca = new Circuito();
+            ca = circuitos.get(i).clonarSemID();
+            ca.setQuadro(q);
+            lista.add(ca);
+        }
+        q.setCircuitos(lista);
 
         return q;
     }

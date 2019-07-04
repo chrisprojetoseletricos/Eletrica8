@@ -59,7 +59,6 @@ public class Carga implements Serializable, Entidade<Carga> {
     private Usabilidade usabilidade;
     @Column(colName = "Tensão (V)", colPosition = 1, formatter = "%,#.1f V")
     private double tensao = 0;
-
     @Column(colName = "Nome", colPosition = 0)
     private String nome;
     private int nPolos = 2;
@@ -361,7 +360,7 @@ public class Carga implements Serializable, Entidade<Carga> {
     @Override
     public Carga copiar() {
         Carga e = new Carga();
-
+        e.setId(id);
         e.setDescricao(descricao);
         e.setFd(fd);
         e.setFu(fu);
@@ -378,6 +377,7 @@ public class Carga implements Serializable, Entidade<Carga> {
         e.setRendimento(rendimento);
         e.setFp(fp);
         e.setUnidade(unidade);
+        e.setCircuito(circuito);
 
         return e;
     }

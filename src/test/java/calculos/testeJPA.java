@@ -1,10 +1,11 @@
-package teste;
+package calculos;
 
+import chc.eletrica8.entidades.Projeto;
+import chc.eletrica8.servico.ProjetoService;
+import chc.eletrica8.uteis.DataUtil;
 import java.util.List;
 
-import br.aplicacao.eletrica.modelo.Projeto;
-import br.aplicacao.eletrica.servico.ProjetoService;
-import br.aplicacao.eletrica.uteis.DataUtil;
+
 
 public class testeJPA {
 
@@ -14,7 +15,7 @@ public class testeJPA {
 		projeto.setNome("CHRIS");
 		projeto.setAutor("projeto");
 		projeto.setDescricao("teste");
-		projeto.setData(DataUtil.Atual());
+		//projeto.setData(DataUtil.Atual());
 
 
 		ProjetoService.salva(projeto);

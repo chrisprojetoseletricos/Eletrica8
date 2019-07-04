@@ -15,7 +15,6 @@ public class Ids {
     private static Integer idFonte = 0;
     private static Integer idQuadro = 0;
     private static Integer idCircuito = 0;
-    private static Integer idEquipamento = 0;
     private static Integer idCondutor = 0;
     private static Integer idCurto = 0;
     private static Integer idConcessionaria = 0;
@@ -27,7 +26,6 @@ public class Ids {
         System.out.println("idFonte: " + getIdFonte());
         System.out.println("idQuadro: " + getIdQuadro());
         System.out.println("idCircuito: " + getIdCircuito());
-        System.out.println("idEquipamento: " + getIdEquipamento());
         System.out.println("idCondutor: " + getIdCondutor());
         System.out.println("idCurto: " + getIdCurto());
         System.out.println("idConcessionaria: " + getIdConcessionaria());
@@ -99,19 +97,7 @@ public class Ids {
         idCircuito = aIdCircuito;
     }
 
-    /**
-     * @return the idEquipamento
-     */
-    public static Integer getIdEquipamento() {
-        return idEquipamento;
-    }
 
-    /**
-     * @param aIdEquipamento the idEquipamento to set
-     */
-    public static void setIdEquipamento(Integer aIdEquipamento) {
-        idEquipamento = aIdEquipamento;
-    }
 
     /**
      * @return the idCondutor
