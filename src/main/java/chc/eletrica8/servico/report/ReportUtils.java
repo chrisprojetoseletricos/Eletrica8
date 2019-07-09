@@ -16,6 +16,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.swing.JRViewer;
 
+
 /**
  *
  * @author chris
@@ -44,7 +45,7 @@ public class ReportUtils {
         System.out.println("inputStream: " + inputStream);
         System.out.println("parametros: " + parametros);
         System.out.println("conexao: " + conexao);
-        
+
         @SuppressWarnings("unchecked")
         JasperPrint print = JasperFillManager.fillReport(
                 inputStream,//

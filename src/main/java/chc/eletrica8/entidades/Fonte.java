@@ -167,7 +167,7 @@ public class Fonte implements Serializable, Entidade<Fonte> {
         f.setTensaoFN(tensaoFN);
         f.setProjeto(projeto);
         f.setDescricao(descricao);
-        
+
         List<Quadro> lista = new ArrayList<>();
         for (int i = 0; i < quadros.size(); i++) {
             Quadro qua = new Quadro();

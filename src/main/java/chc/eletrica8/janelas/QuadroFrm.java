@@ -422,8 +422,10 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         this.iniciaTabelaQuadros();
         this.apagaDadosFrm();
         Ids.setIdQuadro(0);
+        Ids.setIdCircuito(0);
         Ids.setIdCondutor(0);
         Ids.setIdCurto(0);
+        Ids.setIdCarga(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnExcluirActionPerformed
 

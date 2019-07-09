@@ -16,7 +16,6 @@ import chc.eletrica8.servico.tableModel.GenericTableModel;
 import chc.eletrica8.uteis.ApenasNumero;
 import chc.eletrica8.uteis.Lista;
 import chc.eletrica8.uteis.Numero;
-import chc.eletrica8.uteis.TrataID;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -333,6 +332,12 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
         this.iniciaTabelaFontes();
         this.apagaDadosFrm();
         Ids.setIdFonte(0);
+        Ids.setIdQuadro(0);
+        Ids.setIdCircuito(0);
+        Ids.setIdCondutor(0);
+        Ids.setIdCurto(0);
+        Ids.setIdCarga(0);
+        Ids.imprimiIds();
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopiarActionPerformed

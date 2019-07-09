@@ -1,36 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="11d2184a-722d-498a-be5b-134f6f2fdfa3">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="40"/>
 	<property name="ireport.y" value="0"/>
 	<queryString>
-		<![CDATA[SELECT
-     PROJETO."ID" AS PROJETO_ID,
-     PROJETO."AUTOR" AS PROJETO_AUTOR,
-     PROJETO."DATAPROJETO" AS PROJETO_DATAPROJETO,
-     PROJETO."DESCRICAO" AS PROJETO_DESCRICAO,
-     PROJETO."NOME" AS PROJETO_NOME,
-     PROJETO."DEMANDAMAXVA" AS PROJETO_DEMANDAMAXVA,
-     PROJETO."FATORDEMANDA" AS PROJETO_FATORDEMANDA,
-     PROJETO."POTENCIAINSTALVA" AS PROJETO_POTENCIAINSTALVA
+		<![CDATA[SELECT *
 FROM
      "PUBLIC"."PROJETO" PROJETO]]>
 	</queryString>
-	<field name="PROJETO_ID" class="java.lang.Integer"/>
-	<field name="PROJETO_AUTOR" class="java.lang.String"/>
-	<field name="PROJETO_DATAPROJETO" class="java.sql.Date"/>
-	<field name="PROJETO_DESCRICAO" class="java.sql.Clob"/>
-	<field name="PROJETO_NOME" class="java.lang.String"/>
-	<field name="PROJETO_DEMANDAMAXVA" class="java.lang.Double"/>
-	<field name="PROJETO_FATORDEMANDA" class="java.lang.Double"/>
-	<field name="PROJETO_POTENCIAINSTALVA" class="java.lang.Double"/>
+	<field name="ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="AUTOR" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DATAPROJETO" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DESCRICAO" class="java.sql.Clob">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NOME" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="99" splitType="Stretch">
 			<rectangle>
-				<reportElement x="0" y="0" width="555" height="99" uuid="ecf95f3a-eb93-4846-9c63-383a8fad52c6"/>
+				<reportElement x="208" y="0" width="347" height="99" uuid="ecf95f3a-eb93-4846-9c63-383a8fad52c6"/>
 			</rectangle>
 			<staticText>
 				<reportElement x="208" y="0" width="347" height="99" uuid="b118fa37-ea0f-433d-8585-50df47e20c2a"/>
@@ -40,8 +39,8 @@ FROM
 				<text><![CDATA[Relatório]]></text>
 			</staticText>
 			<image>
-				<reportElement x="0" y="0" width="208" height="99" uuid="eb0910d2-1b47-4c50-a604-33b08dbb9efd"/>
-				<imageExpression><![CDATA["/home/chris/NetBeansProjects/Eletrica7/src/main/resources/imagens/logotipo.png"]]></imageExpression>
+				<reportElement x="0" y="0" width="208" height="99" uuid="c658698d-7b92-4142-abc1-056feaba000e"/>
+				<imageExpression><![CDATA["/home/chris/Projetos/Java/Eletrica8/src/main/resources/imagens/logotipo.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -93,7 +92,7 @@ FROM
 			<textField pattern="dd/MM/yyyy">
 				<reportElement x="135" y="0" width="100" height="18" uuid="0860ad3e-301b-4752-b5bd-ead9312f5517"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{PROJETO_DATAPROJETO}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{DATAPROJETO}.toString()]]></textFieldExpression>
 			</textField>
 			<line>
 				<reportElement x="-1" y="18" width="555" height="1" uuid="74330497-9493-4919-b3ee-ada2d8c035aa"/>
@@ -104,25 +103,10 @@ FROM
 			<line>
 				<reportElement x="0" y="0" width="1" height="18" uuid="32fd3535-7440-4b64-9757-bcef493f5edd"/>
 			</line>
-			<textField pattern="###0.0">
-				<reportElement x="235" y="0" width="104" height="18" uuid="50242886-f7d0-4a44-9165-a65412d1fb32"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{PROJETO_DEMANDAMAXVA}/1000]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement x="10" y="0" width="115" height="18" uuid="ae452f5c-6380-4f9b-b576-5d0d55c77f51"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{PROJETO_NOME}]]></textFieldExpression>
-			</textField>
-			<textField pattern="###0.0">
-				<reportElement x="347" y="0" width="82" height="18" uuid="fcf03f2e-b32e-4bcc-9e3e-04159113c88b"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{PROJETO_POTENCIAINSTALVA}/1000]]></textFieldExpression>
-			</textField>
-			<textField pattern="##.##">
-				<reportElement x="439" y="0" width="100" height="18" uuid="0aa9c471-58aa-40bc-906b-a97242c15c3d"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{PROJETO_FATORDEMANDA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{NOME}.toString()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

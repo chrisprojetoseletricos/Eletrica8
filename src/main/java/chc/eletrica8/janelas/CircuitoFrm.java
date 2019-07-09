@@ -436,6 +436,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         this.iniciaTabelaCarga();
         this.apagaDadosFrm();
         Ids.setIdCircuito(0);
+        Ids.setIdCarga(0);
         Ids.setIdCondutor(0);
         Ids.setIdCurto(0);
         Ids.imprimiIds();
