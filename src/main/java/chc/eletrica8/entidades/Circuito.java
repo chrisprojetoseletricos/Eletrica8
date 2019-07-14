@@ -5,8 +5,8 @@
  */
 package chc.eletrica8.entidades;
 
-
 import chc.eletrica8.calculos.CorrenteIB;
+import chc.eletrica8.enums.TiposFornecimento;
 import chc.eletrica8.servico.tableModel.Column;
 import chc.eletrica8.servico.tableModel.TableModel;
 import java.io.Serializable;
@@ -21,7 +21,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -37,7 +36,7 @@ public class Circuito implements Serializable, Entidade<Circuito> {
     @GeneratedValue(strategy = GenerationType.AUTO)
 
     private Integer id;
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Quadro quadro;
     @Embedded
     @Column(colName = "Condutor", colPosition = 1)
@@ -49,13 +48,63 @@ public class Circuito implements Serializable, Entidade<Circuito> {
     private List<Carga> cargas = new ArrayList<>();
     @Column(colName = "Circuito", colPosition = 0)
     private String nome;
+    private String tipo;
 
     public double getCorrenteIB() {
-        double correnteIB ;
+        double correnteIB;
         correnteIB = new CorrenteIB()//
-                .withCarga(cargas)//
+                .withCarga(getCargas())//
                 .valor();
         return correnteIB;
+    }
+
+    public void tipoCircuito() {
+
+        for (Carga carga : this.getCargas()) {
+            switch (carga.getLigacao()) {
+                case FFF:
+                case FFFN:
+                    setTipo(TiposFornecimento.TRIFASICO.name());
+                    break;
+                case FF:
+                case FFN:
+                    setTipo(TiposFornecimento.BIFASICO.name());
+                    break;
+                case FN:
+                    setTipo(TiposFornecimento.MONOFASICO.name());
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * @return the cargas
+     */
+    public List<Carga> getCargas() {
+        return cargas;
+    }
+
+    /**
+     * @param cargas the cargas to set
+     */
+    public void setCargas(List<Carga> cargas) {
+        this.cargas = cargas;
+    }
+
+    /**
+     * @return the tipo
+     */
+    public String getTipo() {
+        return tipo;
+    }
+
+    /**
+     * @param tipo the tipo to set
+     */
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     /**
@@ -72,9 +121,8 @@ public class Circuito implements Serializable, Entidade<Circuito> {
         this.quadro = quadro;
     }
 
-
     public List<Carga> getListaCarga() {
-        return cargas;
+        return getCargas();
 
     }
 
@@ -82,7 +130,7 @@ public class Circuito implements Serializable, Entidade<Circuito> {
      * @param listaCarga the listaCarga to set
      */
     public void setListaCarga(List<Carga> listaCarga) {
-        this.cargas = listaCarga;
+        this.setCargas(listaCarga);
     }
 
     public void excluiCarga(Carga carga) {
@@ -166,11 +214,11 @@ public class Circuito implements Serializable, Entidade<Circuito> {
         c.setQuadro(quadro);
         c.setCondutor(condutor);
         c.setCurto(curto);
-        
+
         List<Carga> lista = new ArrayList<>();
-        for(int i = 0;i<cargas.size();i++){
+        for (int i = 0; i < getCargas().size(); i++) {
             Carga ca = new Carga();
-            ca = cargas.get(i).clonarSemID();
+            ca = getCargas().get(i).clonarSemID();
             ca.setCircuito(c);
             lista.add(ca);
         }
@@ -178,13 +226,12 @@ public class Circuito implements Serializable, Entidade<Circuito> {
         return c;
     }
 
-
     public void apagar() {
         id = 0;
         quadro = null;
         condutor = null;
         curto = null;
-        cargas.clear();
+        getCargas().clear();
         nome = "";
     }
 }

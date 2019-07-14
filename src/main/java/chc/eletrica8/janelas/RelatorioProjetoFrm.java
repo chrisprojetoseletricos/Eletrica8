@@ -11,7 +11,6 @@ import chc.eletrica8.entidades.Projeto;
 import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.servico.ProjetoService;
 import chc.eletrica8.servico.report.ReportUtils;
-import chc.eletrica8.uteis.Numero;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -131,8 +130,8 @@ public class RelatorioProjetoFrm extends javax.swing.JInternalFrame {
         Map parametros = new HashMap();
         for (int i = 0; i < projeto.getFontes().size(); i++) {
 
-            parametros.put("DemandaFonte", projeto.getFontes().get(i).getPotenciaDemandada(UnidadePotencia.VA)/1000);
-            parametros.put("PotenciaFonte", projeto.getFontes().get(i).getPotenciaInstalada(UnidadePotencia.VA)/1000);
+            parametros.put("DemandaFonte", projeto.getFontes().get(i).getPotenciaDemandada(UnidadePotencia.VA) / 1000);
+            parametros.put("PotenciaFonte", projeto.getFontes().get(i).getPotenciaInstalada(UnidadePotencia.VA) / 1000);
         }
         try {
             // abre o relatório

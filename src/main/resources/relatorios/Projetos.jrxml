@@ -272,9 +272,14 @@ LEFT JOIN CARGA ON CIRCUITO.ID = CARGA.CIRCUITO_ID]]>
 					<textFieldExpression><![CDATA[$F{NOMEQUADRO}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="30" y="28" width="26" height="20" uuid="cee27dfc-a573-4740-8dcb-a8c3d9ad8569"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<reportElement x="30" y="30" width="47" height="20" uuid="cee27dfc-a573-4740-8dcb-a8c3d9ad8569"/>
+					<textElement verticalAlignment="Middle"/>
 					<text><![CDATA[CIR.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="77" y="30" width="100" height="20" uuid="9822208b-5c3c-46ef-980a-f4efdb495338"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[TIPO]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
@@ -318,9 +323,14 @@ LEFT JOIN CARGA ON CIRCUITO.ID = CARGA.CIRCUITO_ID]]>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="30" y="0" width="72" height="20" uuid="8126b0b2-8103-40d1-85db-d6ca8c7565e4"/>
+				<reportElement x="30" y="0" width="47" height="20" uuid="8126b0b2-8103-40d1-85db-d6ca8c7565e4"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{NOMECIRCUITO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="0" width="100" height="20" uuid="1fbeac30-9333-465a-9102-a96ed81a71d3"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{TipoCircuito}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
