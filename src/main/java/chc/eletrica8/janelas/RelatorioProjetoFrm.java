@@ -7,15 +7,15 @@ package chc.eletrica8.janelas;
 
 import chc.eletrica8.controle.Ids;
 import chc.eletrica8.dao.ConnectionFactory;
-import chc.eletrica8.entidades.Fonte;
 import chc.eletrica8.entidades.Projeto;
+import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.servico.ProjetoService;
 import chc.eletrica8.servico.report.ReportUtils;
+import chc.eletrica8.uteis.Numero;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
-
 
 /**
  *
@@ -50,7 +50,6 @@ public class RelatorioProjetoFrm extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Projeto");
         setName("ProjetoFrm"); // NOI18N
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         scrollEsquerdo.setBorder(null);
         scrollEsquerdo.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -86,7 +85,20 @@ public class RelatorioProjetoFrm extends javax.swing.JInternalFrame {
 
         scrollEsquerdo.setViewportView(painelEsquerdo);
 
-        getContentPane().add(scrollEsquerdo, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 9, 330, 120));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(scrollEsquerdo, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(scrollEsquerdo, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         setBounds(0, 0, 364, 178);
     }// </editor-fold>//GEN-END:initComponents
@@ -110,18 +122,18 @@ public class RelatorioProjetoFrm extends javax.swing.JInternalFrame {
          * (botão direito no nó raiz do projeto, Clean and Build (Limpar e Construir)
          *
          */
-        Projeto projeto = ProjetoService.getById(Ids.getIdProjeto());
-        for (Fonte f : projeto.getFontes()) {
-            //p.getDemandaMaxVA();
-           // p.getPotenciaInstalVA();
-            //p.getFatorDemanda();
-        }
+        Projeto projeto;
+        projeto = ProjetoService.getById(Ids.getIdProjeto());
 
         InputStream inputStream = getClass().getResourceAsStream("/relatorios/Projetos.jasper");
 
         // mapa de parâmetros do relatório (ainda vamos aprender a usar)
         Map parametros = new HashMap();
+        for (int i = 0; i < projeto.getFontes().size(); i++) {
 
+            parametros.put("DemandaFonte", projeto.getFontes().get(i).getPotenciaDemandada(UnidadePotencia.VA)/1000);
+            parametros.put("PotenciaFonte", projeto.getFontes().get(i).getPotenciaInstalada(UnidadePotencia.VA)/1000);
+        }
         try {
             // abre o relatório
             ReportUtils.openReport(
@@ -130,6 +142,7 @@ public class RelatorioProjetoFrm extends javax.swing.JInternalFrame {
                     parametros,//
                     ConnectionFactory.getConnection());
 
+            //ReportUtils.openReport("Projeto", inputStream, parametros,ds);
         } catch (JRException exc) {
             exc.printStackTrace();
         }

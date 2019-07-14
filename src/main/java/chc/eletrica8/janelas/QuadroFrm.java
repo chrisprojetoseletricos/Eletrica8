@@ -7,15 +7,11 @@ package chc.eletrica8.janelas;
 
 import chc.eletrica8.controle.DesktopPane;
 import chc.eletrica8.controle.Ids;
-import chc.eletrica8.entidades.Carga;
-import chc.eletrica8.entidades.Circuito;
 import chc.eletrica8.entidades.Quadro;
 import chc.eletrica8.enums.Instalacao;
 import chc.eletrica8.enums.TempAmbiente;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.enums.UsoDr;
-import chc.eletrica8.servico.CargaService;
-import chc.eletrica8.servico.CircuitoService;
 import chc.eletrica8.servico.FonteService;
 import chc.eletrica8.servico.QuadroService;
 import chc.eletrica8.servico.tableModel.GenericTableModel;
@@ -406,13 +402,28 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
         Quadro quadro = this.getDados();
+        condutorFrm = new CondutorFrm(null, true);
+        curtoFrm = new CurtoCircuitoFrm(null, true);
+
+        try {
+            condutorFrm.setDados(QuadroService.getById(Ids.getIdQuadro()).getCondutor());
+            curtoFrm.setDados(QuadroService.getById(Ids.getIdQuadro()).getCurto());
+        } catch (Exception e) {
+
+        }
+        condutorFrm.setVisible(true);
+        curtoFrm.setVisible(true);
+        try {
+            quadro.setCondutor(condutorFrm.getCondutor());
+            quadro.setCurto(curtoFrm.getCurto());
+        } catch (Exception e) {
+        }
+
         QuadroService.salva(quadro);
 
         this.apagaDadosFrm();
         this.iniciaTabelaQuadros();
         Ids.setIdQuadro(0);
-        Ids.setIdCondutor(0);
-        Ids.setIdCurto(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -423,8 +434,6 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         this.apagaDadosFrm();
         Ids.setIdQuadro(0);
         Ids.setIdCircuito(0);
-        Ids.setIdCondutor(0);
-        Ids.setIdCurto(0);
         Ids.setIdCarga(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnExcluirActionPerformed
@@ -440,8 +449,6 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         this.iniciaTabelaQuadros();
         this.apagaDadosFrm();
         Ids.setIdQuadro(0);
-        Ids.setIdCondutor(0);
-        Ids.setIdCurto(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnCopiarActionPerformed
 
@@ -455,8 +462,6 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
                 CircuitoFrm circuito = new CircuitoFrm();
                 DesktopPane.desktop.add(circuito);
                 circuito.setVisible(true);
-                Ids.setIdCondutor(0);
-                Ids.setIdCurto(0);
             }
             Ids.imprimiIds();
         }
@@ -466,8 +471,6 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         this.apagaDadosFrm();
         this.iniciaTabelaQuadros();
         Ids.setIdQuadro(0);
-        Ids.setIdCondutor(0);
-        Ids.setIdCurto(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnNovoActionPerformed
 
@@ -532,11 +535,6 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
                     Quadro quadro = (Quadro) tabelaModelo.loadItem(linha);
                     setDados(quadro);
                     Ids.setIdQuadro(quadro.getId());
-                    try {
-                        Ids.setIdCondutor(quadro.getCondutor().getId());
-                        Ids.setIdCurto(quadro.getCurto().getId());
-                    } catch (Exception e) {
-                    }
                 }
             }
         }

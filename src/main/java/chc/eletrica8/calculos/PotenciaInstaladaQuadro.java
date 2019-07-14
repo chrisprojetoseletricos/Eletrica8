@@ -23,10 +23,11 @@ public class PotenciaInstaladaQuadro {
         }
 
         for (Quadro quadro : quadro.getQuadros()) {
-
-            for (Circuito c : quadro.getCircuitos()) {
-                for (Carga e : c.getListaCarga()) {
-                    valor += e.getQuantidade() * e.getPotenciaInstalada(unidadeDestino);
+            if (quadro.getQuadroGeral() == null) {
+                for (Circuito c : quadro.getCircuitos()) {
+                    for (Carga e : c.getListaCarga()) {
+                        valor += e.getQuantidade() * e.getPotenciaInstalada(unidadeDestino);
+                    }
                 }
             }
 

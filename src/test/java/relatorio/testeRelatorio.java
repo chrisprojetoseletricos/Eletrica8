@@ -6,19 +6,7 @@
 package relatorio;
 
 
-import chc.eletrica8.dao.ConnectionFactory;
-import chc.eletrica8.entidades.Carga;
-import chc.eletrica8.servico.CargaService;
-import chc.eletrica8.servico.report.ReportUtils;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 
 /**
  *
@@ -32,7 +20,7 @@ public class testeRelatorio {
     public static void main(String[] args) {
 
     }
-
+/*
     public void abrirRelatorioClientes() {
 
         InputStream inputStream = getClass().getResourceAsStream("/LocacoesPorClientes.jasper");
@@ -74,5 +62,5 @@ public class testeRelatorio {
         }
 
     }
-
+*/
 }

@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -30,7 +31,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Circuito")
 @TableModel
-@SuppressWarnings("serial")
 public class Circuito implements Serializable, Entidade<Circuito> {
 
     @Id
@@ -39,10 +39,10 @@ public class Circuito implements Serializable, Entidade<Circuito> {
     private Integer id;
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     private Quadro quadro;
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
+    @Embedded
     @Column(colName = "Condutor", colPosition = 1)
     private Condutor condutor;
-    @OneToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE})
+    @Embedded
     @Column(colName = "Dados CC", colPosition = 2)
     private Curto curto;
     @OneToMany(mappedBy = "circuito", targetEntity = Carga.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -122,7 +122,6 @@ public class Circuito implements Serializable, Entidade<Circuito> {
         this.nome = nome;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
@@ -179,7 +178,7 @@ public class Circuito implements Serializable, Entidade<Circuito> {
         return c;
     }
 
-    @Override
+
     public void apagar() {
         id = 0;
         quadro = null;

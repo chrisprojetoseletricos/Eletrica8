@@ -12,11 +12,12 @@ import chc.eletrica8.entidades.Quadro;
 
 import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.enums.Usabilidade;
+import chc.eletrica8.servico.FonteService;
 import chc.eletrica8.servico.ProjetoService;
 import java.time.Instant;
 import java.util.Date;
 
-public class ex1_1 {
+public class ex1_11 {
 
     public static void main(String[] args) {
 
@@ -173,11 +174,11 @@ public class ex1_1 {
 
         pro.getFontes().add(fonte);
 
-        //ProjetoService.salva(pro);
+       // ProjetoService.salva(pro);
         
          UnidadePotencia unidade = UnidadePotencia.VA;
         double demanda = new CalculoUtils()//
-                .comFonte(fonte)//
+                .comFonte(FonteService.getById(1))//
                 .comModelo(MODELO_INSTALACAO.INDUSTRIAL)//
                 .getPotenciaDemandada(unidade);
         double potInstalada = new CalculoUtils()//

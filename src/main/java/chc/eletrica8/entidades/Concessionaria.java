@@ -254,7 +254,6 @@ public class Concessionaria implements Serializable, Entidade<Concessionaria> {
         return c;
     }
 
-    @Override
     public void apagar() {
 
         id = null;

@@ -425,8 +425,6 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         this.apagaDadosFrm();
         this.iniciaTabelaCircuitos();
         Ids.setIdCircuito(0);
-        Ids.setIdCondutor(0);
-        Ids.setIdCurto(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnSalvarCircuitoActionPerformed
 
@@ -437,8 +435,6 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         this.apagaDadosFrm();
         Ids.setIdCircuito(0);
         Ids.setIdCarga(0);
-        Ids.setIdCondutor(0);
-        Ids.setIdCurto(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnExcluirCircuitoActionPerformed
 
@@ -456,8 +452,6 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         this.iniciaTabelaCircuitos();
         this.apagaDadosFrm();
         Ids.setIdCircuito(0);
-        Ids.setIdCondutor(0);
-        Ids.setIdCurto(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnCopiarCircuitoActionPerformed
 
@@ -471,11 +465,6 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
                     Circuito circuito = (Circuito) tabelaModeloCircuito.loadItem(linha);
                     setDados(circuito);
                     Ids.setIdCircuito(circuito.getId());
-                    try {
-                        Ids.setIdCondutor(circuito.getCondutor().getId());
-                        Ids.setIdCurto(circuito.getCurto().getId());
-                    } catch (Exception e) {
-                    }
                     iniciaTabelaCarga();
                 }
             }
@@ -506,8 +495,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         this.apagaDadosFrm();
         this.iniciaTabelaCircuitos();
         Ids.setIdCircuito(0);
-        Ids.setIdCondutor(0);
-        Ids.setIdCurto(0);
+
         Ids.imprimiIds();
     }//GEN-LAST:event_btnNovoCircuitoActionPerformed
 
@@ -540,9 +528,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         CargaService.removeById(Ids.getIdCarga());
         this.iniciaTabelaCarga();
         this.apagaDadosFrm();
-        Ids.setIdCondutor(0);
-        Ids.setIdCurto(0);
-
+        Ids.setIdCarga(0);
     }//GEN-LAST:event_btnExcluirCargaActionPerformed
 
     private void btnCopiarCargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopiarCargaActionPerformed
@@ -551,8 +537,6 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
 
         this.iniciaTabelaCarga();
         this.apagaDadosFrm();
-        Ids.setIdCondutor(0);
-        Ids.setIdCurto(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnCopiarCargaActionPerformed
 
@@ -572,8 +556,6 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
                 equipamento.getLblAtualizacao().setText("Atualização");
                 DesktopPane.desktop.add(equipamento);
                 equipamento.setVisible(true);
-                Ids.setIdCondutor(0);
-                Ids.setIdCurto(0);
                 Ids.imprimiIds();
             }
         }

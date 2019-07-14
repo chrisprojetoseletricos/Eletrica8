@@ -116,7 +116,7 @@ public class RamalLigacao implements Serializable, Entidade<RamalLigacao> {
         return r;
     }
 
-    @Override
+
     public void apagar() {
         id = 0;
         bitola = null;

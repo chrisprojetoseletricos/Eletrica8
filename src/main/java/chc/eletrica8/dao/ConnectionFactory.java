@@ -23,7 +23,7 @@ public class ConnectionFactory {
             SessionFactoryImpl sessionFactoryImpl = (SessionFactoryImpl) factory.getSession().getSessionFactory();
             return sessionFactoryImpl.getConnectionProvider().getConnection();
         } catch (SQLException e) {
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Erro no getConnection: " + e.getMessage());
         }
         return null;
     }

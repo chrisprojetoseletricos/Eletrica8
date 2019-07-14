@@ -11,7 +11,6 @@ import chc.eletrica8.entidades.Projeto;
 import chc.eletrica8.servico.ProjetoService;
 import chc.eletrica8.servico.tableModel.GenericTableModel;
 import chc.eletrica8.uteis.DataUtil;
-import chc.eletrica8.uteis.TrataID;
 import java.util.List;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -339,8 +338,6 @@ public class ProjetoFrm extends javax.swing.JInternalFrame {
         Ids.setIdFonte(0);
         Ids.setIdQuadro(0);
         Ids.setIdCircuito(0);
-        Ids.setIdCondutor(0);
-        Ids.setIdCurto(0);
         Ids.setIdCarga(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnExcluirActionPerformed

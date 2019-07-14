@@ -5,8 +5,6 @@
  */
 package chc.eletrica8.janelas;
 
-
-import chc.eletrica8.controle.Ids;
 import chc.eletrica8.entidades.Condutor;
 import chc.eletrica8.enums.EspacamentoCabos;
 import chc.eletrica8.enums.Instalacao;
@@ -14,7 +12,6 @@ import chc.eletrica8.enums.TempAmbiente;
 import chc.eletrica8.servico.CondutorService;
 import chc.eletrica8.uteis.ApenasNumero;
 import chc.eletrica8.uteis.Numero;
-import chc.eletrica8.uteis.TrataID;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -275,7 +272,7 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         condutor = getDados();
-        CondutorService.salva(condutor);
+       // CondutorService.salva(condutor);
     }//GEN-LAST:event_formWindowClosing
 
     /**
@@ -350,15 +347,10 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
     }
 
     private static Condutor getDados() {
+        
+       condutor = new Condutor();
 
-        if (Ids.getIdCondutor() > 0) {
-            condutor = CondutorService.getById(Ids.getIdCondutor());
-        } else {
-            condutor = new Condutor();
-        }
-
-        condutor.setId(TrataID.IntegerToInteger(Ids.getIdCondutor()));
-        condutor.setQuedaTensao(Numero.stringToDouble(campoQuedaTensao.getText(), 1));
+        condutor.setQuedaTensao(Numero.stringToDouble(campoQuedaTensao.getText(), 0));
         condutor.setResistiTermica(Numero.stringToDouble(campoResistividade.getText(), 0));
         condutor.setTemperatura((TempAmbiente) cbTemperatura.getModel().getSelectedItem());
         condutor.setComprimento(Numero.stringToDouble(campoComprimento.getText(), 1));
@@ -370,15 +362,14 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         condutor.setMultipolar((String) cbMultipolar.getModel().getSelectedItem());
         condutor.setFormaAgrupa((String) cbAgrupamento.getModel().getSelectedItem());
         condutor.setBitolaSucessiva((String) cbBitolasSucessivas.getModel().getSelectedItem());
-        condutor.setnCirAgrupa(Numero.stringToInteger(cbNCircuitosAgrupados.getModel().getSelectedItem().toString(),1));
-        condutor.setnCamadas(Numero.stringToInteger(cbNCamadas.getModel().getSelectedItem().toString(),0));
+        condutor.setnCirAgrupa(Numero.stringToInteger(cbNCircuitosAgrupados.getModel().getSelectedItem().toString(), 1));
+        condutor.setnCamadas(Numero.stringToInteger(cbNCamadas.getModel().getSelectedItem().toString(), 0));
 
         return condutor;
     }
 
     public Condutor setDados(Condutor condutor) {
         if (condutor != null) {
-            Ids.setIdCondutor(condutor.getId());
             campoQuedaTensao.setText(Numero.decimal(condutor.getQuedaTensao(), "##.##"));
             campoResistividade.setText(Numero.decimal(condutor.getResistiTermica(), "##.##"));
             cbTemperatura.getModel().setSelectedItem(condutor.getTemperatura());

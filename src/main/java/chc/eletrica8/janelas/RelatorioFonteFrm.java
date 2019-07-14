@@ -46,7 +46,6 @@ public class RelatorioFonteFrm extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("Fonte");
         setName("ProjetoFrm"); // NOI18N
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         scrollEsquerdo.setBorder(null);
         scrollEsquerdo.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -82,7 +81,20 @@ public class RelatorioFonteFrm extends javax.swing.JInternalFrame {
 
         scrollEsquerdo.setViewportView(painelEsquerdo);
 
-        getContentPane().add(scrollEsquerdo, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 9, 580, 410));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(scrollEsquerdo, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(scrollEsquerdo, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         setBounds(0, 0, 614, 463);
     }// </editor-fold>//GEN-END:initComponents

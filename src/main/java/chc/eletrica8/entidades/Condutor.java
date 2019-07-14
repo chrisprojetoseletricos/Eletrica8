@@ -9,24 +9,15 @@ import chc.eletrica8.enums.EspacamentoCabos;
 import chc.eletrica8.enums.Instalacao;
 import chc.eletrica8.enums.TempAmbiente;
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-
+import javax.persistence.Embeddable;
 
 /**
  *
  * @author chris
  */
-@Entity
+@Embeddable
 public class Condutor implements Serializable, Entidade<Condutor> {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
     private String bitolaSucessiva;
     private String enterrado;
     private EspacamentoCabos espacoCabos;
@@ -154,67 +145,18 @@ public class Condutor implements Serializable, Entidade<Condutor> {
         this.comprimento = comprimento;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Condutor)) {
-            return false;
-        }
-        Condutor other = (Condutor) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "id="+id;
-    }
-
     @Override
     public Condutor clonarSemID() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Condutor copiar() {
-        // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void apagar() {
-        id = 0;
-        bitolaSucessiva = "";
-        enterrado = "";
-        espacoCabos = null;
-        formaAgrupa = "";
-        isolacao = "";
-        material = "";
-        modoInstalacao = null;
-        multipolar = "";
-        nCamadas = 0;
-        nCirAgrupa = 0;
-        quedaTensao = 0;
-        resistiTermica = 0;
-        temperatura = null;
-        comprimento = 0;
+    public Integer getId() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

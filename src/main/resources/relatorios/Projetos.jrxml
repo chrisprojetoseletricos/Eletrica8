@@ -1,116 +1,333 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="11d2184a-722d-498a-be5b-134f6f2fdfa3">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="QUADRO DE CARGA" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8907412e-909f-46b3-aa78-84362d838662">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="40"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="DemandaFonte" class="java.lang.Double">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="PotenciaFonte" class="java.lang.Double"/>
 	<queryString>
-		<![CDATA[SELECT *
-FROM
-     "PUBLIC"."PROJETO" PROJETO]]>
+		<![CDATA[SELECT "PUBLIC"."PROJETO"."ID" AS IDPROJETO,
+	"PUBLIC"."PROJETO"."AUTOR" AS AUTORPROJETO,
+	"PUBLIC"."PROJETO"."DATAPROJETO" AS DATAPROJETO,
+	"PUBLIC"."PROJETO"."DESCRICAO" AS DESCRICAOPROJETO,
+	"PUBLIC"."PROJETO"."NOME" AS NOMEPROJETO,
+	"PUBLIC"."FONTE"."CONCESSIONARIA" AS CONCEFONTE,
+	"PUBLIC"."FONTE"."ID" AS IDFONTE,
+	"PUBLIC"."FONTE"."DESCRICAO" AS DESCRICAOFONTE,
+	"PUBLIC"."FONTE"."NOME" AS NOMEFONTE,
+	"PUBLIC"."FONTE"."TENSAOFN" AS TENSAOFNFONTE,
+
+	"PUBLIC"."QUADRO"."ID" AS IDQUADRO,
+	"PUBLIC"."QUADRO"."FD" AS FDQUADRO,
+	"PUBLIC"."QUADRO"."FP" AS FPQUADRO,
+	"PUBLIC"."QUADRO"."INSTALACAO" AS INSTALLQUADRO,
+	"PUBLIC"."QUADRO"."LOCALIZACAO" AS LOCALQUADRO,
+	"PUBLIC"."QUADRO"."NOME" AS NOMEQUADRO,
+	"PUBLIC"."QUADRO"."POT100PERCDEM" AS POT100QUADRO,
+	"PUBLIC"."QUADRO"."TEMPAMBIENTE" AS TAMBIEQUADRO,
+	"PUBLIC"."QUADRO"."USABILIDADE" AS USAQUADRO,
+	"PUBLIC"."QUADRO"."USODEDR" AS USODRQUADRO,
+
+
+	"PUBLIC"."QUADRO"."BITOLASUCESSIVA" AS BITOLASUCESSIVAQUADRO,
+	QUADRO.COMPRIMENTO AS COMPRIMENTOQUADRO,
+	QUADRO.ENTERRADO AS ENTERRADOQUADRO,
+	QUADRO.ESPACOCABOS AS ESPACOCABOSQUADRO,
+	QUADRO.FORMAAGRUPA AS FORMAAGRUPAQUADRO,
+	QUADRO.ISOLACAO AS ISOLACAOQUADRO,
+	QUADRO.MATERIAL AS MATERIALQUADRO,
+	QUADRO.MODOINSTALACAO AS MODOINSTALACAOQUADRO,
+	QUADRO.MULTIPOLAR AS MULTIPOLARQUADRO,
+	QUADRO.NCAMADAS AS NCAMADASQUADRO,
+	QUADRO.NCIRAGRUPA AS NCIRAGRUPAQUADRO,
+	QUADRO.QUEDATENSAO AS QUEDATENSAOQUADRO,
+	QUADRO.RESISTITERMICA AS RESISTITERMICAQUADRO,
+	QUADRO.TEMPERATURA AS TEMPERATURAQUADRO,
+	QUADRO.CORRENTECURTO AS CORRENTECURTOQUADRO,
+	QUADRO.TEMPADMISSREGIME AS TEMPADMISSREGIMEQUADRO,
+	QUADRO.TEMPMAXCURTO AS TEMPMAXCURTOQUADRO,
+	QUADRO.TEMPOELIMDEF AS TEMPOELIMDEFQUADRO,
+
+	"PUBLIC"."CIRCUITO"."ID" AS IDCIRCUITO,
+	"PUBLIC"."CIRCUITO"."NOME" AS NOMECIRCUITO,
+
+	CIRCUITO.BITOLASUCESSIVA AS BITOLASUCESSIVACIRCUITO,
+	CIRCUITO.COMPRIMENTO AS COMPRIMENTOCIRCUITO,
+	CIRCUITO.ENTERRADO AS ENTERRADOCIRCUITO,
+	CIRCUITO.ESPACOCABOS AS ESPACOCABOSQCIRCUITO,
+	CIRCUITO.FORMAAGRUPA AS FORMAAGRUPACIRCUITO,
+	CIRCUITO.ISOLACAO AS ISOLACAOCIRCUITO,
+	CIRCUITO.MATERIAL AS MATERIALCIRCUITO,
+	CIRCUITO.MODOINSTALACAO AS MODOINSTALACAOCIRCUITO,
+	CIRCUITO.MULTIPOLAR AS MULTIPOLARCIRCUITO,
+	CIRCUITO.NCAMADAS AS NCAMADASCIRCUITO,
+	CIRCUITO.NCIRAGRUPA AS NCIRAGRUPACIRCUITO,
+	CIRCUITO.QUEDATENSAO AS QUEDATENSAOCIRCUITO,
+	CIRCUITO.RESISTITERMICA AS RESISTITERMICACIRCUITO,
+	CIRCUITO.TEMPERATURA AS TEMPERATURACIRCUITO,
+	CIRCUITO.CORRENTECURTO AS CORRENTECURTOCIRCUITO,
+	CIRCUITO.TEMPADMISSREGIME AS TEMPADMISSREGIMECIRCUITO,
+	CIRCUITO.TEMPMAXCURTO AS TEMPMAXCURTOCIRCUITO,
+	CIRCUITO.TEMPOELIMDEF AS TEMPOELIMDEFCIRCUITO,
+
+	"PUBLIC"."CARGA"."ID" AS IDCARGA,
+	"PUBLIC"."CARGA"."DESCRICAO" AS DESCCARGA,
+	"PUBLIC"."CARGA"."FSIMU" AS FSIMUCARGA,
+	"PUBLIC"."CARGA"."FD" AS FDCARGA,
+	"PUBLIC"."CARGA"."FP" AS FPCARGA,
+	"PUBLIC"."CARGA"."FS" AS FSCARGA,
+	"PUBLIC"."CARGA"."FU" AS FUCARGA,
+	"PUBLIC"."CARGA"."LIGACAO" AS LIGACAOCARGA,
+	"PUBLIC"."CARGA"."LIGACAOREAL" AS LIGAREALCARGA,
+	"PUBLIC"."CARGA"."LOCALIZACAO" AS LOCALCARGA,
+	"PUBLIC"."CARGA"."NPOLOS" AS NPOLOSCARGA,
+	"PUBLIC"."CARGA"."NOME" AS NOMECARGA,
+	"PUBLIC"."CARGA"."PERDASREATOR" AS PERDASCARGA,
+	"PUBLIC"."CARGA"."POTENCIA" AS POTENCIACARGA,
+	"PUBLIC"."CARGA"."QUANTIDADE" AS QUANTIDADECARGA,
+	"PUBLIC"."CARGA"."RENDIMENTO" AS RENDIMCARGA,
+	"PUBLIC"."CARGA"."TENSAO" AS TENSAOCARGA,
+	"PUBLIC"."CARGA"."UNIDADE" AS UNIDADECARGA,
+	"PUBLIC"."CARGA"."USABILIDADE" AS USACARGA
+
+FROM PROJETO
+LEFT JOIN FONTE ON PROJETO.ID = FONTE.PROJETO_ID
+LEFT JOIN QUADRO ON FONTE.ID = QUADRO.FONTE_ID
+LEFT JOIN CIRCUITO ON QUADRO.ID = CIRCUITO.QUADRO_ID
+LEFT JOIN CARGA ON CIRCUITO.ID = CARGA.CIRCUITO_ID]]>
 	</queryString>
-	<field name="ID" class="java.lang.Integer">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="AUTOR" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="IDPROJETO" class="java.lang.Integer"/>
+	<field name="AUTORPROJETO" class="java.lang.String"/>
 	<field name="DATAPROJETO" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="DESCRICAO" class="java.sql.Clob">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="NOME" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="DESCRICAOPROJETO" class="java.sql.Clob"/>
+	<field name="NOMEPROJETO" class="java.lang.String"/>
+	<field name="CONCEFONTE" class="java.lang.String"/>
+	<field name="IDFONTE" class="java.lang.Integer"/>
+	<field name="DESCRICAOFONTE" class="java.sql.Clob"/>
+	<field name="NOMEFONTE" class="java.lang.String"/>
+	<field name="TENSAOFNFONTE" class="java.lang.Double"/>
+	<field name="IDQUADRO" class="java.lang.Integer"/>
+	<field name="FDQUADRO" class="java.lang.Double"/>
+	<field name="FPQUADRO" class="java.lang.Double"/>
+	<field name="INSTALLQUADRO" class="java.lang.String"/>
+	<field name="LOCALQUADRO" class="java.lang.String"/>
+	<field name="NOMEQUADRO" class="java.lang.String"/>
+	<field name="POT100QUADRO" class="java.lang.Double"/>
+	<field name="TAMBIEQUADRO" class="java.lang.String"/>
+	<field name="USAQUADRO" class="java.lang.String"/>
+	<field name="USODRQUADRO" class="java.lang.String"/>
+	<field name="BITOLASUCESSIVAQUADRO" class="java.lang.String"/>
+	<field name="COMPRIMENTOQUADRO" class="java.lang.Double"/>
+	<field name="ENTERRADOQUADRO" class="java.lang.String"/>
+	<field name="ESPACOCABOSQUADRO" class="java.lang.Integer"/>
+	<field name="FORMAAGRUPAQUADRO" class="java.lang.String"/>
+	<field name="ISOLACAOQUADRO" class="java.lang.String"/>
+	<field name="MATERIALQUADRO" class="java.lang.String"/>
+	<field name="MODOINSTALACAOQUADRO" class="java.lang.Integer"/>
+	<field name="MULTIPOLARQUADRO" class="java.lang.String"/>
+	<field name="NCAMADASQUADRO" class="java.lang.Integer"/>
+	<field name="NCIRAGRUPAQUADRO" class="java.lang.Integer"/>
+	<field name="QUEDATENSAOQUADRO" class="java.lang.Double"/>
+	<field name="RESISTITERMICAQUADRO" class="java.lang.Double"/>
+	<field name="TEMPERATURAQUADRO" class="java.lang.Integer"/>
+	<field name="CORRENTECURTOQUADRO" class="java.lang.Double"/>
+	<field name="TEMPADMISSREGIMEQUADRO" class="java.lang.Double"/>
+	<field name="TEMPMAXCURTOQUADRO" class="java.lang.Double"/>
+	<field name="TEMPOELIMDEFQUADRO" class="java.lang.Double"/>
+	<field name="IDCIRCUITO" class="java.lang.Integer"/>
+	<field name="NOMECIRCUITO" class="java.lang.String"/>
+	<field name="BITOLASUCESSIVACIRCUITO" class="java.lang.String"/>
+	<field name="COMPRIMENTOCIRCUITO" class="java.lang.Double"/>
+	<field name="ENTERRADOCIRCUITO" class="java.lang.String"/>
+	<field name="ESPACOCABOSQCIRCUITO" class="java.lang.Integer"/>
+	<field name="FORMAAGRUPACIRCUITO" class="java.lang.String"/>
+	<field name="ISOLACAOCIRCUITO" class="java.lang.String"/>
+	<field name="MATERIALCIRCUITO" class="java.lang.String"/>
+	<field name="MODOINSTALACAOCIRCUITO" class="java.lang.Integer"/>
+	<field name="MULTIPOLARCIRCUITO" class="java.lang.String"/>
+	<field name="NCAMADASCIRCUITO" class="java.lang.Integer"/>
+	<field name="NCIRAGRUPACIRCUITO" class="java.lang.Integer"/>
+	<field name="QUEDATENSAOCIRCUITO" class="java.lang.Double"/>
+	<field name="RESISTITERMICACIRCUITO" class="java.lang.Double"/>
+	<field name="TEMPERATURACIRCUITO" class="java.lang.Integer"/>
+	<field name="CORRENTECURTOCIRCUITO" class="java.lang.Double"/>
+	<field name="TEMPADMISSREGIMECIRCUITO" class="java.lang.Double"/>
+	<field name="TEMPMAXCURTOCIRCUITO" class="java.lang.Double"/>
+	<field name="TEMPOELIMDEFCIRCUITO" class="java.lang.Double"/>
+	<field name="IDCARGA" class="java.lang.Integer"/>
+	<field name="DESCCARGA" class="java.lang.String"/>
+	<field name="FSIMUCARGA" class="java.lang.Double"/>
+	<field name="FDCARGA" class="java.lang.Double"/>
+	<field name="FPCARGA" class="java.lang.Double"/>
+	<field name="FSCARGA" class="java.lang.Double"/>
+	<field name="FUCARGA" class="java.lang.Double"/>
+	<field name="LIGACAOCARGA" class="java.lang.String"/>
+	<field name="LIGAREALCARGA" class="java.lang.String"/>
+	<field name="LOCALCARGA" class="java.lang.String"/>
+	<field name="NPOLOSCARGA" class="java.lang.Integer"/>
+	<field name="NOMECARGA" class="java.lang.String"/>
+	<field name="PERDASCARGA" class="java.lang.Double"/>
+	<field name="POTENCIACARGA" class="java.lang.Double"/>
+	<field name="QUANTIDADECARGA" class="java.lang.Integer"/>
+	<field name="RENDIMCARGA" class="java.lang.Double"/>
+	<field name="TENSAOCARGA" class="java.lang.Double"/>
+	<field name="UNIDADECARGA" class="java.lang.String"/>
+	<field name="USACARGA" class="java.lang.String"/>
+	<group name="IDFONTE">
+		<groupExpression><![CDATA[$F{IDFONTE}]]></groupExpression>
+		<groupHeader>
+			<band height="44">
+				<staticText>
+					<reportElement x="32" y="0" width="70" height="23" uuid="e7305196-92f4-4bf8-9609-0479e9e6441f"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[FONTE]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="32" y="23" width="70" height="20" uuid="ec2423b8-08c2-4334-a75c-832347864284"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{NOMEFONTE}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="102" y="23" width="67" height="20" uuid="da1e6076-0db4-4216-95ce-58ef8332c394"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{TENSAOFNFONTE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="102" y="0" width="67" height="23" uuid="34957249-598b-43c2-a501-d4c0ad3f1a1d"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[TENSÃO F-N]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="4" y="0" width="28" height="23" uuid="728346fc-3950-46ba-972a-3b5a1fa436b3"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[ID]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="4" y="23" width="28" height="20" uuid="4c9aae11-9643-45c9-aee6-6329d5669692"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{IDFONTE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="169" y="0" width="90" height="23" uuid="a499a790-2090-4911-bdb0-0f2b0c092111"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[DEMANDA (KVA)]]></text>
+				</staticText>
+				<textField pattern="#,##0.0">
+					<reportElement x="169" y="23" width="90" height="20" uuid="faf79412-38f1-440c-b6b8-4984076a56a3"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$P{DemandaFonte}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="259" y="0" width="123" height="23" uuid="3e1be4fc-009d-45e9-b519-bbedf9fb4386"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[POTENCIA INSTA. (KVA)]]></text>
+				</staticText>
+				<textField pattern="###0.0">
+					<reportElement x="259" y="23" width="123" height="20" uuid="678d66a8-6283-4152-88ce-b910125dd5f6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$P{PotenciaFonte}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="382" y="0" width="98" height="23" uuid="4cf9f3fb-30f3-4969-859d-d9525238f224"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[FATOR DEMANDA]]></text>
+				</staticText>
+				<textField pattern="###0.00">
+					<reportElement x="382" y="23" width="98" height="20" uuid="22394236-81b2-4954-ab1e-12fdded1e9a8"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$P{DemandaFonte}/$P{PotenciaFonte}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="18"/>
+		</groupFooter>
+	</group>
+	<group name="QUADRO">
+		<groupExpression><![CDATA[$F{IDQUADRO}]]></groupExpression>
+		<groupHeader>
+			<band height="50">
+				<textField>
+					<reportElement x="11" y="0" width="33" height="20" uuid="b7d18c41-c78c-411d-8bfc-1579a1b397d4"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{IDQUADRO}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="44" y="0" width="100" height="20" uuid="603a96e1-f339-48d9-86be-30b3a5b95391"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{NOMEQUADRO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="30" y="28" width="26" height="20" uuid="cee27dfc-a573-4740-8dcb-a8c3d9ad8569"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[CIR.]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="17"/>
+		</groupFooter>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="99" splitType="Stretch">
-			<rectangle>
-				<reportElement x="208" y="0" width="347" height="99" uuid="ecf95f3a-eb93-4846-9c63-383a8fad52c6"/>
-			</rectangle>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement x="2" y="20" width="28" height="20" uuid="99fc6e5b-43cc-46d6-a6a3-12c89c7f946f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{IDPROJETO}]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="208" y="0" width="347" height="99" uuid="b118fa37-ea0f-433d-8585-50df47e20c2a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="40" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Relatório]]></text>
+				<reportElement x="2" y="0" width="28" height="20" uuid="ff772e60-e7fd-4a35-9d13-091d9a276397"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[ID]]></text>
 			</staticText>
-			<image>
-				<reportElement x="0" y="0" width="208" height="99" uuid="c658698d-7b92-4142-abc1-056feaba000e"/>
-				<imageExpression><![CDATA["/home/chris/Projetos/Java/Eletrica8/src/main/resources/imagens/logotipo.png"]]></imageExpression>
-			</image>
+			<textField>
+				<reportElement x="30" y="20" width="100" height="20" uuid="cdb30464-5d37-4f61-b79d-f762add7e27c"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NOMEPROJETO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="0" width="100" height="20" uuid="306c5da2-f8c7-4dcd-915e-a781db08b5ad"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[PROJETO]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="36" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="0" width="153" height="35" uuid="24bd153b-6b82-4eda-89ef-5a292f176202"/>
-				<textElement verticalAlignment="Middle">
-					<font size="12" isBold="true" isUnderline="false"/>
-				</textElement>
-				<text><![CDATA[Todos os Projetos]]></text>
-			</staticText>
-		</band>
+		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="20" splitType="Stretch">
-			<rectangle>
-				<reportElement x="0" y="0" width="555" height="20" uuid="0a9799af-285e-444e-b613-cbb96afe14d8"/>
-			</rectangle>
-			<staticText>
-				<reportElement x="10" y="0" width="90" height="20" uuid="9bbb2be1-1e8e-48e1-9518-a8440a79c3a8"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Nome:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="135" y="0" width="100" height="20" uuid="513ab43e-5b08-44f2-9c89-a45c0769ba15"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Data:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="235" y="0" width="112" height="20" uuid="ca0a3efe-1165-4b9c-8ff3-1b0256573bde"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Demanda máx (KVA):]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="347" y="0" width="92" height="20" uuid="2ce9522d-a1db-4c57-9aa6-953d0eaa469b"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Pot. instal. (KVA):]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="439" y="0" width="100" height="20" uuid="c738e536-d7fe-4f4a-9915-343b2f582113"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Fator de demanda:]]></text>
-			</staticText>
-		</band>
+		<band height="1" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="135" y="0" width="100" height="18" uuid="0860ad3e-301b-4752-b5bd-ead9312f5517"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{DATAPROJETO}.toString()]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement x="-1" y="18" width="555" height="1" uuid="74330497-9493-4919-b3ee-ada2d8c035aa"/>
-			</line>
-			<line>
-				<reportElement x="555" y="0" width="1" height="18" uuid="9398141d-451e-429e-8f2d-59488558fd6c"/>
-			</line>
-			<line>
-				<reportElement x="0" y="0" width="1" height="18" uuid="32fd3535-7440-4b64-9757-bcef493f5edd"/>
-			</line>
 			<textField>
-				<reportElement x="10" y="0" width="115" height="18" uuid="ae452f5c-6380-4f9b-b576-5d0d55c77f51"/>
+				<reportElement x="30" y="0" width="72" height="20" uuid="8126b0b2-8103-40d1-85db-d6ca8c7565e4"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{NOME}.toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{NOMECIRCUITO}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
+	<pageFooter>
+		<band height="16" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
 </jasperReport>

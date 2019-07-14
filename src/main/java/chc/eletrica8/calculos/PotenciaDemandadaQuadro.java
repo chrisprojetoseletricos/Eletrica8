@@ -4,6 +4,7 @@ import chc.eletrica8.entidades.Carga;
 import chc.eletrica8.entidades.Circuito;
 import chc.eletrica8.entidades.Quadro;
 import chc.eletrica8.enums.UnidadePotencia;
+import java.util.List;
 
 public class PotenciaDemandadaQuadro {
 
@@ -21,11 +22,13 @@ public class PotenciaDemandadaQuadro {
             }
         } catch (Exception e) {
         }
-        for (Quadro quadroFinal : quadro.getQuadros()) {
-
-            for (Circuito c : quadroFinal.getCircuitos()) {
-                for (Carga e : c.getListaCarga()) {
-                    valor += e.getQuantidade() * e.getPotenciaDemandada(unidadeDestino) * e.getfSimu();
+        List<Quadro> lista = quadro.getQuadros();
+        for (Quadro quadro : lista) {
+            if (quadro.getQuadroGeral() == null) {
+                for (Circuito c : quadro.getCircuitos()) {
+                    for (Carga e : c.getListaCarga()) {
+                        valor += e.getQuantidade() * e.getPotenciaDemandada(unidadeDestino) * e.getfSimu();
+                    }
                 }
             }
 

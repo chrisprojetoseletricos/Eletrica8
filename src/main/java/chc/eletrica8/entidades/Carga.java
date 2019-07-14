@@ -36,8 +36,6 @@ import javax.persistence.Table;
 @TableModel
 public class Carga implements Serializable, Entidade<Carga> {
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(colName = "Id", colPosition = 0)
@@ -253,7 +251,7 @@ public class Carga implements Serializable, Entidade<Carga> {
         this.unidade = unidade;
     }
 
-    @Override
+
     public Integer getId() {
         return id;
     }
@@ -382,7 +380,6 @@ public class Carga implements Serializable, Entidade<Carga> {
         return e;
     }
 
-    @Override
     public void apagar() {
         ligacaoReal = "";
         quantidade = 1;

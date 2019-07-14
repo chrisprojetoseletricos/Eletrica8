@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,7 +23,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -47,10 +47,11 @@ public class Quadro implements Serializable, Entidade<Quadro> {
 
     @OneToMany(mappedBy = "quadro", targetEntity = Circuito.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Circuito> circuitos = new ArrayList<>();
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @Embedded
     private Condutor condutor;
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @Embedded
     private Curto curto;
+
     @Enumerated(EnumType.STRING)
     private UsoDr usoDeDR;
     private double fd = 1;
@@ -225,7 +226,7 @@ public class Quadro implements Serializable, Entidade<Quadro> {
         this.usabilidade = usabilidade;
     }
 
-    @Override
+
     public Integer getId() {
         return id;
     }
@@ -296,7 +297,7 @@ public class Quadro implements Serializable, Entidade<Quadro> {
         return q;
     }
 
-    @Override
+
     public void apagar() {
 
         id = 0;

@@ -89,7 +89,7 @@ public class Projeto implements Serializable, Entidade<Projeto> {
         this.descricao = descricao;
     }
 
-    @Override
+
     public Integer getId() {
         return id;
     }
@@ -151,7 +151,6 @@ public class Projeto implements Serializable, Entidade<Projeto> {
         return p;
     }
 
-    @Override
     public void apagar() {
         id = 0;
         nome = "";

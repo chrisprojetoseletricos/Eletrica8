@@ -6,7 +6,5 @@ public interface Entidade<T extends Entidade<T>> {
 
     T copiar();
 
-    void apagar();
-
     Integer getId();
 }

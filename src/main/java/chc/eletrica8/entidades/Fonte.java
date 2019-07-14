@@ -29,7 +29,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Fonte")
 @TableModel
-@SuppressWarnings("serial")
 public class Fonte implements Serializable, Entidade<Fonte> {
 
     @Id
@@ -117,7 +116,6 @@ public class Fonte implements Serializable, Entidade<Fonte> {
         this.tensaoFN = tensaoFN;
     }
 
-    @Override
     public Integer getId() {
         return id;
     }
@@ -180,7 +178,6 @@ public class Fonte implements Serializable, Entidade<Fonte> {
         return f;
     }
 
-    @Override
     public void apagar() {
 
         id = 0;

@@ -5,13 +5,10 @@
  */
 package chc.eletrica8.janelas;
 
-
-import chc.eletrica8.controle.Ids;
 import chc.eletrica8.entidades.Curto;
 import chc.eletrica8.servico.CurtoService;
 import chc.eletrica8.uteis.ApenasNumero;
 import chc.eletrica8.uteis.Numero;
-import chc.eletrica8.uteis.TrataID;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -147,8 +144,8 @@ public class CurtoCircuitoFrm extends javax.swing.JDialog implements KeyListener
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        curto = getDados();
-        CurtoService.salva(curto);
+curto = getDados();
+       // CurtoService.salva(curto);
     }//GEN-LAST:event_formWindowClosing
 
     /**
@@ -195,13 +192,9 @@ public class CurtoCircuitoFrm extends javax.swing.JDialog implements KeyListener
     }
 
     private Curto getDados() {
+        
+        curto = new Curto();
 
-        if (Ids.getIdCurto() > 0) {
-            curto = CurtoService.getById(Ids.getIdCurto());
-        } else {
-            curto = new Curto();
-        }
-        this.curto.setId(TrataID.IntegerToInteger(Ids.getIdCurto()));
         this.curto.setCorrenteCurto(Numero.stringToDouble(campoCorrenteCurto.getText(), 1));
         this.curto.setTempAdmissRegime(Numero.stringToDouble(campoTempoAdimiss.getText(), 1));
         this.curto.setTempoElimDef(Numero.stringToDouble(campoTempoEliminacao.getText(), 1));
@@ -211,7 +204,6 @@ public class CurtoCircuitoFrm extends javax.swing.JDialog implements KeyListener
 
     public Curto setDados(Curto curto) {
         if (curto != null) {
-            Ids.setIdCurto(curto.getId());
             campoCorrenteCurto.setText(Numero.decimal(curto.getCorrenteCurto(), "##.##"));
             campoTempoAdimiss.setText(Numero.decimal(curto.getTempAdmissRegime(), "##.##"));
             campoTempoEliminacao.setText(Numero.decimal(curto.getTempoElimDef(), "##.##"));
