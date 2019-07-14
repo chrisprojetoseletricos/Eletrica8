@@ -7,6 +7,7 @@ package chc.eletrica8.entidades;
 
 import chc.eletrica8.calculos.CorrenteIB;
 import chc.eletrica8.enums.TiposFornecimento;
+import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.servico.tableModel.Column;
 import chc.eletrica8.servico.tableModel.TableModel;
 import java.io.Serializable;
@@ -15,6 +16,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -49,6 +52,8 @@ public class Circuito implements Serializable, Entidade<Circuito> {
     @Column(colName = "Circuito", colPosition = 0)
     private String nome;
     private String tipo;
+    @Enumerated(EnumType.STRING)
+    private Usabilidade usabilidade;
 
     public double getCorrenteIB() {
         double correnteIB;
@@ -77,6 +82,20 @@ public class Circuito implements Serializable, Entidade<Circuito> {
                     break;
             }
         }
+    }
+
+    /**
+     * @return the usabilidade
+     */
+    public Usabilidade getUsabilidade() {
+        return usabilidade;
+    }
+
+    /**
+     * @param usabilidade the usabilidade to set
+     */
+    public void setUsabilidade(Usabilidade usabilidade) {
+        this.usabilidade = usabilidade;
     }
 
     /**
