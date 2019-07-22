@@ -51,7 +51,8 @@ public class Circuito implements Serializable, Entidade<Circuito> {
     private List<Carga> cargas = new ArrayList<>();
     @Column(colName = "Circuito", colPosition = 0)
     private String nome;
-    private String tipo;
+    @Enumerated(EnumType.STRING)
+    private TiposFornecimento tipo = TiposFornecimento.MONOFASICO;
     @Enumerated(EnumType.STRING)
     private Usabilidade usabilidade;
 
@@ -64,24 +65,46 @@ public class Circuito implements Serializable, Entidade<Circuito> {
     }
 
     public void tipoCircuito() {
+        TiposFornecimento temp = TiposFornecimento.MONOFASICO;
+        if (this.getCargas() != null) {
+            for (Carga carga : this.getCargas()) {
 
-        for (Carga carga : this.getCargas()) {
-            switch (carga.getLigacao()) {
-                case FFF:
-                case FFFN:
-                    setTipo(TiposFornecimento.TRIFASICO.name());
-                    break;
-                case FF:
-                case FFN:
-                    setTipo(TiposFornecimento.BIFASICO.name());
-                    break;
-                case FN:
-                    setTipo(TiposFornecimento.MONOFASICO.name());
-                    break;
-                default:
-                    break;
+                switch (carga.getLigacao()) {
+                    case FFF:
+                    case FFFN:
+                        temp = TiposFornecimento.TRIFASICO;
+                        break;
+                    case FF:
+                    case FFN:
+                        if (temp.equals(TiposFornecimento.MONOFASICO)) {
+                            temp = TiposFornecimento.BIFASICO;
+                        }
+                        break;
+                    case FN:
+                        if (temp.equals(TiposFornecimento.MONOFASICO)) {
+                            temp = TiposFornecimento.MONOFASICO;
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         }
+        setTipo(temp);
+    }
+
+    /**
+     * @return the tipo
+     */
+    public TiposFornecimento getTipo() {
+        return tipo;
+    }
+
+    /**
+     * @param tipo the tipo to set
+     */
+    public void setTipo(TiposFornecimento tipo) {
+        this.tipo = tipo;
     }
 
     /**
@@ -110,20 +133,6 @@ public class Circuito implements Serializable, Entidade<Circuito> {
      */
     public void setCargas(List<Carga> cargas) {
         this.cargas = cargas;
-    }
-
-    /**
-     * @return the tipo
-     */
-    public String getTipo() {
-        return tipo;
-    }
-
-    /**
-     * @param tipo the tipo to set
-     */
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     /**

@@ -42,9 +42,10 @@ public class Carga implements Serializable, Entidade<Carga> {
     private Integer id;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Circuito circuito;
-    @Column(colName = "Ligação", colPosition = 4)
+    
     private String ligacaoReal;
     @Enumerated(EnumType.STRING)
+    @Column(colName = "Ligação", colPosition = 5)
     private Ligacao ligacao;
     private int quantidade = 1;
     private String descricao;
@@ -55,17 +56,17 @@ public class Carga implements Serializable, Entidade<Carga> {
     private double fSimu = 1;
     @Enumerated(EnumType.STRING)
     private Usabilidade usabilidade;
-    @Column(colName = "Tensão (V)", colPosition = 1, formatter = "%,#.1f V")
+    @Column(colName = "Tensão (V)", colPosition = 4, formatter = "%,#.1f V")
     private double tensao = 0;
-    @Column(colName = "Nome", colPosition = 0)
+    @Column(colName = "Nome", colPosition = 1)
     private String nome;
     private int nPolos = 2;
     private double perdasReator = 0;
-    @Column(colName = "Potência", colPosition = 1)
+    @Column(colName = "Potência", colPosition = 2)
     private double potencia = 0;
     private double rendimento = 1;
     private double fp = 1;
-    @Column(colName = "Unidade", colPosition = 2)
+    @Column(colName = "Unidade", colPosition = 3)
     @Enumerated(EnumType.STRING)
     private UnidadePotencia unidade;
 

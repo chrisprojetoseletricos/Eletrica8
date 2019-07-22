@@ -13,6 +13,7 @@ import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.servico.CargaService;
 import chc.eletrica8.servico.CircuitoService;
+import chc.eletrica8.servico.ProjetoService;
 import chc.eletrica8.servico.tableModel.GenericTableModel;
 import chc.eletrica8.uteis.ApenasNumero;
 import chc.eletrica8.uteis.Numero;
@@ -113,46 +114,10 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         cbUnidade = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
         campoFPotencia = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tabelaCarga = new javax.swing.JTable();
         lblAtualizacao = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tabelaCarga1 = new javax.swing.JTable();
-        jPanel5 = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tabelaCarga2 = new javax.swing.JTable();
-        jPanel6 = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        tabelaCarga3 = new javax.swing.JTable();
-        jPanel7 = new javax.swing.JPanel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        tabelaCarga4 = new javax.swing.JTable();
-        jPanel8 = new javax.swing.JPanel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        tabelaCarga5 = new javax.swing.JTable();
-        jPanel9 = new javax.swing.JPanel();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        tabelaCarga6 = new javax.swing.JTable();
-        jPanel10 = new javax.swing.JPanel();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        tabelaCarga7 = new javax.swing.JTable();
-        jPanel11 = new javax.swing.JPanel();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        tabelaCarga8 = new javax.swing.JTable();
-        jPanel12 = new javax.swing.JPanel();
-        jScrollPane11 = new javax.swing.JScrollPane();
-        tabelaCarga9 = new javax.swing.JTable();
-        jPanel13 = new javax.swing.JPanel();
-        jScrollPane12 = new javax.swing.JScrollPane();
-        tabelaCarga10 = new javax.swing.JTable();
-        jPanel14 = new javax.swing.JPanel();
-        jScrollPane13 = new javax.swing.JScrollPane();
-        tabelaCarga11 = new javax.swing.JTable();
         jPanel15 = new javax.swing.JPanel();
         jScrollPane14 = new javax.swing.JScrollPane();
-        tabelaCarga12 = new javax.swing.JTable();
+        tabelaEquipamento = new javax.swing.JTable();
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         setClosable(true);
@@ -486,345 +451,9 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel10, jLabel11, jLabel15, jLabel17, jLabel2, jLabel5});
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        tabelaCarga.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane2.setViewportView(tabelaCarga);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 64, Short.MAX_VALUE))
-        );
-
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        tabelaCarga1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane3.setViewportView(tabelaCarga1);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 64, Short.MAX_VALUE))
-        );
-
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        tabelaCarga2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane4.setViewportView(tabelaCarga2);
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 64, Short.MAX_VALUE))
-        );
-
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        tabelaCarga3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane5.setViewportView(tabelaCarga3);
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 64, Short.MAX_VALUE))
-        );
-
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        tabelaCarga4.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane6.setViewportView(tabelaCarga4);
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 64, Short.MAX_VALUE))
-        );
-
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        tabelaCarga5.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane7.setViewportView(tabelaCarga5);
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 64, Short.MAX_VALUE))
-        );
-
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        tabelaCarga6.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane8.setViewportView(tabelaCarga6);
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8)
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 64, Short.MAX_VALUE))
-        );
-
-        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        tabelaCarga7.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane9.setViewportView(tabelaCarga7);
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane9)
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 64, Short.MAX_VALUE))
-        );
-
-        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        tabelaCarga8.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane10.setViewportView(tabelaCarga8);
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane10)
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel11Layout.createSequentialGroup()
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 64, Short.MAX_VALUE))
-        );
-
-        jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        tabelaCarga9.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane11.setViewportView(tabelaCarga9);
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane11)
-        );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 64, Short.MAX_VALUE))
-        );
-
-        jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        tabelaCarga10.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane12.setViewportView(tabelaCarga10);
-
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane12)
-        );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 64, Short.MAX_VALUE))
-        );
-
-        jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
-
-        tabelaCarga11.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane13.setViewportView(tabelaCarga11);
-
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane13)
-        );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
-                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 64, Short.MAX_VALUE))
-        );
-
         jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
 
-        tabelaCarga12.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaEquipamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -835,7 +464,7 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
 
             }
         ));
-        jScrollPane14.setViewportView(tabelaCarga12);
+        jScrollPane14.setViewportView(tabelaEquipamento);
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -857,20 +486,8 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
                 .addComponent(painelBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblAtualizacao, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -885,30 +502,7 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(1734, 1734, 1734))
         );
 
         setBounds(0, 0, 665, 511);
@@ -918,15 +512,76 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
 
         Carga carga = null;
         if (getLblAtualizacao().getText().equals("")) {
-            novaCarga();
+            if (Ids.getIdCarga() == 0 && Ids.getIdCircuito() == 0) {
+                carga = getDados();
+                carga.setCircuito(null);
+                CargaService.salva(carga);
+            } else if (Ids.getIdCarga() == 0 && Ids.getIdCircuito() > 0) {
+                carga = getDados();
+                carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
+                carga.getCircuito().getCargas().add(carga);
+                carga.getCircuito().tipoCircuito();
+                CargaService.salva(carga);
+                carga = new Carga();
+                carga = getDados();
+                carga.setCircuito(null);
+                CargaService.salva(carga);
+            } else if (Ids.getIdCarga() == 0 && Ids.getIdCircuito() > 0) {
+                carga = getDados();
+                carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
+                carga.getCircuito().getCargas().add(carga);
+                carga.getCircuito().tipoCircuito();
+                CargaService.salva(carga);
+                carga = new Carga();
+                carga = getDados();
+                carga.setCircuito(null);
+                CargaService.salva(carga);
+            } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() > 0) {
+                carga = getDados();
+                carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
+                carga.getCircuito().getCargas().add(carga);
+                carga.getCircuito().tipoCircuito();
+                CargaService.salva(carga);
+                carga = new Carga();
+                carga.setCircuito(null);
+                CargaService.salva(carga);
+            }
+        } else if (getLblAtualizacao().getText().equals("Novo com cópia")) {
+            Ids.setIdCarga(0);
+            carga = getDados();
+            carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
+            carga.getCircuito().getCargas().add(carga);
+            carga.getCircuito().tipoCircuito();
+            CargaService.salva(carga);
+            carga = new Carga();
+            carga = getDados();
+            carga.setCircuito(null);
+            CargaService.salva(carga);
+
+        } else if (getLblAtualizacao().getText().equals("Novo")) {
+            Ids.setIdCarga(0);
+            carga = getDados();
+            carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
+            carga.getCircuito().getCargas().add(carga);
+            carga.getCircuito().tipoCircuito();
+            CargaService.salva(carga);
+            
+
         } else {
-            carga = atualizaCarga();
+            if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() > 0 && CargaService.getById(TrataID.IntegerToInteger(Ids.getIdCarga())).getCircuito() != null && getLblAtualizacao().getText().equals("Atualização")) {
+                carga = getDados();
+                carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
+                carga.getCircuito().getCargas().add(carga);
+                carga.getCircuito().tipoCircuito();
+                CargaService.salva(carga);
+
+            } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() == 0 || CargaService.getById(Ids.getIdCarga()).getCircuito() == null) {
+                carga = getDados();
+                CargaService.salva(carga);
+            }
         }
+        CircuitoService.salva(carga.getCircuito());
         
-        
-        CargaService.salva(carga);
-        CircuitoService.getById(Ids.getIdCircuito()).tipoCircuito();
-        CircuitoService.salva(CircuitoService.getById(Ids.getIdCircuito()));
         this.iniciaTabelaCargas();
         this.apagaDadosFrm();
         Ids.setIdCarga(0);
@@ -1009,13 +664,16 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
     }
 
     private void eventoSelecaoTabela() {
-        tabelaCarga.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        tabelaEquipamento.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent evt) {
                 if (Ids.getIdCircuito() == 0) {
                     lblAtualizacao.setText("Atualização");
                 }
-                int linha = tabelaCarga.getSelectedRow();
+                if (getLblAtualizacao().getText().equals("Novo com cópia")) {
+                    getLblAtualizacao().setText("Novo");
+                }
+                int linha = tabelaEquipamento.getSelectedRow();
                 if (evt.getValueIsAdjusting() == true && linha > -1) {
                     Carga carga = (Carga) tabelaModelo.loadItem(linha);
                     setDados(carga);
@@ -1037,57 +695,17 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
     }
 
     public void iniciaTabelaCargas() {
-
         List<Carga> lista = new ArrayList<>();
         lista = CargaService.getByExpres("from Carga where circuito = null", null);
 
         if (!lista.isEmpty()) {
             tabelaModelo = new GenericTableModel(lista, Carga.class);
-            tabelaCarga.setModel(tabelaModelo);
+            tabelaEquipamento.setModel(tabelaModelo);
         } else {
             DefaultTableModel model = new DefaultTableModel();
-            this.tabelaCarga.setModel(model);
+            this.tabelaEquipamento.setModel(model);
         }
         Ids.imprimiIds();
-    }
-
-    private Carga atualizaCarga() {
-        Ids.imprimiIds();
-        Carga copia = null;
-        if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() > 0 && CargaService.getById(TrataID.IntegerToInteger(Ids.getIdCarga())).getCircuito() != null && getLblAtualizacao().getText().equals("Atualização")) {
-            copia = getDados();
-            copia.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
-
-        } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() == 0 || CargaService.getById(TrataID.IntegerToInteger(Ids.getIdCarga())).getCircuito() == null) {
-            copia = getDados();
-
-        }
-        return copia;
-    }
-
-    private Carga novaCarga() {
-        Ids.imprimiIds();
-        Carga copia = null;
-        if (Ids.getIdCarga() == 0 && Ids.getIdCircuito() == 0) {
-            copia = getDados();
-            copia.setCircuito(null);
-            CargaService.salva(copia);
-        } else if (Ids.getIdCarga() == 0 && Ids.getIdCircuito() > 0) {
-            copia = getDados();
-            CargaService.salva(copia);
-            copia = new Carga();
-            copia = getDados();
-            copia.setCircuito(null);
-            CargaService.salva(copia);
-        } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() > 0) {
-            copia = getDados();
-            copia.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
-            CargaService.salva(copia);
-            copia = new Carga();
-            copia.setCircuito(null);
-            CargaService.salva(copia);
-        }
-        return copia;
     }
 
     private Carga getDados() {
@@ -1096,10 +714,9 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
             carga = CargaService.getById(TrataID.IntegerToInteger(Ids.getIdCarga()));
         } else {
             carga = new Carga();
-            carga.setCircuito(CircuitoService.getById(TrataID.IntegerToInteger(Ids.getIdCircuito())));
+
         }
 
-        //carga.setId(TrataID.IntegerToInteger(Ids.getIdCarga()));
         carga.setFd(Numero.stringToDouble(this.campoFd.getText(), 1));
         carga.setFu(Numero.stringToDouble(this.campoFutil.getText(), 1));
         carga.setLocalizacao(this.campoLocal.getText());
@@ -1117,6 +734,7 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         carga.setRendimento(Numero.stringToDouble(this.campoRendimento.getText(), 1));
         carga.setFp(Numero.stringToDouble(this.campoFPotencia.getText(), 1));
         carga.setUnidade((UnidadePotencia) cbUnidade.getModel().getSelectedItem());
+
         Ids.imprimiIds();
         return carga;
     }
@@ -1202,48 +820,12 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane10;
-    private javax.swing.JScrollPane jScrollPane11;
-    private javax.swing.JScrollPane jScrollPane12;
-    private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JLabel lblAtualizacao;
     private javax.swing.JPanel painelBotoes;
-    private javax.swing.JTable tabelaCarga;
-    private javax.swing.JTable tabelaCarga1;
-    private javax.swing.JTable tabelaCarga10;
-    private javax.swing.JTable tabelaCarga11;
-    private javax.swing.JTable tabelaCarga12;
-    private javax.swing.JTable tabelaCarga2;
-    private javax.swing.JTable tabelaCarga3;
-    private javax.swing.JTable tabelaCarga4;
-    private javax.swing.JTable tabelaCarga5;
-    private javax.swing.JTable tabelaCarga6;
-    private javax.swing.JTable tabelaCarga7;
-    private javax.swing.JTable tabelaCarga8;
-    private javax.swing.JTable tabelaCarga9;
+    private javax.swing.JTable tabelaEquipamento;
     private javax.swing.JTextArea textoDescricao;
     // End of variables declaration//GEN-END:variables
 

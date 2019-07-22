@@ -1,6 +1,8 @@
 package chc.eletrica8.dao;
 
+import chc.eletrica8.controle.Ids;
 import chc.eletrica8.entidades.Entidade;
+import chc.eletrica8.servico.CargaService;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -97,6 +99,29 @@ public class JpaDAO<T extends Entidade<T>> {
             } else {
                 ENTITY_MANAGER.merge(obj);
             }
+            ENTITY_MANAGER.getTransaction().commit();
+        } catch (Exception e) {
+            ENTITY_MANAGER.getTransaction().rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public void salvaProjeto(T obj) {
+        try {
+            ENTITY_MANAGER.getTransaction().begin();
+
+            if (obj.getId() == null) {
+                ENTITY_MANAGER.persist(obj);
+            } else {
+                ENTITY_MANAGER.merge(obj);
+            }
+
+            if (Ids.getIdCarga() != 0) {
+                CargaService.getById(Ids.getIdCarga());
+                
+
+            }
+
             ENTITY_MANAGER.getTransaction().commit();
         } catch (Exception e) {
             ENTITY_MANAGER.getTransaction().rollback();

@@ -42,6 +42,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         eventoSelecaoTabelaCarga();
         this.cbUsabilidadeItens();
         Ids.setIdCircuito(0);
+        Ids.setIdCarga(0);
         Ids.imprimiIds();
     }
 
@@ -470,11 +471,10 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
     private void btnCopiarCircuitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopiarCircuitoActionPerformed
 
         Circuito cir = CircuitoService.getById(Ids.getIdCircuito()).clonarSemID();
-        
-        for(int i = 0;i<cir.getListaCarga().size();i++){
+
+        for (int i = 0; i < cir.getListaCarga().size(); i++) {
             cir.getListaCarga().get(i).setCircuito(cir);
         }
-        
 
         CircuitoService.salva(cir);
 
@@ -492,14 +492,16 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
                 int linha = tabelaCircuito.getSelectedRow();
                 if (evt.getValueIsAdjusting() == true && linha > -1) {
                     Circuito circuito = (Circuito) tabelaModeloCircuito.loadItem(linha);
+                    //circuito.tipoCircuito();
+                    //CircuitoService.salva(circuito);
                     setDados(circuito);
                     Ids.setIdCircuito(circuito.getId());
                     iniciaTabelaCarga();
+                    Ids.imprimiIds();
                 }
             }
         }
         );
-        Ids.imprimiIds();
     }
 
     private void eventoSelecaoTabelaCarga() {
@@ -511,13 +513,13 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
                 if (evt.getValueIsAdjusting() == true && linha > -1) {
                     Carga carga = (Carga) tabelaModeloCarga.loadItem(linha);
                     Ids.setIdCarga(carga.getId());
-
+                    Ids.imprimiIds();
                     // iniciaTabelaCarga();
                 }
             }
         }
         );
-        Ids.imprimiIds();
+
     }
 
     private void btnNovoCircuitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoCircuitoActionPerformed
@@ -547,25 +549,29 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         this.setVisible(false);
         CargaFrm equipamento = new CargaFrm();
         DesktopPane.desktop.add(equipamento);
+        equipamento.getLblAtualizacao().setText("Novo com cópia");
         equipamento.setVisible(true);
+        iniciaTabelaCarga();
         Ids.setIdCarga(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnNovoCargaActionPerformed
 
     private void btnExcluirCargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirCargaActionPerformed
-        Ids.imprimiIds();
+         Ids.imprimiIds();
         CargaService.removeById(Ids.getIdCarga());
+
+
         this.iniciaTabelaCarga();
-        this.apagaDadosFrm();
         Ids.setIdCarga(0);
+        Ids.imprimiIds();
     }//GEN-LAST:event_btnExcluirCargaActionPerformed
 
     private void btnCopiarCargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopiarCargaActionPerformed
         Carga q = CargaService.getById(Ids.getIdCarga()).clonarSemID();
         CargaService.salva(q);
-
+        Ids.setIdCarga(0);
         this.iniciaTabelaCarga();
-        this.apagaDadosFrm();
+        //this.apagaDadosFrm();
         Ids.imprimiIds();
     }//GEN-LAST:event_btnCopiarCargaActionPerformed
 
@@ -611,14 +617,16 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         if (!lista.isEmpty()) {
             tabelaModeloCarga = new GenericTableModel(lista, Carga.class);
             tabelaEquipamentos.setModel(tabelaModeloCarga);
+            //tabelaEquipamentos.clearSelection();
         } else {
             DefaultTableModel model = new DefaultTableModel();
             this.tabelaEquipamentos.setModel(model);
         }
+        
         Ids.imprimiIds();
     }
-    
-     private void cbUsabilidadeItens() {
+
+    private void cbUsabilidadeItens() {
         cbTipo.removeAllItems();
         cbTipo.addItem(null);
         for (Usabilidade usa : Usabilidade.getLista()) {
@@ -657,7 +665,9 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         if (circuito != null) {
             Ids.setIdCircuito(circuito.getId());
             this.campoNome.setText(circuito.getNome());
-            this.campoTipo.setText(circuito.getTipo());
+
+            this.campoTipo.setText(circuito.getTipo().name());
+
             this.cbTipo.getModel().setSelectedItem(circuito.getUsabilidade());
             Ids.imprimiIds();
             //circuito.getCorrenteIB();

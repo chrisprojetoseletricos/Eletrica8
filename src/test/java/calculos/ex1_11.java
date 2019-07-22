@@ -174,7 +174,7 @@ public class ex1_11 {
 
         pro.getFontes().add(fonte);
 
-       // ProjetoService.salva(pro);
+        ProjetoService.salva(pro);
         
          UnidadePotencia unidade = UnidadePotencia.VA;
         double demanda = new CalculoUtils()//
