@@ -454,7 +454,9 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
 
         this.apagaDadosFrm();
         this.iniciaTabelaCircuitos();
+        this.iniciaTabelaCarga();
         Ids.setIdCircuito(0);
+        Ids.setIdCarga(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnSalvarCircuitoActionPerformed
 
@@ -479,8 +481,10 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         CircuitoService.salva(cir);
 
         this.iniciaTabelaCircuitos();
+        this.iniciaTabelaCarga();
         this.apagaDadosFrm();
         Ids.setIdCircuito(0);
+        Ids.setIdCarga(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnCopiarCircuitoActionPerformed
 

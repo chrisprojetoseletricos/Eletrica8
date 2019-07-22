@@ -61,6 +61,7 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
         btnCopiar = new javax.swing.JButton();
         lblIdFonte = new javax.swing.JLabel();
         btnNovo = new javax.swing.JButton();
+        btnRelatorio = new javax.swing.JButton();
         scrollEsquerdo = new javax.swing.JScrollPane();
         painelEsquerdo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -154,6 +155,20 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
             }
         });
 
+        btnRelatorio.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnRelatorio.setText("Relatórios");
+        btnRelatorio.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnRelatorio.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnRelatorio.setIconTextGap(2);
+        btnRelatorio.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        btnRelatorio.setMaximumSize(new java.awt.Dimension(71, 32));
+        btnRelatorio.setMinimumSize(new java.awt.Dimension(71, 32));
+        btnRelatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRelatorioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout painelBotoesLayout = new javax.swing.GroupLayout(painelBotoes);
         painelBotoes.setLayout(painelBotoesLayout);
         painelBotoesLayout.setHorizontalGroup(
@@ -167,6 +182,8 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
                 .addComponent(btnExcluir)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCopiar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblIdFonte, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -177,12 +194,13 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(painelBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(painelBotoesLayout.createSequentialGroup()
-                        .addGap(0, 9, Short.MAX_VALUE)
+                        .addGap(0, 10, Short.MAX_VALUE)
                         .addGroup(painelBotoesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnExcluir)
                             .addComponent(btnCopiar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lblIdFonte, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
@@ -311,7 +329,7 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(scrollEsquerdo, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
                     .addComponent(painelDireito, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         setBounds(0, 0, 691, 390);
@@ -377,6 +395,12 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
         frm.setVisible(true);
         Ids.setIdFonte(0);
     }//GEN-LAST:event_formInternalFrameClosing
+
+    private void btnRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRelatorioActionPerformed
+        RelatorioFonteFrm frm = new RelatorioFonteFrm();
+        DesktopPane.desktop.add(frm);
+        frm.setVisible(true);
+    }//GEN-LAST:event_btnRelatorioActionPerformed
 
     private void cbConcessionariaItens() {
         List<Concessionaria> lista = ConcessionariaService.getAll();
@@ -481,6 +505,7 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnCopiar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnNovo;
+    private javax.swing.JButton btnRelatorio;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JTextField campoNome;
     private javax.swing.JTextField campoTensao;

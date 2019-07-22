@@ -17,7 +17,7 @@ import chc.eletrica8.servico.ProjetoService;
 import java.time.Instant;
 import java.util.Date;
 
-public class ex1_11 {
+public class Ex1_1 {
 
     public static void main(String[] args) {
 
@@ -182,7 +182,7 @@ public class ex1_11 {
                 .comModelo(MODELO_INSTALACAO.INDUSTRIAL)//
                 .getPotenciaDemandada(unidade);
         double potInstalada = new CalculoUtils()//
-                .comFonte(fonte).comModelo(MODELO_INSTALACAO.INDUSTRIAL)//
+                .comFonte(FonteService.getById(1)).comModelo(MODELO_INSTALACAO.INDUSTRIAL)//
                 .getPotenciaInstalada(unidade);
         double fatorDemanda = demanda / potInstalada;
 
