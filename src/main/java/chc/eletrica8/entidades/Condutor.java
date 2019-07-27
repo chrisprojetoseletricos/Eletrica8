@@ -5,8 +5,10 @@
  */
 package chc.eletrica8.entidades;
 
+import chc.eletrica8.enums.BitolasMili;
 import chc.eletrica8.enums.EspacamentoCabos;
 import chc.eletrica8.enums.Instalacao;
+import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.TempAmbiente;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
@@ -32,6 +34,10 @@ public class Condutor implements Serializable, Entidade<Condutor> {
     private double resistiTermica;
     private TempAmbiente temperatura;
     private double comprimento;
+    private BitolasMili bitola;
+    private Ligacao ligacao;
+    
+
 
     public String getBitolaSucessiva() {
         return bitolaSucessiva;
@@ -39,6 +45,34 @@ public class Condutor implements Serializable, Entidade<Condutor> {
 
     public void setBitolaSucessiva(String bitolaSucessiva) {
         this.bitolaSucessiva = bitolaSucessiva;
+    }
+
+    /**
+     * @return the ligacao
+     */
+    public Ligacao getLigacao() {
+        return ligacao;
+    }
+
+    /**
+     * @param ligacao the ligacao to set
+     */
+    public void setLigacao(Ligacao ligacao) {
+        this.ligacao = ligacao;
+    }
+
+    /**
+     * @return the bitola
+     */
+    public BitolasMili getBitola() {
+        return bitola;
+    }
+
+    /**
+     * @param bitola the bitola to set
+     */
+    public void setBitola(BitolasMili bitola) {
+        this.bitola = bitola;
     }
 
     public String getEnterrado() {

@@ -40,4 +40,20 @@ public class Numero {
         }
         return inteiro;
     }
+
+    public static boolean ePrimo(double numero) {
+        numero = Math.abs(numero);
+        // se o número é par, não pode ser primo
+        if (numero % 2 == 0) {
+            return false;
+        }
+        // verificar se este número ímpar é primo
+        for (long i = 3; i * i <= numero; i += 2) {
+            if (numero % i == 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

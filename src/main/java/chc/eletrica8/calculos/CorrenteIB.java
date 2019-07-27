@@ -79,7 +79,7 @@ public class CorrenteIB {
                 for (int h = 0; h < FN.size(); h++) {
                     SOMA_AN = SOMA_AN + FN.get(h);
                     carga.get(AUX).setLigacaoReal("AN");
-                    CargaService.salva(carga.get(AUX));
+                    //CargaService.salva(carga.get(AUX));
                     AUX += 1;
                 }
                 break;
@@ -93,19 +93,19 @@ public class CorrenteIB {
                         if (SOMA_AN <= SOMA_BN) {
                             SOMA_AN = SOMA_AN + FN.get(aux3);
                             carga.get(AUX).setLigacaoReal("AN");
-                            CargaService.salva(carga.get(AUX));
+                            //CargaService.salva(carga.get(AUX));
                             AUX += 1;
                         } else {
                             SOMA_BN = SOMA_BN + FN.get(aux3);
                             carga.get(AUX).setLigacaoReal("BN");
-                            CargaService.salva(carga.get(AUX));
+                            //CargaService.salva(carga.get(AUX));
                             AUX += 1;
                         }
                         aux3 += 1;
                     } else {
                         SOMA_AB = SOMA_AB + FF.get(aux4);
                         carga.get(AUX).setLigacaoReal("AB");
-                        CargaService.salva(carga.get(AUX));
+                        //CargaService.salva(carga.get(AUX));
                         AUX += 1;
                         aux4 += 1;
                     }
@@ -122,17 +122,17 @@ public class CorrenteIB {
                         if (SOMA_AN <= SOMA_BN && SOMA_AN <= SOMA_CN) {
                             SOMA_AN = SOMA_AN + FN.get(aux5);
                             carga.get(AUX).setLigacaoReal("AN");
-                            CargaService.salva(carga.get(AUX));
+                            //CargaService.salva(carga.get(AUX));
                             AUX += 1;
                         } else if (SOMA_BN <= SOMA_AN && SOMA_BN <= SOMA_CN) {
                             SOMA_BN = SOMA_BN + FN.get(aux5);
                             carga.get(AUX).setLigacaoReal("BN");
-                            CargaService.salva(carga.get(AUX));
+                            //CargaService.salva(carga.get(AUX));
                             AUX += 1;
                         } else if (SOMA_CN <= SOMA_AN && SOMA_CN <= SOMA_BN) {
                             SOMA_CN = SOMA_CN + FN.get(aux5);
                             carga.get(AUX).setLigacaoReal("CN");
-                            CargaService.salva(carga.get(AUX));
+                            //CargaService.salva(carga.get(AUX));
                             AUX += 1;
                         }
                         aux5 += 1;
@@ -140,24 +140,24 @@ public class CorrenteIB {
                         if (SOMA_AB <= SOMA_BC && SOMA_AB <= SOMA_CA) {
                             SOMA_AB = SOMA_AB + FF.get(aux6);
                             carga.get(AUX).setLigacaoReal("AB");
-                            CargaService.salva(carga.get(AUX));
+                            //CargaService.salva(carga.get(AUX));
                             AUX += 1;
                         } else if (SOMA_BC <= SOMA_AB && SOMA_BC <= SOMA_CA) {
                             SOMA_BC = SOMA_BC + FF.get(aux6);
                             carga.get(AUX).setLigacaoReal("BC");
-                            CargaService.salva(carga.get(AUX));
+                            //CargaService.salva(carga.get(AUX));
                             AUX += 1;
                         } else if (SOMA_CA <= SOMA_AB && SOMA_CA <= SOMA_BC) {
                             SOMA_CA = SOMA_CA + FF.get(aux6);
                             carga.get(AUX).setLigacaoReal("CA");
-                            CargaService.salva(carga.get(AUX));
+                            //CargaService.salva(carga.get(AUX));
                             AUX += 1;
                         }
                         aux6 += 1;
                     } else if (cargaSeq.get(i) == 3) {
                         SOMA_ABC = SOMA_ABC + FFF.get(aux7);
                         carga.get(AUX).setLigacaoReal("ABC");
-                        CargaService.salva(carga.get(AUX));
+                        //CargaService.salva(carga.get(AUX));
                         AUX += 1;
                         aux7 += 1;
                     }

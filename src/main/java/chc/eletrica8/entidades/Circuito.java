@@ -6,6 +6,7 @@
 package chc.eletrica8.entidades;
 
 import chc.eletrica8.calculos.CorrenteIB;
+import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.TiposFornecimento;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.servico.tableModel.Column;
@@ -64,6 +65,11 @@ public class Circuito implements Serializable, Entidade<Circuito> {
         return correnteIB;
     }
 
+    public void bitolaCapaciCorrente() {
+
+    }
+
+
     public void tipoCircuito() {
         TiposFornecimento temp = TiposFornecimento.MONOFASICO;
         if (this.getCargas() != null) {
@@ -71,18 +77,23 @@ public class Circuito implements Serializable, Entidade<Circuito> {
 
                 switch (carga.getLigacao()) {
                     case FFF:
+                        condutor.setLigacao(Ligacao.FFF);
                     case FFFN:
                         temp = TiposFornecimento.TRIFASICO;
+                        condutor.setLigacao(Ligacao.FFFN);
                         break;
                     case FF:
+                        condutor.setLigacao(Ligacao.FF);
                     case FFN:
                         if (temp.equals(TiposFornecimento.MONOFASICO)) {
                             temp = TiposFornecimento.BIFASICO;
+                            condutor.setLigacao(Ligacao.FFN);
                         }
                         break;
                     case FN:
                         if (temp.equals(TiposFornecimento.MONOFASICO)) {
                             temp = TiposFornecimento.MONOFASICO;
+                            condutor.setLigacao(Ligacao.FN);
                         }
                         break;
                     default:
@@ -91,6 +102,15 @@ public class Circuito implements Serializable, Entidade<Circuito> {
             }
         }
         setTipo(temp);
+    }
+
+    public void defineComprimento() {
+        for (int i = 0; i < cargas.size(); i++) {
+            if (cargas.get(i).getComprimentoInstal() >= this.condutor.getComprimento()) {
+                this.condutor.setComprimento(cargas.get(i).getComprimentoInstal());
+            }
+        }
+
     }
 
     /**

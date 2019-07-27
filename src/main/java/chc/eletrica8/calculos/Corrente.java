@@ -3,8 +3,6 @@ package chc.eletrica8.calculos;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.UnidadePotencia;
 
-
-
 public class Corrente {
 
     private Ligacao ligacao;
@@ -12,35 +10,28 @@ public class Corrente {
     private double tensaoFN;
     private UnidadePotencia unidade;
     private double fp;
+    private double rendimento;
 
     public double valor() {
         double valor = 0;
 
         if (ligacao == Ligacao.FFF || ligacao == Ligacao.FFFN) {
             try {
-                valor = getPotenciaEmVA() / (Math.sqrt(3) * tensaoFN);
+                valor = getPotenciaEmVA() / (3 * tensaoFN * rendimento);
             } catch (Exception e) {
-                valor = getPotenciaEmW() / (Math.sqrt(3) * tensaoFN * fp);
+                valor = getPotenciaEmW() / (3 * tensaoFN * fp * rendimento);
             }
-        }
-        if (ligacao == Ligacao.FF || ligacao == Ligacao.FFN) {
+        } else {
             try {
-                valor = getPotenciaEmVA() / (Math.sqrt(3) * tensaoFN);
+                valor = getPotenciaEmVA() / (Math.sqrt(3) * tensaoFN * rendimento);
             } catch (Exception e) {
-                valor = getPotenciaEmW() / (Math.sqrt(3) * tensaoFN * fp);
-            }
-        }
-        if (ligacao == Ligacao.FN) {
-            try {
-                valor = getPotenciaEmVA() / (tensaoFN);
-            } catch (Exception e) {
-                valor = getPotenciaEmW() / (tensaoFN * fp);
+                valor = getPotenciaEmW() / (Math.sqrt(3) * tensaoFN * fp * rendimento);
             }
         }
         return valor;
     }
 
-    public Corrente withPotencia(Double potencia) {
+    public Corrente withPotencia(double potencia) {
         this.potencia = potencia;
         return this;
     }
@@ -62,6 +53,11 @@ public class Corrente {
 
     public Corrente withFP(Double fp) {
         this.fp = fp;
+        return this;
+    }
+
+    public Corrente withRendimento(double rendimento) {
+        this.rendimento = rendimento;
         return this;
     }
 

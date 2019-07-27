@@ -17,7 +17,7 @@ import javax.swing.UIManager;
  */
 public class PrincipalFrm extends javax.swing.JFrame {
 
- 
+
 
     /**
      * Creates new form Principal

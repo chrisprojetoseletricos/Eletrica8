@@ -8,12 +8,9 @@ package chc.eletrica8.entidades;
 import chc.eletrica8.calculos.Corrente;
 import chc.eletrica8.calculos.PotenciaDemandadaCarga;
 import chc.eletrica8.calculos.PotenciaInstaladaCarga;
-
-import chc.eletrica8.controle.Ids;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.enums.Usabilidade;
-import chc.eletrica8.servico.FonteService;
 import chc.eletrica8.servico.tableModel.Column;
 import chc.eletrica8.servico.tableModel.TableModel;
 import java.io.Serializable;
@@ -42,10 +39,9 @@ public class Carga implements Serializable, Entidade<Carga> {
     private Integer id;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Circuito circuito;
-    
+    @Column(colName = "Ligação", colPosition = 5)
     private String ligacaoReal;
     @Enumerated(EnumType.STRING)
-    @Column(colName = "Ligação", colPosition = 5)
     private Ligacao ligacao;
     private int quantidade = 1;
     private String descricao;
@@ -56,7 +52,8 @@ public class Carga implements Serializable, Entidade<Carga> {
     private double fSimu = 1;
     @Enumerated(EnumType.STRING)
     private Usabilidade usabilidade;
-    @Column(colName = "Tensão (V)", colPosition = 4, formatter = "%,#.1f V")
+    //@Column(colName = "Tensão (V)", colPosition = 4, formatter = "%,#.1f V")
+    @Column(colName = "Tensão (V)", colPosition = 4, formatter = "%,#.1f")
     private double tensao = 0;
     @Column(colName = "Nome", colPosition = 1)
     private String nome;
@@ -69,6 +66,7 @@ public class Carga implements Serializable, Entidade<Carga> {
     @Column(colName = "Unidade", colPosition = 3)
     @Enumerated(EnumType.STRING)
     private UnidadePotencia unidade;
+    private double comprimentoInstal;
 
     public double getCorrenteA() {
         double correnteA = 0;
@@ -76,9 +74,10 @@ public class Carga implements Serializable, Entidade<Carga> {
             correnteA = new Corrente()//
                     .withLigacao(ligacao)//
                     .withPotencia(getPotencia())//
-                    .withTensao(FonteService.getById(Ids.getIdFonte()).getTensaoFN())//
+                    .withTensao(getCircuito().getQuadro().getFonte().getTensaoFN())//
                     .withUnidade(getUnidade())//
                     .withFP(getFp())//
+                    .withRendimento(rendimento)//
                     .valor();
         } catch (Exception e) {
 
@@ -127,19 +126,6 @@ public class Carga implements Serializable, Entidade<Carga> {
         return pot;
     }
 
-    public void atualizaTensao() {
-        tensao = 0;
-        try {
-            if (ligacao.equals(Ligacao.FN)) {
-                tensao = FonteService.getById(Ids.getIdFonte()).getTensaoFN();
-            } else {
-                tensao = Math.sqrt(3) * FonteService.getById(Ids.getIdFonte()).getTensaoFN();
-            }
-        } catch (Exception e) {
-
-        }
-    }
-
     /**
      * @return the circuito
      */
@@ -152,6 +138,20 @@ public class Carga implements Serializable, Entidade<Carga> {
      */
     public void setCircuito(Circuito circuito) {
         this.circuito = circuito;
+    }
+
+    /**
+     * @return the comprimentoInstal
+     */
+    public double getComprimentoInstal() {
+        return comprimentoInstal;
+    }
+
+    /**
+     * @param comprimentoInstal the comprimentoInstal to set
+     */
+    public void setComprimentoInstal(double comprimentoInstal) {
+        this.comprimentoInstal = comprimentoInstal;
     }
 
     /**
@@ -252,7 +252,6 @@ public class Carga implements Serializable, Entidade<Carga> {
         this.unidade = unidade;
     }
 
-
     public Integer getId() {
         return id;
     }
@@ -273,8 +272,17 @@ public class Carga implements Serializable, Entidade<Carga> {
         return tensao;
     }
 
-    public void setTensao(double tensao) {
-        this.tensao = tensao;
+    public void setTensao() {
+
+        try {
+            if (ligacao.equals(Ligacao.FN)) {
+                this.tensao = getCircuito().getQuadro().getFonte().getTensaoFN();
+            } else {
+                this.tensao = Math.sqrt(3) * getCircuito().getQuadro().getFonte().getTensaoFN();
+            }
+        } catch (Exception e) {
+
+        }
     }
 
     public double getfSimu() {
@@ -377,28 +385,9 @@ public class Carga implements Serializable, Entidade<Carga> {
         e.setFp(fp);
         e.setUnidade(unidade);
         e.setCircuito(circuito);
+        e.setComprimentoInstal(comprimentoInstal);
 
         return e;
     }
 
-    public void apagar() {
-        ligacaoReal = "";
-        quantidade = 1;
-        descricao = "";
-        fd = 1;
-        fs = 1;
-        fu = 1;
-        fSimu = 1;
-        usabilidade = null;
-        localizacao = "";
-        ligacao = null;
-        ligacaoReal = "";
-        nome = "";
-        nPolos = 2;
-        perdasReator = 0;
-        potencia = 0;
-        rendimento = 1;
-        fp = 1;
-        unidade = null;
-    }
 }
