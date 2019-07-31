@@ -904,6 +904,9 @@ public class Matriz {
 
                 break;
             }
+            if(linha == 0){
+                linha = temp.length;
+            }
         }
 
         return pegarValorMatriz(matriz, linha, coluna2);

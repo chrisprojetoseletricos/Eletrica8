@@ -10,14 +10,20 @@ import chc.eletrica8.enums.EspacamentoCabos;
 import chc.eletrica8.enums.Instalacao;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.TempAmbiente;
+import chc.eletrica8.enums.TiposFornecimento;
+import chc.eletrica8.servico.tableModel.Column;
+import chc.eletrica8.servico.tableModel.TableModel;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
+import javax.persistence.Table;
 
 /**
  *
  * @author chris
  */
 @Embeddable
+@Table(name = "Condutor")
+@TableModel
 public class Condutor implements Serializable, Entidade<Condutor> {
 
     private String bitolaSucessiva;
@@ -34,8 +40,10 @@ public class Condutor implements Serializable, Entidade<Condutor> {
     private double resistiTermica;
     private TempAmbiente temperatura;
     private double comprimento;
-    private BitolasMili bitola;
+    @Column(colName = "Fase", colPosition = 0)
+    private double bitola;
     private Ligacao ligacao;
+    private TiposFornecimento tipo = TiposFornecimento.MONOFASICO;
     
 
 
@@ -64,15 +72,29 @@ public class Condutor implements Serializable, Entidade<Condutor> {
     /**
      * @return the bitola
      */
-    public BitolasMili getBitola() {
+    public double getBitola() {
         return bitola;
     }
 
     /**
      * @param bitola the bitola to set
      */
-    public void setBitola(BitolasMili bitola) {
+    public void setBitola(double bitola) {
         this.bitola = bitola;
+    }
+
+    /**
+     * @return the tipo
+     */
+    public TiposFornecimento getTipo() {
+        return tipo;
+    }
+
+    /**
+     * @param tipo the tipo to set
+     */
+    public void setTipo(TiposFornecimento tipo) {
+        this.tipo = tipo;
     }
 
     public String getEnterrado() {

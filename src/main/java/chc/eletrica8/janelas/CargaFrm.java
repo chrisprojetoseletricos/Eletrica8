@@ -5,6 +5,7 @@
  */
 package chc.eletrica8.janelas;
 
+import chc.eletrica8.calculos.AtualizaDados;
 import chc.eletrica8.controle.DesktopPane;
 import chc.eletrica8.controle.Ids;
 import chc.eletrica8.entidades.Carga;
@@ -13,6 +14,7 @@ import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.servico.CargaService;
 import chc.eletrica8.servico.CircuitoService;
+import chc.eletrica8.servico.ProjetoService;
 import chc.eletrica8.servico.tableModel.GenericTableModel;
 import chc.eletrica8.uteis.ApenasNumero;
 import chc.eletrica8.uteis.Numero;
@@ -39,28 +41,13 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
      */
     public CargaFrm() {
         initComponents();
-        this.iniciaTabelaCargas();
+        this.iniciaTabelaCargas("");
         this.eventoSelecaoTabela();
         this.adicionarKeyListener();
         this.cbUsabilidadeItens();
         this.cbLigacaoItens();
         this.cbUnidades();
         Ids.setIdCarga(0);
-        Ids.imprimiIds();
-    }
-
-    public CargaFrm(Carga carga) {
-        initComponents();
-        this.carga = carga;
-        //this.iniciaTabelaCargas();
-        this.eventoSelecaoTabela();
-        this.adicionarKeyListener();
-        this.cbUsabilidadeItens();
-        this.cbLigacaoItens();
-        this.cbUnidades();
-        //Ids.setIdCarga(0);
-        this.setDados(carga);
-        Ids.setIdCarga(carga.getId());
         Ids.imprimiIds();
     }
 
@@ -522,103 +509,56 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
         Carga carga = null;
-        if (getLblAtualizacao().getText().equals("")) {
-            if (Ids.getIdCarga() == 0 && Ids.getIdCircuito() == 0) {
-                carga = getDados();
-                carga.setCircuito(null);
-                CargaService.salva(carga);
-            } else if (Ids.getIdCarga() == 0 && Ids.getIdCircuito() > 0) {
-                carga = getDados();
-                carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
-                carga.getCircuito().getCargas().add(carga);
-                carga.getCircuito().tipoCircuito();
-                carga.getCircuito().defineComprimento();
-                carga.setTensao();
-                carga.getCircuito().getCorrenteIB();
-                CargaService.salva(carga);
-                carga = new Carga();
-                carga = getDados();
-                carga.setCircuito(null);
-                CargaService.salva(carga);
-            } else if (Ids.getIdCarga() == 0 && Ids.getIdCircuito() > 0) {
-                carga = getDados();
-                carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
-                carga.getCircuito().getCargas().add(carga);
-                carga.getCircuito().tipoCircuito();
-                carga.getCircuito().defineComprimento();
-                carga.setTensao();
-                carga.getCircuito().getCorrenteIB();
-                CargaService.salva(carga);
-                carga = new Carga();
-                carga = getDados();
-                carga.setCircuito(null);
-                CargaService.salva(carga);
-            } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() > 0) {
-                carga = getDados();
-                carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
-                carga.getCircuito().getCargas().add(carga);
-                carga.getCircuito().tipoCircuito();
-                carga.getCircuito().defineComprimento();
-                carga.setTensao();
-                carga.getCircuito().getCorrenteIB();
-                CargaService.salva(carga);
-                carga = new Carga();
-                carga.setCircuito(null);
-                CargaService.salva(carga);
-            }
-        } else if (getLblAtualizacao().getText().equals("Novo com cópia")) {
-            Ids.setIdCarga(0);
+
+        if (Ids.getIdCarga() == 0 && Ids.getIdCircuito() == 0) {
+            carga = getDados();
+            carga.setCircuito(null);
+            CargaService.salva(carga);
+        } else if (Ids.getIdCarga() == 0 && Ids.getIdCircuito() > 0) {
             carga = getDados();
             carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
             carga.getCircuito().getCargas().add(carga);
-            carga.getCircuito().tipoCircuito();
-            carga.getCircuito().defineComprimento();
-            carga.setTensao();
-            carga.getCircuito().getCorrenteIB();
-            CargaService.salva(carga);
+            AtualizaDados.exec(carga);
             carga = new Carga();
             carga = getDados();
             carga.setCircuito(null);
             CargaService.salva(carga);
 
-        } else if (getLblAtualizacao().getText().equals("Novo")) {
-            Ids.setIdCarga(0);
+        } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() > 0) {
             carga = getDados();
-            carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
-            carga.getCircuito().getCargas().add(carga);
-            carga.getCircuito().tipoCircuito();
-            carga.getCircuito().defineComprimento();
-            carga.setTensao();
-            carga.getCircuito().getCorrenteIB();
-            CargaService.salva(carga);
-
-        } else {
-            if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() > 0 && CargaService.getById(TrataID.IntegerToInteger(Ids.getIdCarga())).getCircuito() != null && getLblAtualizacao().getText().equals("Atualização")) {
-                carga = getDados();
+            if (carga.getCircuito() == null) {
                 carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
                 carga.getCircuito().getCargas().add(carga);
-                carga.getCircuito().tipoCircuito();
-                carga.getCircuito().defineComprimento();
-                carga.setTensao();
-                carga.getCircuito().getCorrenteIB();
-                CargaService.salva(carga);
-
-            } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() == 0 || CargaService.getById(Ids.getIdCarga()).getCircuito() == null) {
+                AtualizaDados.exec(carga);
+                carga = new Carga();
+                Ids.setIdCarga(0);
                 carga = getDados();
+                carga.setCircuito(null);
                 CargaService.salva(carga);
-            }
-        }
-        CircuitoService.salva(carga.getCircuito());
 
-        this.iniciaTabelaCargas();
+            } else {
+                carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
+                carga.getCircuito().getCargas().add(carga);
+                AtualizaDados.exec(carga);
+            }
+
+        } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() == 0) {
+            carga = getDados();
+            carga.setCircuito(null);
+            CargaService.salva(carga);
+        }
+
+        this.iniciaTabelaCargas("Salva");
         this.apagaDadosFrm();
         Ids.setIdCarga(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        ProjetoService.salva(ProjetoService.getById(1));
         CargaService.removeById(Ids.getIdCarga());
-        this.iniciaTabelaCargas();
+
+        this.iniciaTabelaCargas("Exclui");
         this.apagaDadosFrm();
         Ids.setIdCarga(0);
         Ids.imprimiIds();
@@ -628,15 +568,14 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         Carga q = CargaService.getById(Ids.getIdCarga()).clonarSemID();
         CargaService.salva(q);
 
-        this.iniciaTabelaCargas();
+        this.iniciaTabelaCargas("Copia");
         this.apagaDadosFrm();
         Ids.setIdCarga(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnCopiarActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
-
-        this.iniciaTabelaCargas();
+        this.iniciaTabelaCargas("Novo");
         this.apagaDadosFrm();
         Ids.setIdCarga(0);
         Ids.imprimiIds();
@@ -726,10 +665,13 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         this.campoPerdas.addKeyListener(this);
     }
 
-    public void iniciaTabelaCargas() {
+    public void iniciaTabelaCargas(String dica) {
         List<Carga> lista = new ArrayList<>();
-        lista = CargaService.getByExpres("from Carga where circuito = null", null);
-
+        if (Ids.getIdCircuito() == 0 || dica.equals("Novo")) {
+            lista = CargaService.getByExpres("from Carga where circuito = null", null);
+        } else if (dica.equals("Copia") || dica.equals("Exclui") || dica.equals("Salva") || dica.equals("")) {
+            lista = CargaService.getByExpres("from Carga where circuito = :ID", new Object[]{"ID", CircuitoService.getById(Ids.getIdCircuito())});
+        }
         if (!lista.isEmpty()) {
             tabelaModelo = new GenericTableModel(lista, Carga.class);
             tabelaEquipamento.setModel(tabelaModelo);
@@ -788,7 +730,6 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         this.campoPerdas.setText("");
         this.campoFPotencia.setText("");
         this.cbUnidade.setSelectedIndex(-1);
-        this.lblAtualizacao.setText("");
         this.campoPotencia.setText("");
         this.campoComprimento.setText("");
         Ids.imprimiIds();

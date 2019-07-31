@@ -1,7 +1,6 @@
 package chc.eletrica8.calculos;
 
 import chc.eletrica8.entidades.Carga;
-import chc.eletrica8.servico.CargaService;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ public class CorrenteIB {
     private final ArrayList<Double> FF = new ArrayList<>();
     private final ArrayList<Double> FN = new ArrayList<>();
     private final ArrayList<Integer> cargaSeq = new ArrayList<>();
-    private List<Carga> carga = new ArrayList<Carga>();
+    private List<Carga> carga = new ArrayList<>();
     private double SOMA_AN = 0;
     private double SOMA_BN = 0;
     private double SOMA_CN = 0;
@@ -79,7 +78,6 @@ public class CorrenteIB {
                 for (int h = 0; h < FN.size(); h++) {
                     SOMA_AN = SOMA_AN + FN.get(h);
                     carga.get(AUX).setLigacaoReal("AN");
-                    //CargaService.salva(carga.get(AUX));
                     AUX += 1;
                 }
                 break;

@@ -5,12 +5,14 @@
  */
 package chc.eletrica8.entidades;
 
+import chc.eletrica8.calculos.Bitola;
 import chc.eletrica8.calculos.CorrenteIB;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.TiposFornecimento;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.servico.tableModel.Column;
 import chc.eletrica8.servico.tableModel.TableModel;
+import chc.eletrica8.uteis.LerCSV;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,33 +45,48 @@ public class Circuito implements Serializable, Entidade<Circuito> {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Quadro quadro;
     @Embedded
-    @Column(colName = "Condutor", colPosition = 1)
     private Condutor condutor;
     @Embedded
-    @Column(colName = "Dados CC", colPosition = 2)
     private Curto curto;
     @OneToMany(mappedBy = "circuito", targetEntity = Carga.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Carga> cargas = new ArrayList<>();
-    @Column(colName = "Circuito", colPosition = 0)
+    @Column(colName = "Nº", colPosition = 0)
     private String nome;
-    @Enumerated(EnumType.STRING)
-    private TiposFornecimento tipo = TiposFornecimento.MONOFASICO;
     @Enumerated(EnumType.STRING)
     private Usabilidade usabilidade;
 
     public double getCorrenteIB() {
-        double correnteIB;
-        correnteIB = new CorrenteIB()//
-                .withCarga(getCargas())//
-                .valor();
+        double correnteIB = 0;
+        if (cargas.isEmpty()) {
+        } else {
+            correnteIB = new CorrenteIB()//
+                    .withCarga(getCargas())//
+                    .valor();
+        }
         return correnteIB;
     }
 
-    public void bitolaCapaciCorrente() {
+    public void bitolaCondutor() {
+
+        double bitola = new Bitola()//
+                .withEnterrado(condutor.getEnterrado())//
+                .withInstalacao(condutor.getModoInstalacao())//
+                .withMultipolar(condutor.getMultipolar())//
+                .withQuedaTensao(condutor.getQuedaTensao())//
+                .withTabelaCapacidadeCorrente(new LerCSV("CCBaixaCobre.csv").toMatriz())//
+                .withMaterial(condutor.getMaterial())//
+                .withIsolacao(condutor.getIsolacao())//
+                .withCondutoresCarregados(condutor.getLigacao().getNumeroFases())//
+                .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
+                .withCircuito(this)//
+                .withFornecimento(condutor.getTipo())//
+                .fase();
+
+        condutor.setBitola(bitola);
 
     }
 
-
+    //Define tipo do circuito e Ligação do condutor
     public void tipoCircuito() {
         TiposFornecimento temp = TiposFornecimento.MONOFASICO;
         if (this.getCargas() != null) {
@@ -101,7 +118,7 @@ public class Circuito implements Serializable, Entidade<Circuito> {
                 }
             }
         }
-        setTipo(temp);
+        condutor.setTipo(temp);
     }
 
     public void defineComprimento() {
@@ -111,20 +128,6 @@ public class Circuito implements Serializable, Entidade<Circuito> {
             }
         }
 
-    }
-
-    /**
-     * @return the tipo
-     */
-    public TiposFornecimento getTipo() {
-        return tipo;
-    }
-
-    /**
-     * @param tipo the tipo to set
-     */
-    public void setTipo(TiposFornecimento tipo) {
-        this.tipo = tipo;
     }
 
     /**

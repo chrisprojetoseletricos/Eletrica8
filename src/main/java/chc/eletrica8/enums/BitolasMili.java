@@ -4,8 +4,6 @@ import chc.eletrica8.uteis.Numero;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public enum BitolasMili {
 
     B0_5("0,5"),
@@ -24,7 +22,6 @@ public enum BitolasMili {
     B95("95"),
     B120("120"),
     B150("150");
-    
 
     private final String numero;
 
@@ -33,7 +30,7 @@ public enum BitolasMili {
     }
 
     public double getNumero() {
-        return Numero.stringToDouble(numero,0);
+        return Numero.stringToDouble(numero, 0);
     }
 
     public static List<BitolasMili> getLista() {
@@ -55,5 +52,16 @@ public enum BitolasMili {
         lista.add(BitolasMili.B120);
         lista.add(BitolasMili.B150);
         return lista;
+    }
+
+    public static BitolasMili converte(double valor) {
+        BitolasMili con = null;
+        for (BitolasMili b : getLista()) {
+            if (b.getNumero() == valor) {
+                con = b;
+            }
+
+        }
+        return con;
     }
 }

@@ -8,7 +8,6 @@ package chc.eletrica8.calculos;
 import chc.eletrica8.entidades.Circuito;
 import chc.eletrica8.enums.BitolasMili;
 import chc.eletrica8.enums.Instalacao;
-import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.TiposFornecimento;
 import chc.eletrica8.uteis.Matriz;
 import chc.eletrica8.uteis.Numero;
@@ -31,10 +30,10 @@ public class Bitola {
     private TiposFornecimento fornecimento;
     private String material;
 
-    public String valor() {
+    public double fase() {
         double bitolaCapacidade = 0;
         double bitolaQuedaTensao = 0;
-        String bitola = "";
+        double fase = 0;
 
         bitolaQuedaTensao = new BitolaQuedaTensao()//
                 .withCircuito(circuito)//
@@ -42,37 +41,84 @@ public class Bitola {
                 .withMaterial(material)//
                 .withQuedaTensao(quedaTensao)//
                 .valor();
-        
+
         bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), circuito.getCorrenteIB(), "BITOLA"), 0);
 
         if (bitolaCapacidade >= bitolaQuedaTensao) {
-            bitola = Numero.decimal(bitolaCapacidade, "##.#");
+            fase = (bitolaCapacidade);
         } else {
             for (int i = 0; i < BitolasMili.getLista().size(); i++) {
                 if (bitolaQuedaTensao <= BitolasMili.getLista().get(i).getNumero()) {
-                    bitola = Numero.decimal(BitolasMili.getLista().get(i).getNumero(), "##.#");
+                    fase = BitolasMili.getLista().get(i).getNumero();
                 }
             }
         }
+
+        return fase;
+    }
+
+    public double neutro() {
+        double neutro = 0;
+        if (fase() <= 25) {
+            neutro = fase();
+        } else if (fase() == 35) {
+            neutro = 25;
+        } else if (fase() == 50) {
+            neutro = 25;
+        } else if (fase() == 70) {
+            neutro = 35;
+        } else if (fase() == 95) {
+            neutro = 50;
+        } else if (fase() == 120) {
+            neutro = 70;
+        } else if (fase() == 150) {
+            neutro = 70;
+        } else if (fase() == 185) {
+            neutro = 95;
+        } else if (fase() == 240) {
+            neutro = 120;
+        } else if (fase() == 300) {
+            neutro = 150;
+        } else if (fase() == 500) {
+            neutro = 185;
+        }
+        return neutro;
+    }
+
+    public double terra() {
+        double terra = 0;
+        if (fase() <= 16) {
+            terra = fase();
+        } else if (fase() > 16 && fase() <= 35) {
+            terra = 16;
+        } else if (fase() > 35) {
+            terra = 0.5 * fase();
+        }
+        return terra;
+    }
+
+    public String formatado() {
+        String bitola = "";
+
         switch (circuito.getCondutor().getLigacao().name()) {
-                    case "FFF":
-                        bitola = "3 # "+bitola;
-                        break;
-                    case "FFFN":
-                        bitola = "3 # "+bitola+"/ Neutro mm²";
-                        break;
-                    case "FF":
-                        bitola = "2 # "+bitola;
-                        break;
-                    case "FFN":
-                        bitola = "2 # "+bitola+"/ Neutro mm²";
-                        break;
-                    case "FN":
-                        bitola = "1 # "+bitola+"/ Neutro mm²";
-                        break;
-                    default:
-                        break;
-                }
+            case "FFF":
+                bitola = "3 # " + fase() + "/-/" + terra() + " mm²";
+                break;
+            case "FFFN":
+                bitola = "3#" + fase() + "/" + neutro() + "/" + terra() + " mm²";
+                break;
+            case "FF":
+                bitola = "2#" + fase() + "/-/" + terra() + " mm²";
+                break;
+            case "FFN":
+                bitola = "2#" + fase() + "/" + neutro() + "/" + terra() + " mm²";
+                break;
+            case "FN":
+                bitola = "1#" + fase() + "/" + neutro() + "/" + terra() + " mm²";
+                break;
+            default:
+                break;
+        }
 
         return bitola;
     }
@@ -141,75 +187,5 @@ public class Bitola {
         }
         System.out.println("parametro: " + para);
         return para;
-    }
-
-    /**
-     * @return the instalacao
-     */
-    public Instalacao getInstalacao() {
-        return instalacao;
-    }
-
-    /**
-     * @param instalacao the instalacao to set
-     */
-    public void setInstalacao(Instalacao instalacao) {
-        this.instalacao = instalacao;
-    }
-
-    /**
-     * @return the multipolar
-     */
-    public String getMultipolar() {
-        return multipolar;
-    }
-
-    /**
-     * @param multipolar the multipolar to set
-     */
-    public void setMultipolar(String multipolar) {
-        this.multipolar = multipolar;
-    }
-
-    /**
-     * @return the isolacao
-     */
-    public String getIsolacao() {
-        return isolacao;
-    }
-
-    /**
-     * @param isolacao the isolacao to set
-     */
-    public void setIsolacao(String isolacao) {
-        this.isolacao = isolacao;
-    }
-
-    /**
-     * @return the enterrado
-     */
-    public String getEnterrado() {
-        return enterrado;
-    }
-
-    /**
-     * @param enterrado the enterrado to set
-     */
-    public void setEnterrado(String enterrado) {
-        this.enterrado = enterrado;
-    }
-
-    /**
-     * @return the quedaTensao
-     */
-    public double getQuedaTensao() {
-        return quedaTensao;
-    }
-
-    /**
-     * @param quedaTensao the quedaTensao to set
-     */
-    public void setQuedaTensao(double quedaTensao) {
-        this.quedaTensao = quedaTensao;
     }
 }

@@ -100,54 +100,10 @@ public class JpaDAO<T extends Entidade<T>> {
                 ENTITY_MANAGER.merge(obj);
             }
             ENTITY_MANAGER.getTransaction().commit();
+            ENTITY_MANAGER.clear();
         } catch (Exception e) {
             ENTITY_MANAGER.getTransaction().rollback();
             e.printStackTrace();
-        }
-    }
-
-    public void salvaProjeto(T obj) {
-        try {
-            ENTITY_MANAGER.getTransaction().begin();
-
-            if (obj.getId() == null) {
-                ENTITY_MANAGER.persist(obj);
-            } else {
-                ENTITY_MANAGER.merge(obj);
-            }
-
-            if (Ids.getIdCarga() != 0) {
-                CargaService.getById(Ids.getIdCarga());
-                
-
-            }
-
-            ENTITY_MANAGER.getTransaction().commit();
-        } catch (Exception e) {
-            ENTITY_MANAGER.getTransaction().rollback();
-            e.printStackTrace();
-        }
-    }
-
-    public void removeTodos(String tabelaNome) {
-        long init;
-        long end;
-        long diff;
-        init = System.currentTimeMillis();
-        try {
-            ENTITY_MANAGER.getTransaction().begin();
-            ENTITY_MANAGER.createNativeQuery("DELETE FROM " + tabelaNome).executeUpdate();
-            ENTITY_MANAGER.createNativeQuery("TRUNCATE TABLE " + tabelaNome).executeUpdate();
-        } catch (Exception e) {
-            System.out.println("Deu erro!" + e);
-            ENTITY_MANAGER.getTransaction().rollback(); // desfaz transacao se ocorrer erro ao persitir
-        } finally {
-            if (ENTITY_MANAGER.getTransaction().isActive()) {
-                ENTITY_MANAGER.getTransaction().commit();
-            }
-            end = System.currentTimeMillis();
-            diff = end - init;
-            System.out.println("Tempo de resposta = " + (diff / 1000.0) + " segundos em JPA - Hibernate");
         }
     }
 }

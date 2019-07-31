@@ -139,7 +139,7 @@ public class Ex3_8 {
                 .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
                 .withCircuito(CIR_1)//
                 .withFornecimento(TiposFornecimento.TRIFASICO)//
-                .valor();
+                .formatado();
         
         System.out.println("valor: "+ valor);
 

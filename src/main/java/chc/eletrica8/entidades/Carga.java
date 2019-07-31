@@ -386,6 +386,7 @@ public class Carga implements Serializable, Entidade<Carga> {
         e.setUnidade(unidade);
         e.setCircuito(circuito);
         e.setComprimentoInstal(comprimentoInstal);
+        e.setTensao();
 
         return e;
     }
