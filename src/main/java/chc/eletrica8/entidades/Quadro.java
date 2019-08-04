@@ -1,14 +1,18 @@
 package chc.eletrica8.entidades;
 
+import chc.eletrica8.calculos.Bitola;
 import chc.eletrica8.calculos.PotenciaDemandadaQuadro;
 import chc.eletrica8.calculos.PotenciaInstaladaQuadro;
-import chc.eletrica8.enums.Instalacao;
-import chc.eletrica8.enums.TempAmbiente;
+import chc.eletrica8.enums.Ligacao;
+import chc.eletrica8.enums.TiposFornecimento;
 import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.enums.UsoDr;
 import chc.eletrica8.servico.tableModel.Column;
 import chc.eletrica8.servico.tableModel.TableModel;
+import chc.eletrica8.uteis.LerCSV;
+import chc.eletrica8.uteis.Matriz;
+import chc.eletrica8.uteis.Numero;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,19 +43,17 @@ public class Quadro implements Serializable, Entidade<Quadro> {
     private Integer id;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Fonte fonte;
-
+    private QuadroResultados resultados = new QuadroResultados();
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Quadro quadroGeral;
     @OneToMany(mappedBy = "quadroGeral", targetEntity = Quadro.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Quadro> quadros = new ArrayList<>();
-
     @OneToMany(mappedBy = "quadro", targetEntity = Circuito.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Circuito> circuitos = new ArrayList<>();
     @Embedded
     private Condutor condutor;
     @Embedded
     private Curto curto;
-
     @Enumerated(EnumType.STRING)
     private UsoDr usoDeDR;
     private double fd = 1;
@@ -63,10 +65,7 @@ public class Quadro implements Serializable, Entidade<Quadro> {
     private double pot100PercDem;
     @Enumerated(EnumType.STRING)
     private Usabilidade usabilidade;
-    @Enumerated(EnumType.STRING)
-    private TempAmbiente tempAmbiente;
-    @Enumerated(EnumType.STRING)
-    private Instalacao instalacao;
+    private int tempAmbiente;
 
     public double getPotenciaDemandada(UnidadePotencia unidadeDestino) {
         double total;
@@ -84,6 +83,180 @@ public class Quadro implements Serializable, Entidade<Quadro> {
                 .withQuadro(this)//
                 .withUnidadeDestino(unidadeDestino)//
                 .valor();
+    }
+
+    public void correnteIB() {
+        double correnteIB = 0;
+        for (Circuito cir : circuitos) {
+            correnteIB += cir.getResultados().getCorrenteIB();
+        }
+        resultados.setCorrenteIB(correnteIB);
+    }
+
+    public void correnteCorr() {
+        double correnteIB = resultados.getCorrenteIB();
+        double fator = Numero.stringToDouble(Matriz.pegarValorMatrizEspecial(new LerCSV("CorrecaoTemperatura.csv").toMatriz(), Integer.toString(condutor.getTemperatura()), condutor.getIsolacao()), 0);
+        resultados.setCorrenteCorr(correnteIB / fator);
+    }
+
+    public double LXI() {
+
+        return condutor.getComprimento() * resultados.getCorrenteIB();
+    }
+
+    public List<Carga> todasCargas() {
+        List<Carga> cargas = new ArrayList<>();
+        for (Circuito circuito : this.getCircuitos()) {
+            for (Carga carga : circuito.getCargas()) {
+                cargas.add(carga);
+            }
+        }
+        return cargas;
+    }
+
+    public void faseCondutor() {
+
+        double fase = new Bitola()//
+                .withEnterrado(condutor.getEnterrado())//
+                .withInstalacao(condutor.getModoInstalacao())//
+                .withMultipolar(condutor.getMultipolar())//
+                .withQuedaTensao(condutor.getQuedaTensao())//
+                .withTabelaCapacidadeCorrente(new LerCSV("CCBaixaCobre.csv").toMatriz())//
+                .withMaterial(condutor.getMaterial())//
+                .withIsolacao(condutor.getIsolacao())//
+                .withCondutoresCarregados(resultados.numCirCarregados())//
+                .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
+                .withCargas(todasCargas())//
+                .withCorrenteCorr(resultados.getCorrenteCorr())//
+                .withCorrenteIB(resultados.getCorrenteIB())//
+                .withFornecimento(resultados.getTipo())//
+                .withUsabilidade(usabilidade)//
+                .withLigacao(resultados.getLigacao())//
+                .withTensaoFN(fonte.getTensaoFN())//
+                .withLXI(LXI())//
+                .fase();
+
+        resultados.setFase(fase);
+
+    }
+
+    public void neutroCondutor() {
+
+        double neutro = new Bitola()//
+                .withEnterrado(condutor.getEnterrado())//
+                .withInstalacao(condutor.getModoInstalacao())//
+                .withMultipolar(condutor.getMultipolar())//
+                .withQuedaTensao(condutor.getQuedaTensao())//
+                .withTabelaCapacidadeCorrente(new LerCSV("CCBaixaCobre.csv").toMatriz())//
+                .withMaterial(condutor.getMaterial())//
+                .withIsolacao(condutor.getIsolacao())//
+                .withCondutoresCarregados(resultados.numCirCarregados())//
+                .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
+                .withCargas(todasCargas())//
+                .withCorrenteCorr(resultados.getCorrenteCorr())//
+                .withCorrenteIB(resultados.getCorrenteIB())//
+                .withFornecimento(resultados.getTipo())//
+                .withUsabilidade(usabilidade)//
+                .withLigacao(resultados.getLigacao())//
+                .withTensaoFN(fonte.getTensaoFN())//
+                .withLXI(LXI())//
+                .neutro();
+
+        resultados.setNeutro(neutro);
+
+    }
+
+    public void bitolaCondutor() {
+
+        String bitola = new Bitola()//
+                .withEnterrado(condutor.getEnterrado())//
+                .withInstalacao(condutor.getModoInstalacao())//
+                .withMultipolar(condutor.getMultipolar())//
+                .withQuedaTensao(condutor.getQuedaTensao())//
+                .withTabelaCapacidadeCorrente(new LerCSV("CCBaixaCobre.csv").toMatriz())//
+                .withMaterial(condutor.getMaterial())//
+                .withIsolacao(condutor.getIsolacao())//
+                .withCondutoresCarregados(resultados.numCirCarregados())//
+                .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
+                .withCargas(todasCargas())//
+                .withCorrenteCorr(resultados.getCorrenteCorr())//
+                .withCorrenteIB(resultados.getCorrenteIB())//
+                .withFornecimento(resultados.getTipo())//
+                .withUsabilidade(usabilidade)//
+                .withLigacao(resultados.getLigacao())//
+                .withTensaoFN(fonte.getTensaoFN())//
+                .withLXI(LXI())//
+                .formatado();
+
+        resultados.setBitola(bitola);
+
+    }
+
+    public void terraCondutor() {
+
+        double terra = new Bitola()//
+                .withEnterrado(condutor.getEnterrado())//
+                .withInstalacao(condutor.getModoInstalacao())//
+                .withMultipolar(condutor.getMultipolar())//
+                .withQuedaTensao(condutor.getQuedaTensao())//
+                .withTabelaCapacidadeCorrente(new LerCSV("CCBaixaCobre.csv").toMatriz())//
+                .withMaterial(condutor.getMaterial())//
+                .withIsolacao(condutor.getIsolacao())//
+                .withCondutoresCarregados(resultados.numCirCarregados())//
+                .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
+                .withCargas(todasCargas())//
+                .withCorrenteCorr(resultados.getCorrenteCorr())//
+                .withCorrenteIB(resultados.getCorrenteIB())//
+                .withFornecimento(resultados.getTipo())//
+                .withUsabilidade(usabilidade)//
+                .withLigacao(resultados.getLigacao())//
+                .withTensaoFN(fonte.getTensaoFN())//
+                .withLXI(LXI())//
+                .terra();
+
+        resultados.setTerra(terra);
+
+    }
+
+    //Define tipo do circuito e Ligação do condutor
+    public void tipoCondutor() {
+        TiposFornecimento temp = TiposFornecimento.MONOFASICO;
+        if (todasCargas() != null) {
+            for (Carga carga : todasCargas()) {
+
+                switch (carga.getLigacao()) {
+                    case FFF:
+                        temp = TiposFornecimento.TRIFASICO;
+                        resultados.setLigacao(Ligacao.FFF);
+                        break;
+                    case FFFN:
+                        temp = TiposFornecimento.TRIFASICO;
+                        resultados.setLigacao(Ligacao.FFFN);
+                        break;
+                    case FF:
+                        if (temp.equals(TiposFornecimento.MONOFASICO)) {
+                            temp = TiposFornecimento.BIFASICO;
+                            resultados.setLigacao(Ligacao.FF);
+                        }
+                        break;
+                    case FFN:
+                        if (temp.equals(TiposFornecimento.MONOFASICO)) {
+                            temp = TiposFornecimento.BIFASICO;
+                            resultados.setLigacao(Ligacao.FFN);
+                        }
+                        break;
+                    case FN:
+                        if (temp.equals(TiposFornecimento.MONOFASICO)) {
+                            temp = TiposFornecimento.MONOFASICO;
+                            resultados.setLigacao(Ligacao.FN);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        resultados.setTipo(temp);
     }
 
     /**
@@ -128,14 +301,6 @@ public class Quadro implements Serializable, Entidade<Quadro> {
         this.quadros = quadros;
     }
 
-    public Instalacao getInstalacao() {
-        return instalacao;
-    }
-
-    public void setInstalacao(Instalacao instalacao) {
-        this.instalacao = instalacao;
-    }
-
     public String getLocalizacao() {
         return localizacao;
     }
@@ -144,11 +309,25 @@ public class Quadro implements Serializable, Entidade<Quadro> {
         this.localizacao = localizacao;
     }
 
-    public TempAmbiente getTempAmbiente() {
+    /**
+     * @return the resultados
+     */
+    public QuadroResultados getResultados() {
+        return resultados;
+    }
+
+    /**
+     * @param resultados the resultados to set
+     */
+    public void setResultados(QuadroResultados resultados) {
+        this.resultados = resultados;
+    }
+
+    public int getTempAmbiente() {
         return tempAmbiente;
     }
 
-    public void setTempAmbiente(TempAmbiente tempAmbiente) {
+    public void setTempAmbiente(int tempAmbiente) {
         this.tempAmbiente = tempAmbiente;
     }
 
@@ -226,7 +405,6 @@ public class Quadro implements Serializable, Entidade<Quadro> {
         this.usabilidade = usabilidade;
     }
 
-
     public Integer getId() {
         return id;
     }
@@ -280,7 +458,6 @@ public class Quadro implements Serializable, Entidade<Quadro> {
         q.setPot100PercDem(pot100PercDem);
         q.setUsabilidade(usabilidade);
         q.setUsoDeDR(usoDeDR);
-        q.setInstalacao(instalacao);
         q.setTempAmbiente(tempAmbiente);
         q.setFonte(fonte);
         q.setQuadroGeral(quadroGeral);
@@ -296,7 +473,6 @@ public class Quadro implements Serializable, Entidade<Quadro> {
 
         return q;
     }
-
 
     public void apagar() {
 

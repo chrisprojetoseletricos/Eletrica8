@@ -65,7 +65,7 @@ public class Ex3_8 {
         motor1.setFp(0.83);
         motor1.setLigacao(Ligacao.FFF);
         motor1.setCircuito(CIR_1);
-        motor1.setTensao();
+        motor1.tensao();
         motor1.setComprimentoInstal(8);
         motor1.setRendimento(0.83);
         
@@ -76,7 +76,7 @@ public class Ex3_8 {
         motor2.setFp(0.75);
         motor2.setLigacao(Ligacao.FFF);
         motor2.setCircuito(CIR_1);
-        motor2.setTensao();
+        motor2.tensao();
         motor2.setComprimentoInstal(18);
         motor2.setRendimento(0.86);
         
@@ -87,7 +87,7 @@ public class Ex3_8 {
         motor3.setFp(0.86);
         motor3.setLigacao(Ligacao.FFF);
         motor3.setCircuito(CIR_1);
-        motor3.setTensao();
+        motor3.tensao();
         motor3.setComprimentoInstal(24);
         motor3.setRendimento(0.88);
         
@@ -98,7 +98,7 @@ public class Ex3_8 {
         motor4.setFp(0.81);
         motor4.setLigacao(Ligacao.FFF);
         motor4.setCircuito(CIR_1);
-        motor4.setTensao();
+        motor4.tensao();
         motor4.setComprimentoInstal(38);
         motor4.setRendimento(0.84);
         
@@ -109,7 +109,7 @@ public class Ex3_8 {
         motor5.setFp(0.83);
         motor5.setLigacao(Ligacao.FFF);
         motor5.setCircuito(CIR_1);
-        motor5.setTensao();
+        motor5.tensao();
         motor5.setComprimentoInstal(49);
         motor5.setRendimento(0.88);
         
@@ -119,7 +119,7 @@ public class Ex3_8 {
         CIR_1.getListaCarga().add(motor4);
         CIR_1.getListaCarga().add(motor5);
         
-        CIR_1.tipoCircuito();
+        CIR_1.tipoCondutor();
         
         QGF.getCircuitos().add(CIR_1);
 

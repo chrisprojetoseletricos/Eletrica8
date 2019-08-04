@@ -451,17 +451,6 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
 
         jPanel15.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadastrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(51, 51, 255))); // NOI18N
 
-        tabelaEquipamento.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
         jScrollPane14.setViewportView(tabelaEquipamento);
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
@@ -518,7 +507,7 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
             carga = getDados();
             carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
             carga.getCircuito().getCargas().add(carga);
-            AtualizaDados.exec(carga);
+            AtualizaDados.carga(carga);
             carga = new Carga();
             carga = getDados();
             carga.setCircuito(null);
@@ -529,7 +518,7 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
             if (carga.getCircuito() == null) {
                 carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
                 carga.getCircuito().getCargas().add(carga);
-                AtualizaDados.exec(carga);
+                AtualizaDados.carga(carga);
                 carga = new Carga();
                 Ids.setIdCarga(0);
                 carga = getDados();
@@ -537,9 +526,9 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
                 CargaService.salva(carga);
 
             } else {
-                carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
-                carga.getCircuito().getCargas().add(carga);
-                AtualizaDados.exec(carga);
+                //carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
+                //carga.getCircuito().getCargas().add(carga);
+                AtualizaDados.carga(carga);
             }
 
         } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() == 0) {

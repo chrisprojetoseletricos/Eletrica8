@@ -121,7 +121,7 @@ public class RelatorioCircuitoFrm extends javax.swing.JInternalFrame {
          */
 
         for (Circuito c : CircuitoService.getAll()) {
-            c.getCorrenteIB();
+            c.correnteIB();
         }
 
         InputStream inputStream = getClass().getResourceAsStream("/relatorios/Circuitos.jasper");

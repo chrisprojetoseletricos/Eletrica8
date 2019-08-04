@@ -41,7 +41,7 @@ public class CorrenteIB {
 
         for (int i = 0; i < carga.size(); i++) {
 
-            double corrente = carga.get(i).getCorrenteA();
+            double corrente = carga.get(i).getResultados().getCorrente();
             int fase = carga.get(i).getLigacao().getNumeroFases();
 
             switch (fase) {

@@ -21,7 +21,15 @@ public enum BitolasMili {
     B70("70"),
     B95("95"),
     B120("120"),
-    B150("150");
+    B150("150"),
+    B185("185"),
+    B240("240"),
+    B300("300"),
+    B400("400"),
+    B500("500"),
+    B630("630"),
+    B800("800"),
+    B1000("1000");
 
     private final String numero;
 
@@ -51,6 +59,14 @@ public enum BitolasMili {
         lista.add(BitolasMili.B95);
         lista.add(BitolasMili.B120);
         lista.add(BitolasMili.B150);
+        lista.add(BitolasMili.B185);
+        lista.add(BitolasMili.B240);
+        lista.add(BitolasMili.B300);
+        lista.add(BitolasMili.B400);
+        lista.add(BitolasMili.B500);
+        lista.add(BitolasMili.B630);
+        lista.add(BitolasMili.B800);
+        lista.add(BitolasMili.B1000);
         return lista;
     }
 

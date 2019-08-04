@@ -5,13 +5,14 @@
  */
 package chc.eletrica8.janelas;
 
+import chc.eletrica8.calculos.AtualizaDados;
 import chc.eletrica8.controle.DesktopPane;
 import chc.eletrica8.controle.Ids;
 import chc.eletrica8.entidades.Circuito;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.servico.CircuitoService;
 import chc.eletrica8.servico.QuadroService;
-import chc.eletrica8.servico.tableModel.GenericTableModel;
+import chc.eletrica8.servico.tableModel.CircuitoTableModel;
 import chc.eletrica8.uteis.TrataID;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CircuitoFrm extends javax.swing.JInternalFrame {
 
-    private GenericTableModel tabelaModeloCircuito;
-    private GenericTableModel tabelaModeloCarga;
-    private GenericTableModel tabelaModeloCalculo;
+    //private GenericTableModel tabelaModeloCircuito;
+    private CircuitoTableModel tabelaModeloCircuito;
     private CondutorFrm condutorFrm;
     private CurtoCircuitoFrm curtoFrm;
 
@@ -277,7 +277,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         painelDireito.setLayout(painelDireitoLayout);
         painelDireitoLayout.setHorizontalGroup(
             painelDireitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollDireito, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(scrollDireito, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
         painelDireitoLayout.setVerticalGroup(
             painelDireitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,27 +289,31 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(painelBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(scrollEsquerdo, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(painelDireito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(painelBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(scrollEsquerdo, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 353, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(painelDireito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(painelBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(painelDireito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(scrollEsquerdo, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE))
+                .addComponent(scrollEsquerdo, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(painelDireito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setBounds(0, 0, 347, 251);
+        setBounds(0, 0, 665, 421);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarCircuitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCircuitoActionPerformed
@@ -329,15 +333,15 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         try {
             circuito.setCondutor(condutorFrm.getCondutor());
             circuito.setCurto(curtoFrm.getCurto());
+            circuito.setResultados(CircuitoService.getById(Ids.getIdCircuito()).getResultados());
         } catch (Exception e) {
         }
-
-        CircuitoService.salva(circuito);
+        
+        AtualizaDados.circuito(circuito);
 
         this.apagaDadosFrm();
         this.iniciaTabelaCircuitos();
         Ids.setIdCircuito(0);
-        Ids.setIdCarga(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnSalvarCircuitoActionPerformed
 
@@ -353,17 +357,11 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
     private void btnCopiarCircuitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopiarCircuitoActionPerformed
 
         Circuito cir = CircuitoService.getById(Ids.getIdCircuito()).clonarSemID();
-
-        for (int i = 0; i < cir.getListaCarga().size(); i++) {
-            cir.getListaCarga().get(i).setCircuito(cir);
-        }
-
-        CircuitoService.salva(cir);
+        AtualizaDados.circuito(cir);
 
         this.iniciaTabelaCircuitos();
         this.apagaDadosFrm();
         Ids.setIdCircuito(0);
-        Ids.setIdCarga(0);
         Ids.imprimiIds();
     }//GEN-LAST:event_btnCopiarCircuitoActionPerformed
 
@@ -374,9 +372,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
             public void valueChanged(ListSelectionEvent evt) {
                 int linha = tabelaCircuito.getSelectedRow();
                 if (evt.getValueIsAdjusting() == true && linha > -1) {
-                    Circuito circuito = (Circuito) tabelaModeloCircuito.loadItem(linha);
-                    //circuito.tipoCircuito();
-                    //CircuitoService.salva(circuito);
+                    Circuito circuito = (Circuito) tabelaModeloCircuito.getCircuito(linha);
                     setDados(circuito);
                     Ids.setIdCircuito(circuito.getId());
                     Ids.imprimiIds();
@@ -428,9 +424,8 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
     public final void iniciaTabelaCircuitos() {
         List<Circuito> lista = new ArrayList<>();
         lista = CircuitoService.getByExpres("from Circuito where quadro = :quadro", new Object[]{"quadro", QuadroService.getById(Ids.getIdQuadro())});
-
         if (!lista.isEmpty()) {
-            tabelaModeloCircuito = new GenericTableModel(lista, Circuito.class);
+            tabelaModeloCircuito = new CircuitoTableModel(lista);
             tabelaCircuito.setModel(tabelaModeloCircuito);
         } else {
             DefaultTableModel model = new DefaultTableModel();
@@ -475,7 +470,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         if (circuito != null) {
             Ids.setIdCircuito(circuito.getId());
             this.campoNome.setText(circuito.getNome());
-            this.campoTipo.setText(circuito.getCondutor().getTipo().name());
+            this.campoTipo.setText(circuito.getResultados().getTipo().name());
             this.cbUsabilidade.getModel().setSelectedItem(circuito.getUsabilidade());
             Ids.imprimiIds();
         }

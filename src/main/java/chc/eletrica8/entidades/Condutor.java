@@ -5,25 +5,16 @@
  */
 package chc.eletrica8.entidades;
 
-import chc.eletrica8.enums.BitolasMili;
 import chc.eletrica8.enums.EspacamentoCabos;
 import chc.eletrica8.enums.Instalacao;
-import chc.eletrica8.enums.Ligacao;
-import chc.eletrica8.enums.TempAmbiente;
-import chc.eletrica8.enums.TiposFornecimento;
-import chc.eletrica8.servico.tableModel.Column;
-import chc.eletrica8.servico.tableModel.TableModel;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
-import javax.persistence.Table;
 
 /**
  *
  * @author chris
  */
 @Embeddable
-@Table(name = "Condutor")
-@TableModel
 public class Condutor implements Serializable, Entidade<Condutor> {
 
     private String bitolaSucessiva;
@@ -36,16 +27,10 @@ public class Condutor implements Serializable, Entidade<Condutor> {
     private String multipolar;
     private int nCamadas;
     private int nCirAgrupa;
-    private double quedaTensao;
+    private double quedaTensao = 2;
     private double resistiTermica;
-    private TempAmbiente temperatura;
-    private double comprimento;
-    @Column(colName = "Fase", colPosition = 0)
-    private double bitola;
-    private Ligacao ligacao;
-    private TiposFornecimento tipo = TiposFornecimento.MONOFASICO;
-    
-
+    private int temperatura = 30;
+    private double comprim;
 
     public String getBitolaSucessiva() {
         return bitolaSucessiva;
@@ -56,45 +41,17 @@ public class Condutor implements Serializable, Entidade<Condutor> {
     }
 
     /**
-     * @return the ligacao
+     * @return the comprimento
      */
-    public Ligacao getLigacao() {
-        return ligacao;
+    public double getComprimento() {
+        return comprim;
     }
 
     /**
-     * @param ligacao the ligacao to set
+     * @param comprimento the comprimento to set
      */
-    public void setLigacao(Ligacao ligacao) {
-        this.ligacao = ligacao;
-    }
-
-    /**
-     * @return the bitola
-     */
-    public double getBitola() {
-        return bitola;
-    }
-
-    /**
-     * @param bitola the bitola to set
-     */
-    public void setBitola(double bitola) {
-        this.bitola = bitola;
-    }
-
-    /**
-     * @return the tipo
-     */
-    public TiposFornecimento getTipo() {
-        return tipo;
-    }
-
-    /**
-     * @param tipo the tipo to set
-     */
-    public void setTipo(TiposFornecimento tipo) {
-        this.tipo = tipo;
+    public void setComprimento(double comprimento) {
+        this.comprim = comprimento;
     }
 
     public String getEnterrado() {
@@ -185,20 +142,12 @@ public class Condutor implements Serializable, Entidade<Condutor> {
         this.resistiTermica = resistiTermica;
     }
 
-    public TempAmbiente getTemperatura() {
+    public int getTemperatura() {
         return temperatura;
     }
 
-    public void setTemperatura(TempAmbiente temperatura) {
+    public void setTemperatura(int temperatura) {
         this.temperatura = temperatura;
-    }
-
-    public double getComprimento() {
-        return comprimento;
-    }
-
-    public void setComprimento(double comprimento) {
-        this.comprimento = comprimento;
     }
 
     @Override

@@ -1,8 +1,6 @@
 package chc.eletrica8.dao;
 
-import chc.eletrica8.controle.Ids;
 import chc.eletrica8.entidades.Entidade;
-import chc.eletrica8.servico.CargaService;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

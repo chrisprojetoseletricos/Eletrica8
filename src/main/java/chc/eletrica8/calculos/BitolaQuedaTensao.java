@@ -5,8 +5,9 @@
  */
 package chc.eletrica8.calculos;
 
-import chc.eletrica8.entidades.Circuito;
+import chc.eletrica8.entidades.Carga;
 import chc.eletrica8.enums.TiposFornecimento;
+import java.util.List;
 
 /**
  *
@@ -15,30 +16,28 @@ import chc.eletrica8.enums.TiposFornecimento;
 public class BitolaQuedaTensao {
 
     private double quedaTensao;
+    private double tensaoFN;
     private String material;
-    private Circuito circuito;
     private TiposFornecimento fornecimento;
+    private double LXI;
 
     public double valor() {
         double valor = 0;
-        double LXI = 0;
-        double tensao = circuito.getQuadro().getFonte().getTensaoFN();
+
+        
 
         if (fornecimento.equals(TiposFornecimento.TRIFASICO)) {
-            for (int i = 0; i < circuito.getCargas().size(); i++) {
 
-                LXI += circuito.getCargas().get(i).getCorrenteA() * circuito.getCargas().get(i).getComprimentoInstal();
-            }
             if (material.equals("Cobre")) {
 
-                valor = 100 * 0.0178 * LXI / (quedaTensao * tensao);
+                valor = 100 * 0.0178 * LXI / (quedaTensao * tensaoFN);
             } else {
-                valor = 100 * 0.0286 * LXI / (quedaTensao * tensao);
+                valor = 100 * 0.0286 * LXI / (quedaTensao * tensaoFN);
             }
         } else if (material.equals("Cobre")) {
-            valor = 200 * 0.0178 * LXI / (quedaTensao * tensao);
+            valor = 200 * 0.0178 * LXI / (quedaTensao * tensaoFN);
         } else {
-            valor = 200 * 0.0286 * LXI / (quedaTensao * tensao);
+            valor = 200 * 0.0286 * LXI / (quedaTensao * tensaoFN);
         }
 
         return valor;
@@ -49,18 +48,24 @@ public class BitolaQuedaTensao {
         return this;
     }
 
+
     public BitolaQuedaTensao withMaterial(String material) {
         this.material = material;
         return this;
     }
 
-    public BitolaQuedaTensao withCircuito(Circuito circuito) {
-        this.circuito = circuito;
+    public BitolaQuedaTensao withTensaoFN(double tensaoFN) {
+        this.tensaoFN = tensaoFN;
         return this;
     }
 
     public BitolaQuedaTensao withFornecimento(TiposFornecimento fornecimento) {
         this.fornecimento = fornecimento;
+        return this;
+    }
+    
+     public BitolaQuedaTensao withLXI(double LXI) {
+        this.LXI = LXI;
         return this;
     }
 }

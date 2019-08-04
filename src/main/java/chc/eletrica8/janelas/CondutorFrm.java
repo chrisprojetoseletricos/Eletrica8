@@ -8,8 +8,6 @@ package chc.eletrica8.janelas;
 import chc.eletrica8.entidades.Condutor;
 import chc.eletrica8.enums.EspacamentoCabos;
 import chc.eletrica8.enums.Instalacao;
-import chc.eletrica8.enums.TempAmbiente;
-import chc.eletrica8.servico.CondutorService;
 import chc.eletrica8.uteis.ApenasNumero;
 import chc.eletrica8.uteis.Numero;
 import java.awt.event.KeyEvent;
@@ -21,7 +19,7 @@ import java.awt.event.KeyListener;
  */
 public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
 
-    private static Condutor condutor;
+    private Condutor condutor;
     private static final long serialVersionUID = 1L;
 
     /**
@@ -32,7 +30,6 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         initComponents();
         adicionarKeyListener();
         cbInstalacaoItens();
-        cbTempAmbienteItens();
         cbEspacamentoCabosItens();
     }
 
@@ -49,8 +46,6 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         painelEsquerdo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         campoQuedaTensao = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        campoComprimento = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -60,7 +55,6 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         jLabel8 = new javax.swing.JLabel();
         cbAgrupamento = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        cbTemperatura = new javax.swing.JComboBox<>();
         cbMultipolar = new javax.swing.JComboBox<>();
         cbInstalacao = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
@@ -75,6 +69,9 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         cbEnterrado = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         campoResistividade = new javax.swing.JTextField();
+        campoTemperatura = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        campoComprimento = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -93,10 +90,6 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         jLabel1.setText("Queda de tensão:");
 
         campoQuedaTensao.setName("campoQuedaTensao"); // NOI18N
-
-        jLabel2.setText("Comprimento:");
-
-        campoComprimento.setName("campoComprimento"); // NOI18N
 
         jLabel3.setText("Multipolar:");
 
@@ -140,6 +133,12 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
 
         campoResistividade.setName("campoResistividade"); // NOI18N
 
+        campoTemperatura.setName("campoTemperatura"); // NOI18N
+
+        jLabel10.setText("Comprimento (m):");
+
+        campoComprimento.setName("campoComprimento"); // NOI18N
+
         javax.swing.GroupLayout painelEsquerdoLayout = new javax.swing.GroupLayout(painelEsquerdo);
         painelEsquerdo.setLayout(painelEsquerdoLayout);
         painelEsquerdoLayout.setHorizontalGroup(
@@ -147,43 +146,58 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
             .addGroup(painelEsquerdoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel4)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelEsquerdoLayout.createSequentialGroup()
-                            .addComponent(jLabel15)
-                            .addGap(130, 130, 130)))
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel11)
-                    .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(painelEsquerdoLayout.createSequentialGroup()
-                            .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel13)
-                                .addComponent(jLabel14))
-                            .addGap(47, 47, 47))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(campoResistividade, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cbEnterrado, javax.swing.GroupLayout.Alignment.TRAILING, 0, 117, Short.MAX_VALUE)
-                    .addComponent(cbNCamadas, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbBitolasSucessivas, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbEspacamentoCabos, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbIsolacao, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbTemperatura, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbAgrupamento, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbMaterial, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbNCircuitosAgrupados, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbInstalacao, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbMultipolar, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(campoComprimento, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(campoQuedaTensao, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(painelEsquerdoLayout.createSequentialGroup()
+                        .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel9))
+                        .addGap(24, 24, 24)
+                        .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoQuedaTensao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                            .addComponent(campoTemperatura)))
+                    .addGroup(painelEsquerdoLayout.createSequentialGroup()
+                        .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(painelEsquerdoLayout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addGap(136, 136, 136))
+                            .addGroup(painelEsquerdoLayout.createSequentialGroup()
+                                .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11)
+                                    .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(painelEsquerdoLayout.createSequentialGroup()
+                                            .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel13)
+                                                .addComponent(jLabel14))
+                                            .addGap(47, 47, 47))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbEnterrado, javax.swing.GroupLayout.Alignment.TRAILING, 0, 127, Short.MAX_VALUE)
+                            .addComponent(cbNCamadas, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbBitolasSucessivas, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbEspacamentoCabos, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbIsolacao, javax.swing.GroupLayout.Alignment.TRAILING, 0, 127, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelEsquerdoLayout.createSequentialGroup()
+                        .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8))
+                        .addGap(55, 55, 55)
+                        .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbMaterial, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbNCircuitosAgrupados, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbInstalacao, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbMultipolar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbAgrupamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(painelEsquerdoLayout.createSequentialGroup()
+                        .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoComprimento)
+                            .addComponent(campoResistividade))))
                 .addContainerGap())
         );
         painelEsquerdoLayout.setVerticalGroup(
@@ -195,8 +209,16 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
                     .addComponent(campoQuedaTensao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(jLabel9)
+                    .addComponent(campoTemperatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
                     .addComponent(campoComprimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(campoResistividade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -219,10 +241,6 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
                     .addComponent(cbAgrupamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(cbTemperatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(cbIsolacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -241,11 +259,7 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
                 .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(cbEnterrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(campoResistividade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         scrollEsquerdo.setViewportView(painelEsquerdo);
@@ -256,15 +270,15 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrollEsquerdo, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                .addComponent(scrollEsquerdo, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(scrollEsquerdo, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrollEsquerdo, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
@@ -272,7 +286,7 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         condutor = getDados();
-       // CondutorService.salva(condutor);
+        // CondutorService.salva(condutor);
     }//GEN-LAST:event_formWindowClosing
 
     /**
@@ -310,7 +324,6 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 CondutorFrm dialog = new CondutorFrm(new javax.swing.JFrame(), true);
-
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -330,13 +343,6 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         }
     }
 
-    private void cbTempAmbienteItens() {
-        cbTemperatura.removeAllItems();
-        cbTemperatura.addItem(null);
-        for (TempAmbiente var : TempAmbiente.getLista()) {
-            cbTemperatura.addItem(var);
-        }
-    }
 
     private void cbEspacamentoCabosItens() {
         cbEspacamentoCabos.removeAllItems();
@@ -346,14 +352,12 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         }
     }
 
-    private static Condutor getDados() {
-        
-       condutor = new Condutor();
+    private Condutor getDados() {
+
+        condutor = new Condutor();
 
         condutor.setQuedaTensao(Numero.stringToDouble(campoQuedaTensao.getText(), 0));
         condutor.setResistiTermica(Numero.stringToDouble(campoResistividade.getText(), 0));
-        condutor.setTemperatura((TempAmbiente) cbTemperatura.getModel().getSelectedItem());
-        condutor.setComprimento(Numero.stringToDouble(campoComprimento.getText(), 1));
         condutor.setModoInstalacao((Instalacao) cbInstalacao.getModel().getSelectedItem());
         condutor.setMaterial((String) cbMaterial.getModel().getSelectedItem());
         condutor.setIsolacao((String) cbIsolacao.getModel().getSelectedItem());
@@ -364,6 +368,8 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         condutor.setBitolaSucessiva((String) cbBitolasSucessivas.getModel().getSelectedItem());
         condutor.setnCirAgrupa(Numero.stringToInteger(cbNCircuitosAgrupados.getModel().getSelectedItem().toString(), 1));
         condutor.setnCamadas(Numero.stringToInteger(cbNCamadas.getModel().getSelectedItem().toString(), 0));
+        condutor.setTemperatura(Numero.stringToInteger(campoTemperatura.getText(), 0));
+        condutor.setComprimento(Numero.stringToDouble(campoComprimento.getText(), 0));
 
         return condutor;
     }
@@ -372,7 +378,7 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         if (condutor != null) {
             campoQuedaTensao.setText(Numero.decimal(condutor.getQuedaTensao(), "##.##"));
             campoResistividade.setText(Numero.decimal(condutor.getResistiTermica(), "##.##"));
-            cbTemperatura.getModel().setSelectedItem(condutor.getTemperatura());
+            campoTemperatura.setText(Integer.toString(condutor.getTemperatura()));
             campoComprimento.setText(Numero.decimal(condutor.getComprimento(), "##.##"));
             cbInstalacao.getModel().setSelectedItem(condutor.getModoInstalacao());
             cbMaterial.getModel().setSelectedItem(condutor.getMaterial());
@@ -389,23 +395,24 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
     }
 
     private void adicionarKeyListener() {
-        CondutorFrm.campoComprimento.addKeyListener(this);
-        CondutorFrm.campoQuedaTensao.addKeyListener(this);
-        CondutorFrm.campoResistividade.addKeyListener(this);
+        this.campoQuedaTensao.addKeyListener(this);
+        this.campoResistividade.addKeyListener(this);
+        this.campoTemperatura.addKeyListener(this);
     }
 
     public Condutor getCondutor() {
-        return CondutorFrm.condutor;
+        return condutor;
     }
 
     public void setCondutor(Condutor condutor) {
-        CondutorFrm.condutor = condutor;
+        this.condutor = condutor;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private static javax.swing.JTextField campoComprimento;
+    private javax.swing.JTextField campoComprimento;
     private static javax.swing.JTextField campoQuedaTensao;
     private static javax.swing.JTextField campoResistividade;
+    private javax.swing.JTextField campoTemperatura;
     private static javax.swing.JComboBox<String> cbAgrupamento;
     private static javax.swing.JComboBox<String> cbBitolasSucessivas;
     private static javax.swing.JComboBox<String> cbEnterrado;
@@ -416,14 +423,13 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
     private static javax.swing.JComboBox<String> cbMultipolar;
     private static javax.swing.JComboBox<String> cbNCamadas;
     private static javax.swing.JComboBox<String> cbNCircuitosAgrupados;
-    private static javax.swing.JComboBox<TempAmbiente> cbTemperatura;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -437,9 +443,9 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        ApenasNumero.campo(e, "campoComprimento");
         ApenasNumero.campo(e, "campoQuedaTensao");
         ApenasNumero.campo(e, "campoResistividade");
+         ApenasNumero.campo(e, "campoTemperatura");
     }
 
     @Override

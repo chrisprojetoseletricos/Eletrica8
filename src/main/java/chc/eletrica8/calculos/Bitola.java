@@ -5,12 +5,16 @@
  */
 package chc.eletrica8.calculos;
 
-import chc.eletrica8.entidades.Circuito;
+import static chc.eletrica8.calculos.AtualizaDados.circuito;
+import chc.eletrica8.entidades.Carga;
 import chc.eletrica8.enums.BitolasMili;
 import chc.eletrica8.enums.Instalacao;
+import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.TiposFornecimento;
+import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.uteis.Matriz;
 import chc.eletrica8.uteis.Numero;
+import java.util.List;
 
 /**
  *
@@ -26,9 +30,15 @@ public class Bitola {
     private double quedaTensao;
     private int condutoresCarregados;
     private String[][] tabelaCapacidadeCorrente;
-    private Circuito circuito;
+    private double correnteCorr;
+    private double correnteIB;
     private TiposFornecimento fornecimento;
     private String material;
+    private Usabilidade usabilidade;
+    private List<Carga> cargas;
+    private Ligacao ligacao;
+    private double tensaoFN;
+    private double LXI;
 
     public double fase() {
         double bitolaCapacidade = 0;
@@ -36,13 +46,21 @@ public class Bitola {
         double fase = 0;
 
         bitolaQuedaTensao = new BitolaQuedaTensao()//
-                .withCircuito(circuito)//
                 .withFornecimento(fornecimento)//
                 .withMaterial(material)//
                 .withQuedaTensao(quedaTensao)//
+                .withTensaoFN(tensaoFN)//
+                .withLXI(LXI)//
                 .valor();
-
-        bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), circuito.getCorrenteIB(), "BITOLA"), 0);
+        if (usabilidade == Usabilidade.MOTOR) {
+            if (cargas.size() <= 1) {
+                bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), correnteCorr, "BITOLA"), 0);
+            } else {
+                bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), correnteIB, "BITOLA"), 0);
+            }
+        } else {
+            bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), correnteCorr, "BITOLA"), 0);
+        }
 
         if (bitolaCapacidade >= bitolaQuedaTensao) {
             fase = (bitolaCapacidade);
@@ -50,6 +68,7 @@ public class Bitola {
             for (int i = 0; i < BitolasMili.getLista().size(); i++) {
                 if (bitolaQuedaTensao <= BitolasMili.getLista().get(i).getNumero()) {
                     fase = BitolasMili.getLista().get(i).getNumero();
+                    break;
                 }
             }
         }
@@ -100,9 +119,9 @@ public class Bitola {
     public String formatado() {
         String bitola = "";
 
-        switch (circuito.getCondutor().getLigacao().name()) {
+        switch (ligacao.name()) {
             case "FFF":
-                bitola = "3 # " + fase() + "/-/" + terra() + " mm²";
+                bitola = "3#" + fase() + "/-/" + terra() + " mm²";
                 break;
             case "FFFN":
                 bitola = "3#" + fase() + "/" + neutro() + "/" + terra() + " mm²";
@@ -127,14 +146,39 @@ public class Bitola {
         this.material = material;
         return this;
     }
+    
+     public Bitola withUsabilidade(Usabilidade usabilidade) {
+        this.usabilidade = usabilidade;
+        return this;
+    }
+     
+      public Bitola withLXI(double LXI) {
+        this.LXI = LXI;
+        return this;
+    }
 
     public Bitola withFornecimento(TiposFornecimento fornecimento) {
         this.fornecimento = fornecimento;
         return this;
     }
 
-    public Bitola withCircuito(Circuito circuito) {
-        this.circuito = circuito;
+    public Bitola withCorrenteCorr(double correnteCorr) {
+        this.correnteCorr = correnteCorr;
+        return this;
+    }
+    
+    public Bitola withTensaoFN(double tensaoFN) {
+        this.tensaoFN = tensaoFN;
+        return this;
+    }
+    
+    public Bitola withLigacao(Ligacao ligacao) {
+        this.ligacao = ligacao;
+        return this;
+    }
+    
+        public Bitola withCorrenteIB(double correnteIB) {
+        this.correnteIB = correnteIB;
         return this;
     }
 
@@ -160,6 +204,11 @@ public class Bitola {
 
     public Bitola withQuedaTensao(double quedaTensao) {
         this.quedaTensao = quedaTensao;
+        return this;
+    }
+    
+    public Bitola withCargas(List<Carga> cargas) {
+        this.cargas = cargas;
         return this;
     }
 

@@ -8,6 +8,9 @@ public enum Instalacao {
     A2,
     B1,
     B2,
+    C,
+    D,
+    E,
     F,
     G;
 
@@ -17,6 +20,9 @@ public enum Instalacao {
         lista.add(Instalacao.A2);
         lista.add(Instalacao.B1);
         lista.add(Instalacao.B2);
+        lista.add(Instalacao.C);
+        lista.add(Instalacao.D);
+        lista.add(Instalacao.E);
         lista.add(Instalacao.F);
         lista.add(Instalacao.G);
         return lista;

@@ -6,7 +6,6 @@
 package chc.eletrica8.janelas;
 
 import chc.eletrica8.entidades.Curto;
-import chc.eletrica8.servico.CurtoService;
 import chc.eletrica8.uteis.ApenasNumero;
 import chc.eletrica8.uteis.Numero;
 import java.awt.event.KeyEvent;
@@ -144,8 +143,8 @@ public class CurtoCircuitoFrm extends javax.swing.JDialog implements KeyListener
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-curto = getDados();
-       // CurtoService.salva(curto);
+        curto = getDados();
+        // CurtoService.salva(curto);
     }//GEN-LAST:event_formWindowClosing
 
     /**
@@ -192,7 +191,7 @@ curto = getDados();
     }
 
     private Curto getDados() {
-        
+
         curto = new Curto();
 
         this.curto.setCorrenteCurto(Numero.stringToDouble(campoCorrenteCurto.getText(), 1));

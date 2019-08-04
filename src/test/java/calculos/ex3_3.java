@@ -51,7 +51,7 @@ public class ex3_3 {
         motor1.setFp(0.90);
         motor1.setLigacao(Ligacao.FN);
         motor1.setCircuito(CIR_1);
-        motor1.setTensao();
+        motor1.tensao();
 
         Carga motor2 = new Carga();
         motor2.setNome("Motor800");
@@ -60,7 +60,7 @@ public class ex3_3 {
         motor2.setFp(0.70);
         motor2.setLigacao(Ligacao.FN);
         motor2.setCircuito(CIR_1);
-        motor2.setTensao();
+        motor2.tensao();
 
         Carga motor3 = new Carga();
         motor3.setNome("Motor600");
@@ -69,7 +69,7 @@ public class ex3_3 {
         motor3.setFp(0.60);
         motor3.setLigacao(Ligacao.FN);
         motor3.setCircuito(CIR_1);
-        motor3.setTensao();
+        motor3.tensao();
 
         Carga motor4 = new Carga();
         motor4.setNome("Motor2500");
@@ -78,7 +78,7 @@ public class ex3_3 {
         motor4.setFp(0.80);
         motor4.setLigacao(Ligacao.FF);
         motor4.setCircuito(CIR_1);
-        motor4.setTensao();
+        motor4.tensao();
 
         CIR_1.getListaCarga().add(motor1);
         CIR_1.getListaCarga().add(motor2);
@@ -91,7 +91,7 @@ public class ex3_3 {
 
         pro.getFontes().add(fonte);
         
-        double correnteIB = CIR_1.getCorrenteIB();
+        double correnteIB = CIR_1.correnteIB();
 
        // ProjetoService.salva(pro);
 
