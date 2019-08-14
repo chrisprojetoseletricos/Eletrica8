@@ -5,9 +5,7 @@
  */
 package chc.eletrica8.calculos;
 
-import chc.eletrica8.entidades.Carga;
 import chc.eletrica8.enums.TiposFornecimento;
-import java.util.List;
 
 /**
  *
@@ -23,8 +21,6 @@ public class BitolaQuedaTensao {
 
     public double valor() {
         double valor = 0;
-
-        
 
         if (fornecimento.equals(TiposFornecimento.TRIFASICO)) {
 
@@ -48,7 +44,6 @@ public class BitolaQuedaTensao {
         return this;
     }
 
-
     public BitolaQuedaTensao withMaterial(String material) {
         this.material = material;
         return this;
@@ -63,8 +58,8 @@ public class BitolaQuedaTensao {
         this.fornecimento = fornecimento;
         return this;
     }
-    
-     public BitolaQuedaTensao withLXI(double LXI) {
+
+    public BitolaQuedaTensao withLXI(double LXI) {
         this.LXI = LXI;
         return this;
     }

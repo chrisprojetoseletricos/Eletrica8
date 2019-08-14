@@ -9,6 +9,7 @@ import chc.eletrica8.calculos.AtualizaDados;
 import chc.eletrica8.controle.DesktopPane;
 import chc.eletrica8.controle.Ids;
 import chc.eletrica8.entidades.Circuito;
+import chc.eletrica8.enums.TiposFornecimento;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.servico.CircuitoService;
 import chc.eletrica8.servico.QuadroService;
@@ -39,6 +40,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         this.iniciaTabelaCircuitos();
         eventoSelecaoTabelaCircuito();
         this.cbUsabilidadeItens();
+        this.cbTipoItens();
         Ids.setIdCircuito(0);
         Ids.setIdCarga(0);
         Ids.imprimiIds();
@@ -64,9 +66,9 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         campoNome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        campoTipo = new javax.swing.JTextField();
         cbUsabilidade = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
+        cbTipo = new javax.swing.JComboBox<>();
         painelDireito = new javax.swing.JPanel();
         scrollDireito = new javax.swing.JScrollPane();
         tabelaCircuito = new javax.swing.JTable();
@@ -208,9 +210,9 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Tipo:");
 
-        campoTipo.setEnabled(false);
-
         jLabel3.setText("Usabilidade:");
+
+        cbTipo.setName("cbTipo"); // NOI18N
 
         javax.swing.GroupLayout painelEsquerdoLayout = new javax.swing.GroupLayout(painelEsquerdo);
         painelEsquerdo.setLayout(painelEsquerdoLayout);
@@ -221,17 +223,20 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
                 .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbUsabilidade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(painelEsquerdoLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 140, Short.MAX_VALUE))
+                    .addGroup(painelEsquerdoLayout.createSequentialGroup()
+                        .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
                         .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(painelEsquerdoLayout.createSequentialGroup()
-                                .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
                                 .addGap(3, 3, 3)
-                                .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(campoTipo, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                                    .addComponent(campoNome)))
-                            .addComponent(jLabel3))
-                        .addGap(0, 54, Short.MAX_VALUE)))
+                                .addComponent(campoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(painelEsquerdoLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         painelEsquerdoLayout.setVerticalGroup(
@@ -242,14 +247,14 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(campoNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
-                    .addComponent(campoTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(cbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbUsabilidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         scrollEsquerdo.setViewportView(painelEsquerdo);
@@ -336,7 +341,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
             circuito.setResultados(CircuitoService.getById(Ids.getIdCircuito()).getResultados());
         } catch (Exception e) {
         }
-        
+
         AtualizaDados.circuito(circuito);
 
         this.apagaDadosFrm();
@@ -443,6 +448,14 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         }
     }
 
+    private void cbTipoItens() {
+        cbTipo.removeAllItems();
+        cbTipo.addItem(null);
+        for (TiposFornecimento var : TiposFornecimento.getLista()) {
+            cbTipo.addItem(var);
+        }
+    }
+
     private Circuito getDados() {
         Circuito circuito;
         if (Ids.getIdCircuito() > 0) {
@@ -453,6 +466,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         }
         circuito.setNome(this.campoNome.getText());
         circuito.setUsabilidade((Usabilidade) cbUsabilidade.getModel().getSelectedItem());
+        circuito.setTipo((TiposFornecimento) cbTipo.getModel().getSelectedItem());
         circuito.setQuadro(QuadroService.getById(Ids.getIdQuadro()));
         Ids.imprimiIds();
         return circuito;
@@ -462,7 +476,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
     public void apagaDadosFrm() {
         this.campoNome.setText("");
         this.cbUsabilidade.setSelectedIndex(-1);
-        this.campoTipo.setText("");
+        this.cbTipo.setSelectedIndex(-1);
         Ids.imprimiIds();
     }
 
@@ -470,7 +484,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         if (circuito != null) {
             Ids.setIdCircuito(circuito.getId());
             this.campoNome.setText(circuito.getNome());
-            this.campoTipo.setText(circuito.getResultados().getTipo().name());
+            this.cbTipo.getModel().setSelectedItem(circuito.getTipo());
             this.cbUsabilidade.getModel().setSelectedItem(circuito.getUsabilidade());
             Ids.imprimiIds();
         }
@@ -483,7 +497,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnRelatoriosCircuto;
     private javax.swing.JButton btnSalvarCircuito;
     private javax.swing.JTextField campoNome;
-    private javax.swing.JTextField campoTipo;
+    private javax.swing.JComboBox<TiposFornecimento> cbTipo;
     private javax.swing.JComboBox<Usabilidade> cbUsabilidade;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

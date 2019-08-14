@@ -5,7 +5,10 @@
  */
 package chc.eletrica8.entidades;
 
+import chc.eletrica8.enums.AgrupaConduto;
+import chc.eletrica8.enums.Enterrado;
 import chc.eletrica8.enums.EspacamentoCabos;
+import chc.eletrica8.enums.EspacamentoEletrodutos;
 import chc.eletrica8.enums.Instalacao;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
@@ -18,9 +21,10 @@ import javax.persistence.Embeddable;
 public class Condutor implements Serializable, Entidade<Condutor> {
 
     private String bitolaSucessiva;
-    private String enterrado;
+    private Enterrado enterrado;
     private EspacamentoCabos espacoCabos;
-    private String formaAgrupa;
+    private EspacamentoEletrodutos espacoEletrodutos;
+    private AgrupaConduto formaAgrupa;
     private String isolacao;
     private String material;
     private Instalacao modoInstalacao;
@@ -54,12 +58,26 @@ public class Condutor implements Serializable, Entidade<Condutor> {
         this.comprim = comprimento;
     }
 
-    public String getEnterrado() {
+    public Enterrado getEnterrado() {
         return enterrado;
     }
 
-    public void setEnterrado(String enterrado) {
+    public void setEnterrado(Enterrado enterrado) {
         this.enterrado = enterrado;
+    }
+
+    /**
+     * @return the espacoEletrodutos
+     */
+    public EspacamentoEletrodutos getEspacoEletrodutos() {
+        return espacoEletrodutos;
+    }
+
+    /**
+     * @param espacoEletrodutos the espacoEletrodutos to set
+     */
+    public void setEspacoEletrodutos(EspacamentoEletrodutos espacoEletrodutos) {
+        this.espacoEletrodutos = espacoEletrodutos;
     }
 
     public EspacamentoCabos getEspacoCabos() {
@@ -70,11 +88,11 @@ public class Condutor implements Serializable, Entidade<Condutor> {
         this.espacoCabos = espacoCabos;
     }
 
-    public String getFormaAgrupa() {
+    public AgrupaConduto getFormaAgrupa() {
         return formaAgrupa;
     }
 
-    public void setFormaAgrupa(String formaAgrupa) {
+    public void setFormaAgrupa(AgrupaConduto formaAgrupa) {
         this.formaAgrupa = formaAgrupa;
     }
 

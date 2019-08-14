@@ -18,14 +18,17 @@ public class Numero {
 
     public static double stringToDouble(String valor, double valorPadrao) {
         double dfDouble = 0;
-  
+
         String pv = valor.replaceFirst(",", ".");
         if (valor.equals("")) {
             dfDouble = valorPadrao;
         } else {
-            dfDouble = Double.parseDouble(pv);
+            try {
+                dfDouble = Double.parseDouble(pv);
+            } catch (Exception e) {
+                dfDouble = valorPadrao;
+            }
         }
-  
 
         return dfDouble;
     }

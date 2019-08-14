@@ -5,9 +5,9 @@
  */
 package chc.eletrica8.calculos;
 
-import static chc.eletrica8.calculos.AtualizaDados.circuito;
 import chc.eletrica8.entidades.Carga;
 import chc.eletrica8.enums.BitolasMili;
+import chc.eletrica8.enums.Enterrado;
 import chc.eletrica8.enums.Instalacao;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.TiposFornecimento;
@@ -25,7 +25,7 @@ public class Bitola {
     private Instalacao instalacao;
     private String multipolar;
     private String isolacao;
-    private String enterrado;
+    private Enterrado enterrado;
     private String paramEspecial; //H de horizontal ou V de vestical. ex: PEH3
     private double quedaTensao;
     private int condutoresCarregados;
@@ -52,15 +52,9 @@ public class Bitola {
                 .withTensaoFN(tensaoFN)//
                 .withLXI(LXI)//
                 .valor();
-        if (usabilidade == Usabilidade.MOTOR) {
-            if (cargas.size() <= 1) {
-                bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), correnteCorr, "BITOLA"), 0);
-            } else {
-                bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), correnteIB, "BITOLA"), 0);
-            }
-        } else {
+
             bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), correnteCorr, "BITOLA"), 0);
-        }
+
 
         if (bitolaCapacidade >= bitolaQuedaTensao) {
             fase = (bitolaCapacidade);
@@ -197,7 +191,7 @@ public class Bitola {
         return this;
     }
 
-    public Bitola withEnterrado(String enterrado) {
+    public Bitola withEnterrado(Enterrado enterrado) {
         this.enterrado = enterrado;
         return this;
     }

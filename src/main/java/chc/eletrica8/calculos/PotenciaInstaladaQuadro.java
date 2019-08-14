@@ -16,7 +16,7 @@ public class PotenciaInstaladaQuadro {
         try {
             for (Circuito c : quadro.getCircuitos()) {
                 for (Carga e : c.getListaCarga()) {
-                    valor += e.getQuantidade() * e.getPotenciaInstalada(unidadeDestino);
+                    valor += e.getQuantidade() * e.getPotenciaAtiva(unidadeDestino);
                 }
             }
         } catch (Exception e) {
@@ -26,7 +26,7 @@ public class PotenciaInstaladaQuadro {
             if (quadro.getQuadroGeral() == null) {
                 for (Circuito c : quadro.getCircuitos()) {
                     for (Carga e : c.getListaCarga()) {
-                        valor += e.getQuantidade() * e.getPotenciaInstalada(unidadeDestino);
+                        valor += e.getQuantidade() * e.getPotenciaAtiva(unidadeDestino);
                     }
                 }
             }

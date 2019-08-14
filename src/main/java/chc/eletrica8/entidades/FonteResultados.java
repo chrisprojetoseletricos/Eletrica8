@@ -5,6 +5,7 @@
  */
 package chc.eletrica8.entidades;
 
+import chc.eletrica8.enums.Ligacao;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
 
@@ -13,7 +14,7 @@ import javax.persistence.Embeddable;
  * @author chris
  */
 @Embeddable
-public class CargaResultados implements Serializable, Entidade<CargaResultados> {
+public class FonteResultados implements Serializable, Entidade<FonteResultados> {
 
     private double correnteAtiva = 0;
     private double correnteAparente = 0;
@@ -21,29 +22,12 @@ public class CargaResultados implements Serializable, Entidade<CargaResultados> 
     private double correnteAtivaDem = 0;
     private double correnteAparenteDem = 0;
     private double correnteReativaDem = 0;
+    private double potAtivaKVA = 0;
+    private double potAtivaDemKVA = 0;
+    private Ligacao ligacao = Ligacao.FN;
+    private double fp = 0;
     private double tensao = 0;
-    private String LigacaoReal;
-    private double potAtiva = 0;
-    private double potAtivaDem = 0;
 
-    public void limpa() {
-
-        tensao = 0;
-    }
-
-    /**
-     * @return the tensao
-     */
-    public double getTensao() {
-        return tensao;
-    }
-
-    /**
-     * @param tensao the tensao to set
-     */
-    public void setTensao(double tensao) {
-        this.tensao = tensao;
-    }
 
     /**
      * @return the correnteAtiva
@@ -129,55 +113,88 @@ public class CargaResultados implements Serializable, Entidade<CargaResultados> 
         this.correnteReativaDem = correnteReativaDem;
     }
 
+
     /**
-     * @return the potAtiva
+     * @return the potAtivaKVA
      */
-    public double getPotAtiva() {
-        return potAtiva;
+    public double getPotAtivaKVA() {
+        return potAtivaKVA;
     }
 
     /**
-     * @param potAtiva the potAtiva to set
+     * @param potAtivaKVA the potAtivaKVA to set
      */
-    public void setPotAtiva(double potAtiva) {
-        this.potAtiva = potAtiva;
+    public void setPotAtivaKVA(double potAtivaKVA) {
+        this.potAtivaKVA = potAtivaKVA;
     }
 
     /**
-     * @return the potAtivaDem
+     * @return the potAtivaDemKVA
      */
-    public double getPotAtivaDem() {
-        return potAtivaDem;
+    public double getPotAtivaDemKVA() {
+        return potAtivaDemKVA;
     }
 
     /**
-     * @param potAtivaDem the potAtivaDem to set
+     * @param potAtivaDemKVA the potAtivaDemKVA to set
      */
-    public void setPotAtivaDem(double potAtivaDem) {
-        this.potAtivaDem = potAtivaDem;
+    public void setPotAtivaDemKVA(double potAtivaDemKVA) {
+        this.potAtivaDemKVA = potAtivaDemKVA;
     }
 
     /**
-     * @return the LigacaoReal
+     * @return the tensao
      */
-    public String getLigacaoReal() {
-        return LigacaoReal;
+    public double getTensao() {
+        return tensao;
     }
 
     /**
-     * @param LigacaoReal the LigacaoReal to set
+     * @param tensao the tensao to set
      */
-    public void setLigacaoReal(String LigacaoReal) {
-        this.LigacaoReal = LigacaoReal;
+    public void setTensao(double tensao) {
+        this.tensao = tensao;
+    }
+    
+    public void limpa() {
+
+    }
+
+    /**
+     * @return the fp
+     */
+    public double getFp() {
+        return fp;
+    }
+
+    /**
+     * @param fp the fp to set
+     */
+    public void setFp(double fp) {
+        this.fp = fp;
+    }
+
+    /**
+     * @return the ligacao
+     */
+    public Ligacao getLigacao() {
+        return ligacao;
+    }
+
+    /**
+     * @param ligacao the ligacao to set
+     */
+    public void setLigacao(Ligacao ligacao) {
+        this.ligacao = ligacao;
     }
 
     @Override
-    public CargaResultados clonarSemID() {
+    public FonteResultados clonarSemID() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public CargaResultados copiar() {
+    public FonteResultados copiar() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

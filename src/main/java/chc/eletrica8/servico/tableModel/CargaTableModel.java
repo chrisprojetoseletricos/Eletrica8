@@ -5,31 +5,31 @@
  */
 package chc.eletrica8.servico.tableModel;
 
-import chc.eletrica8.entidades.Circuito;
+import chc.eletrica8.entidades.Carga;
 import chc.eletrica8.uteis.Numero;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-public class CircuitoTableModel extends AbstractTableModel {
+public class CargaTableModel extends AbstractTableModel {
 
     /* Lista de Sócios que representam as linhas. */
-    private List<Circuito> linhas;
+    private List<Carga> linhas;
 
     /* Array de Strings com o nome das colunas. */
     private String[] colunas = new String[]{
-        "Nome", "IAtiva", "IC", "IReativa", "IAparente", "Compri", "Bitola (F/N/T)", "Ligação", "PotAtiva", "PotAtivaDem"};
+        "Nome", "IAt", "IReat", "IApar", "IAtDem", "IReatDem", "IAparDem", "Ligação", "PotAtiva", "PotAtivaDem"};
 
 
     /* Cria um CircuitoTableModel vazio. */
-    public CircuitoTableModel() {
-        linhas = new ArrayList<Circuito>();
+    public CargaTableModel() {
+        linhas = new ArrayList<Carga>();
     }
 
     /* Cria um CircuitoTableModel carregado com
      * a lista de sócios especificada. */
-    public CircuitoTableModel(List<Circuito> listaDeCircuitos) {
-        linhas = new ArrayList<Circuito>(listaDeCircuitos);
+    public CargaTableModel(List<Carga> listaDeCarga) {
+        linhas = new ArrayList<Carga>(listaDeCarga);
     }
 
 
@@ -104,7 +104,7 @@ public class CircuitoTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         // Pega o sócio da linha especificada.       
-        Circuito cir = linhas.get(rowIndex);
+        Carga carg = linhas.get(rowIndex);
 
         // Retorna o campo referente a coluna especificada.
         // Aqui é feito um switch para verificar qual é a coluna
@@ -112,25 +112,26 @@ public class CircuitoTableModel extends AbstractTableModel {
         // que foram especificadas no array "colunas".
         switch (columnIndex) {
             case 0:
-                return cir.getNome();
+                return carg.getNome();
             case 1:
-                return Numero.decimal(cir.getResultados().getCorrenteAtiva(), "##.#");
+                return Numero.decimal(carg.getResultados().getCorrenteAtiva(), "##.#");
             case 2:
-                return Numero.decimal(cir.getResultados().getCorrenteCorr(), "##.#");
+                return Numero.decimal(carg.getResultados().getCorrenteReativa(), "##.#");
             case 3:
-                return Numero.decimal(cir.getResultados().getCorrenteReativa(), "##.#");
+                return Numero.decimal(carg.getResultados().getCorrenteAparente(), "##.#");
             case 4:
-                return Numero.decimal(cir.getResultados().getCorrenteAparente(), "##.#");
+                return Numero.decimal(carg.getResultados().getCorrenteAtivaDem(), "##.#");
             case 5:
-                return cir.getResultados().getComprimento();
+                return Numero.decimal(carg.getResultados().getCorrenteReativaDem(), "##.#");
             case 6:
-                return cir.getResultados().getBitola();
+                return Numero.decimal(carg.getResultados().getCorrenteAparenteDem(), "##.#");
             case 7:
-                return cir.getResultados().getLigacaoReal();
+                return carg.getResultados().getLigacaoReal();
             case 8:
-                return Numero.decimal(cir.getResultados().getPotAtiva(), "##.#");
+                return Numero.decimal(carg.getResultados().getPotAtiva(), "##.#");
             case 9:
-                return Numero.decimal(cir.getResultados().getPotAtivaDem(), "##.#");
+                return Numero.decimal(carg.getResultados().getPotAtivaDem(), "##.#");
+
             default:
                 // Se o índice da coluna não for válido, lança um
                 // IndexOutOfBoundsException (Exceção de índice fora dos limites).
@@ -163,7 +164,7 @@ public class CircuitoTableModel extends AbstractTableModel {
     // em algumas situações.                                  //
     ////////////////////////////////////////////////////////////
     /* Retorna o sócio da linha especificada. */
-    public Circuito getCircuito(int indiceLinha) {
+    public Carga getCarga(int indiceLinha) {
         if (indiceLinha < linhas.size()) {
             return linhas.get(indiceLinha);
         }
@@ -171,9 +172,9 @@ public class CircuitoTableModel extends AbstractTableModel {
     }
 
     /* Adiciona um registro. */
-    public void addCircuito(Circuito cir) {
+    public void addCarga(Carga carga) {
         // Adiciona o registro.
-        linhas.add(cir);
+        linhas.add(carga);
 
         // Pega a quantidade de registros e subtrai um para achar
         // o último índice. É preciso subtrair um, pois os índices
@@ -186,7 +187,7 @@ public class CircuitoTableModel extends AbstractTableModel {
     }
 
     /* Remove a linha especificada. */
-    public void removeCircuito(int indiceLinha) {
+    public void removeCarga(int indiceLinha) {
         // Remove o sócio da linha especificada.  
         if (indiceLinha < linhas.size()) {
             linhas.remove(indiceLinha);
@@ -199,12 +200,12 @@ public class CircuitoTableModel extends AbstractTableModel {
     }
 
     /* Adiciona uma lista de sócios ao final dos registros. */
-    public void addListaDeCircuitos(List<Circuito> cir) {
+    public void addListaDeCircuitos(List<Carga> carg) {
         // Pega o tamanho antigo da tabela.
         int tamanhoAntigo = getRowCount();
 
         // Adiciona os registros.
-        linhas.addAll(cir);
+        linhas.addAll(carg);
 
         // Reporta a mudança. O JTable recebe a notificação
         // e se redesenha permitindo que visualizemos a atualização.

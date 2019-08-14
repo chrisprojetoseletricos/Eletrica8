@@ -119,7 +119,7 @@ public class Ex3_8 {
         CIR_1.getListaCarga().add(motor4);
         CIR_1.getListaCarga().add(motor5);
         
-        CIR_1.tipoCondutor();
+        CIR_1.ligacaoCondutor();
         
         QGF.getCircuitos().add(CIR_1);
 

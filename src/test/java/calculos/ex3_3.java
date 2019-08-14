@@ -91,7 +91,7 @@ public class ex3_3 {
 
         pro.getFontes().add(fonte);
         
-        double correnteIB = CIR_1.correnteIB();
+        double correnteIB = CIR_1.correnteAtiva();
 
        // ProjetoService.salva(pro);
 

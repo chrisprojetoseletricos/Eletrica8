@@ -5,14 +5,11 @@
  */
 package chc.eletrica8.entidades;
 
-import chc.eletrica8.calculos.Corrente;
-import chc.eletrica8.calculos.PotenciaDemandadaCarga;
-import chc.eletrica8.calculos.PotenciaInstaladaCarga;
+import chc.eletrica8.calculos.PotenciaAtivaDemCarga;
+import chc.eletrica8.calculos.PotenciaAtivaCarga;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.enums.Usabilidade;
-import chc.eletrica8.servico.tableModel.Column;
-import chc.eletrica8.servico.tableModel.TableModel;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
@@ -23,27 +20,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  *
  * @author chris
  */
 @Entity
-@Table(name = "Carga")
-@TableModel
-public class Carga implements Serializable, Entidade<Carga> {
+//@Table(name = "Carga")
+//@TableModel
+public class Carga implements Comparable<Carga>, Serializable, Entidade<Carga> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(colName = "Id", colPosition = 0)
     private Integer id;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Circuito circuito;
     @Embedded
     private CargaResultados resultados = new CargaResultados();
-    @Column(colName = "Ligação", colPosition = 5)
-    private String ligacaoReal;
     @Enumerated(EnumType.STRING)
     private Ligacao ligacao;
     private int quantidade = 1;
@@ -55,34 +48,77 @@ public class Carga implements Serializable, Entidade<Carga> {
     private double fSimu = 1;
     @Enumerated(EnumType.STRING)
     private Usabilidade usabilidade;
-    @Column(colName = "Nome", colPosition = 1)
+    //@Column(colName = "Nome", colPosition = 1)
     private String nome;
     private int nPolos = 2;
     private double perdasReator = 0;
-    @Column(colName = "Potência", colPosition = 2)
+
     private double potencia = 0;
     private double rendimento = 1;
     private double fp = 1;
-    @Column(colName = "Unidade", colPosition = 3)
     @Enumerated(EnumType.STRING)
     private UnidadePotencia unidade;
     private double comprimentoInstal;
 
-    public void corrente() {
-        double correnteA = 0;
-        try {
-            correnteA = new Corrente()//
-                    .withLigacao(ligacao)//
-                    .withPotencia(getPotencia())//
-                    .withTensao(getCircuito().getQuadro().getFonte().getTensaoFN())//
-                    .withUnidade(getUnidade())//
-                    .withFP(getFp())//
-                    .withRendimento(rendimento)//
-                    .valor();
-        } catch (Exception e) {
+    public void correnteAtiva() {
+        if (ligacao == Ligacao.FFF || ligacao == Ligacao.FFFN) {
+            resultados.setCorrenteAtiva(getPotenciaAtiva(UnidadePotencia.VA) / (Math.sqrt(3) * resultados.getTensao()));
 
+        } else {
+            resultados.setCorrenteAtiva(getPotenciaAtiva(UnidadePotencia.VA) / (resultados.getTensao()));
         }
-        resultados.setCorrente(correnteA);
+
+    }
+
+    public void correnteReativa() {
+        if (fp != 1) {
+            if (ligacao == Ligacao.FFF || ligacao == Ligacao.FFFN) {
+                resultados.setCorrenteReativa(getPotenciaAtiva(UnidadePotencia.VA) / (Math.sqrt(3) * resultados.getTensao() * (Math.sin(Math.acos(fp)))));
+
+            } else {
+
+                resultados.setCorrenteReativa(getPotenciaAtiva(UnidadePotencia.VA) / (resultados.getTensao() * (Math.sin(Math.acos(fp)))));
+
+            }
+        }else{
+            resultados.setCorrenteReativa(0);
+        }
+        
+    }
+
+    public void correnteAparente() {
+        resultados.setCorrenteAparente((Math.sqrt(Math.pow(resultados.getCorrenteAtiva(), 2) + Math.pow(resultados.getCorrenteReativa(), 2))));
+
+    }
+
+    public void correnteAtivaDem() {
+        if (ligacao == Ligacao.FFF || ligacao == Ligacao.FFFN) {
+            resultados.setCorrenteAtivaDem(getPotenciaAtivaDem(UnidadePotencia.VA) / (Math.sqrt(3) * resultados.getTensao()));
+
+        } else {
+            resultados.setCorrenteAtivaDem(getPotenciaAtivaDem(UnidadePotencia.VA) / (resultados.getTensao()));
+        }
+    }
+
+    public void correnteReativaDem() {
+        if (fp != 1) {
+            if (ligacao == Ligacao.FFF || ligacao == Ligacao.FFFN) {
+                resultados.setCorrenteReativaDem(getPotenciaAtivaDem(UnidadePotencia.VA) / (Math.sqrt(3) * resultados.getTensao() * (Math.sin(Math.acos(fp)))));
+
+            } else {
+                resultados.setCorrenteReativaDem(getPotenciaAtivaDem(UnidadePotencia.VA) / (resultados.getTensao() * (Math.sin(Math.acos(fp)))));
+            }
+        }else{
+            resultados.setCorrenteReativaDem(0);
+        }
+        
+    }
+
+    public void correnteAparenteDem() {
+        double cad = Math.pow(resultados.getCorrenteAtivaDem(), 2);
+        double crd = Math.pow(resultados.getCorrenteReativaDem(), 2);
+        double res = Math.sqrt(cad + crd);
+        resultados.setCorrenteAparenteDem(res);
     }
 
     public void tensao() {
@@ -98,13 +134,14 @@ public class Carga implements Serializable, Entidade<Carga> {
         }
     }
 
-    public double getPotenciaDemandada(UnidadePotencia unidadeDestino) {
+    public double getPotenciaAtivaDem(UnidadePotencia unidadeDestino) {
         double demanda = 0;
         try {
-            demanda = new PotenciaDemandadaCarga()//
+            demanda = new PotenciaAtivaDemCarga()//
                     .withFd(fd)//
                     .withFp(fp)//
                     .withFu(fu)//
+                    .withSimu(fSimu)//
                     .withRendimento(rendimento)//
                     .withFatorCompensacaoPerdas(1.8)//
                     .withPerdasReator(perdasReator)//
@@ -119,10 +156,10 @@ public class Carga implements Serializable, Entidade<Carga> {
         return demanda;
     }
 
-    public double getPotenciaInstalada(UnidadePotencia unidadeDestino) {
+    public double getPotenciaAtiva(UnidadePotencia unidadeDestino) {
         double pot = 0;
         try {
-            pot = new PotenciaInstaladaCarga()//
+            pot = new PotenciaAtivaCarga()//
                     .withFp(fp)//
                     .withFu(fu)//
                     .withRendimento(rendimento)//
@@ -137,6 +174,14 @@ public class Carga implements Serializable, Entidade<Carga> {
 
         }
         return pot;
+    }
+
+    public void potAtivaKVA() {
+        resultados.setPotAtiva(getPotenciaAtiva(UnidadePotencia.VA) / 1000);
+    }
+
+    public void potAtivaDemKVA() {
+        resultados.setPotAtivaDem(getPotenciaAtivaDem(UnidadePotencia.VA) / 1000);
     }
 
     /**
@@ -311,14 +356,6 @@ public class Carga implements Serializable, Entidade<Carga> {
         this.localizacao = localizacao;
     }
 
-    public String getLigacaoReal() {
-        return ligacaoReal;
-    }
-
-    public void setLigacaoReal(String ligacaoReal) {
-        this.ligacaoReal = ligacaoReal;
-    }
-
     public int getQuantidade() {
         return quantidade;
     }
@@ -382,7 +419,6 @@ public class Carga implements Serializable, Entidade<Carga> {
         e.setFd(fd);
         e.setFu(fu);
         e.setfSimu(fSimu);
-        e.setLigacaoReal(ligacaoReal);
         e.setLigacao(ligacao);
         e.setQuantidade(quantidade);
         e.setUsabilidade(usabilidade);
@@ -401,4 +437,14 @@ public class Carga implements Serializable, Entidade<Carga> {
         return e;
     }
 
+    @Override
+    public int compareTo(Carga outraCarga) {
+        if (resultados.getCorrenteAtiva() > outraCarga.getResultados().getCorrenteAtiva()) {
+            return -1;
+        }
+        if (resultados.getCorrenteAtiva() < outraCarga.getResultados().getCorrenteAtiva()) {
+            return 1;
+        }
+        return 0;
+    }
 }

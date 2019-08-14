@@ -5,13 +5,13 @@
  */
 package chc.eletrica8.entidades;
 
-import chc.eletrica8.enums.UnidadePotencia;
-import chc.eletrica8.servico.tableModel.Column;
-import chc.eletrica8.servico.tableModel.TableModel;
+import chc.eletrica8.enums.Ligacao;
+import chc.eletrica8.enums.TiposFornecimento;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,15 +20,12 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 /**
  *
  * @author chris
  */
 @Entity
-@Table(name = "Fonte")
-@TableModel
 public class Fonte implements Serializable, Entidade<Fonte> {
 
     @Id
@@ -37,35 +34,218 @@ public class Fonte implements Serializable, Entidade<Fonte> {
     private Integer id;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Projeto projeto;
-    @Column(colName = "Concessionária", colPosition = 2)
     private String concessionaria;
+    @Embedded
+    private FonteResultados resultados = new FonteResultados();
     @OneToMany(mappedBy = "fonte", targetEntity = Quadro.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Quadro> quadros = new ArrayList<>();
-    @Column(colName = "Nome", colPosition = 0)
     private String nome;
-    @Column(colName = "TensãoFN", colPosition = 1)
     private double tensaoFN;
     @Lob
     private String descricao;
+    private TiposFornecimento tipo = TiposFornecimento.TRIFASICO;
 
-    public void Fonte() {
+    public void potAtivaKVA() {
+        resultados.setPotAtivaKVA(Math.sqrt(3) * resultados.getCorrenteAtiva() * resultados.getTensao() / 1000);
     }
 
-    public double getPotenciaInstalada(UnidadePotencia unidadeDestino) {
-        double total = 0;
-        for (Quadro quadro : this.getQuadros()) {
-            total += quadro.getPotenciaInstalada(unidadeDestino);
-        }
-        return total;
+    public void potAtivaDemKVA() {
+        resultados.setPotAtivaDemKVA(Math.sqrt(3) * resultados.getCorrenteAtivaDem() * resultados.getTensao() / 1000);
     }
 
-    public double getPotenciaDemandada(UnidadePotencia unidadeDestino) {
-        double total = 0;
-        List<Quadro> lista = this.getQuadros();
-        for (int i = 0; i < lista.size(); i++) {
-            total += lista.get(i).getPotenciaDemandada(unidadeDestino);
+    public void fatorPotenciaMed() {
+        double fp = 0;
+        int i = 0;
+        for (Quadro quadro : quadros) {
+            for (Circuito circuito : quadro.getCircuitos()) {
+                for (Carga carga : circuito.getCargas()) {
+                    fp += carga.getFp();
+                    i++;
+                }
+            }
         }
-        return total;
+        if (i == 0) {
+            resultados.setFp(0);
+        } else {
+            resultados.setFp(fp / i);
+        }
+    }
+
+    public void correnteAtiva() {
+        double correnteAtiva = 0;
+        if (quadros.isEmpty()) {
+        } else {
+            for (Quadro quadro : quadros) {
+                if (quadro.getQuadroGeral() == null) {
+                    correnteAtiva += quadro.getResultados().getCorrenteAtiva();
+                }
+            }
+        }
+        resultados.setCorrenteAtiva(correnteAtiva);
+    }
+
+    public void correnteAtivaDem() {
+        double correnteAtivaDem = 0;
+        if (quadros.isEmpty()) {
+        } else {
+            for (Quadro quadro : quadros) {
+                if (quadro.getQuadroGeral() == null) {
+                    correnteAtivaDem += quadro.getResultados().getCorrenteAtivaDem();
+                }
+            }
+        }
+        resultados.setCorrenteAtivaDem(correnteAtivaDem);
+    }
+
+    public void correnteReativa() {
+        double correnteReativa = 0;
+        if (quadros.isEmpty()) {
+        } else {
+            for (Quadro quadro : quadros) {
+                if (quadro.getQuadroGeral() == null) {
+                    correnteReativa += quadro.getResultados().getCorrenteReativa();
+                }
+            }
+        }
+        resultados.setCorrenteReativa(correnteReativa);
+    }
+
+    public void correnteReativaDem() {
+        double correnteReativaDem = 0;
+        if (quadros.isEmpty()) {
+        } else {
+            for (Quadro quadro : quadros) {
+                if (quadro.getQuadroGeral() == null) {
+                    correnteReativaDem += quadro.getResultados().getCorrenteReativaDem();
+                }
+            }
+        }
+        resultados.setCorrenteReativaDem(correnteReativaDem);
+    }
+
+    public void correnteAparente() {
+        resultados.setCorrenteAparente((Math.sqrt(Math.pow(resultados.getCorrenteAtiva(), 2) + Math.pow(resultados.getCorrenteReativa(), 2))));
+
+    }
+
+    public void correnteAparenteDem() {
+        resultados.setCorrenteAparenteDem((Math.sqrt(Math.pow(resultados.getCorrenteAtivaDem(), 2) + Math.pow(resultados.getCorrenteReativaDem(), 2))));
+
+    }
+
+    public List<Carga> todasCargas() {
+        List<Carga> cargas = new ArrayList<>();
+        for (Quadro quadros : quadros) {
+            for (Circuito circuito : quadros.getCircuitos()) {
+                for (Carga carga : circuito.getCargas()) {
+                    cargas.add(carga);
+                }
+            }
+        }
+        return cargas;
+    }
+
+    public void defineTipo() {
+        TiposFornecimento tipo = TiposFornecimento.MONOFASICO;
+        for (Quadro quadro : quadros) {
+            if (quadro.getTipo() == TiposFornecimento.TRIFASICO && (tipo == TiposFornecimento.BIFASICO || tipo == TiposFornecimento.BIFASICO)) {
+                tipo = TiposFornecimento.TRIFASICO;
+            } else if (quadro.getTipo() == TiposFornecimento.BIFASICO && (tipo == TiposFornecimento.MONOFASICO)) {
+                tipo = TiposFornecimento.BIFASICO;
+            } else if (quadro.getTipo() == TiposFornecimento.MONOFASICO && (tipo == TiposFornecimento.MONOFASICO)) {
+                tipo = TiposFornecimento.MONOFASICO;
+            }
+        }
+    }
+
+    public void tensao() {
+
+        try {
+            if (resultados.getLigacao().equals(Ligacao.FN)) {
+                resultados.setTensao(getTensaoFN());
+            } else {
+                resultados.setTensao(Math.sqrt(3) * getTensaoFN());
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void ligacaoCondutor() {
+        Ligacao temp = Ligacao.FFF;
+        String neutro = "Nao";
+
+        if (!todasCargas().isEmpty()) {
+            for (Carga carga : todasCargas()) {
+                if (carga.getLigacao() == Ligacao.FF || carga.getLigacao() == Ligacao.FFF) {
+                } else {
+                    neutro = "Sim";
+                }
+            }
+            switch (getTipo()) {
+                case TRIFASICO:
+                    if (neutro.equals("Sim")) {
+                        temp = Ligacao.FFFN;
+                    } else {
+                        temp = Ligacao.FFF;
+                    }
+                    break;
+                case BIFASICO:
+                    if (neutro.equals("Sim")) {
+                        temp = Ligacao.FFN;
+                    } else {
+                        temp = Ligacao.FF;
+                    }
+                    break;
+                case MONOFASICO:
+                    temp = Ligacao.FN;
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            int num = 0;
+            String n = "Não";
+            for (Quadro quadro : quadros) {
+
+                if (quadro.getResultados().getLigacao().getNumeroFases() >= num) {
+                    num = quadro.getResultados().getLigacao().getNumeroFases();
+                    if (!(quadro.getResultados().getLigacao() == Ligacao.FF || quadro.getResultados().getLigacao() == Ligacao.FFF)) {
+                        n = "Sim";
+                    }
+                }
+            }
+            switch (num) {
+                case 1:
+                    if (n.equals("Sim")) {
+                        temp = Ligacao.FN;
+                    } else {
+                        temp = Ligacao.FN;
+                    }
+
+                    break;
+                case 2:
+                    if (n.equals("Sim")) {
+                        temp = Ligacao.FFN;
+                    } else {
+                        temp = Ligacao.FF;
+                    }
+
+                    break;
+                case 3:
+                    if (n.equals("Sim")) {
+                        temp = Ligacao.FFFN;
+                    } else {
+                        temp = Ligacao.FFF;
+                    }
+
+                    break;
+                default:
+                    temp = Ligacao.FFF;
+                    break;
+            }
+        }
+        resultados.setLigacao(temp);
     }
 
     public String getDescricao() {
@@ -100,12 +280,40 @@ public class Fonte implements Serializable, Entidade<Fonte> {
         this.projeto = projeto;
     }
 
+    /**
+     * @return the tipo
+     */
+    public TiposFornecimento getTipo() {
+        return tipo;
+    }
+
+    /**
+     * @param tipo the tipo to set
+     */
+    public void setTipo(TiposFornecimento tipo) {
+        this.tipo = tipo;
+    }
+
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    /**
+     * @return the resultados
+     */
+    public FonteResultados getResultados() {
+        return resultados;
+    }
+
+    /**
+     * @param resultados the resultados to set
+     */
+    public void setResultados(FonteResultados resultados) {
+        this.resultados = resultados;
     }
 
     public double getTensaoFN() {
@@ -165,6 +373,7 @@ public class Fonte implements Serializable, Entidade<Fonte> {
         f.setTensaoFN(tensaoFN);
         f.setProjeto(projeto);
         f.setDescricao(descricao);
+        f.setTipo(tipo);
 
         List<Quadro> lista = new ArrayList<>();
         for (int i = 0; i < quadros.size(); i++) {

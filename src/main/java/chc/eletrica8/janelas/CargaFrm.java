@@ -15,7 +15,7 @@ import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.servico.CargaService;
 import chc.eletrica8.servico.CircuitoService;
 import chc.eletrica8.servico.ProjetoService;
-import chc.eletrica8.servico.tableModel.GenericTableModel;
+import chc.eletrica8.servico.tableModel.CargaTableModel;
 import chc.eletrica8.uteis.ApenasNumero;
 import chc.eletrica8.uteis.Numero;
 import chc.eletrica8.uteis.TrataID;
@@ -33,7 +33,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener {
 
-    private GenericTableModel tabelaModelo;
+    //private GenericTableModel tabelaModelo;
+    private CargaTableModel tabelaModeloCarga;
     private Carga carga;
 
     /**
@@ -505,30 +506,57 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
             CargaService.salva(carga);
         } else if (Ids.getIdCarga() == 0 && Ids.getIdCircuito() > 0) {
             carga = getDados();
-            carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
-            carga.getCircuito().getCargas().add(carga);
-            AtualizaDados.carga(carga);
+
+            for (int i = 1; i <= carga.getQuantidade(); i++) {
+                Carga cargaQuant = new Carga();
+                cargaQuant = getDados();
+                cargaQuant.setQuantidade(1);
+                cargaQuant.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
+                cargaQuant.getCircuito().getCargas().add(cargaQuant);
+                AtualizaDados.carga(cargaQuant);
+            }
+
             carga = new Carga();
             carga = getDados();
+            carga.setQuantidade(1);
             carga.setCircuito(null);
             CargaService.salva(carga);
 
         } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() > 0) {
             carga = getDados();
             if (carga.getCircuito() == null) {
-                carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
-                carga.getCircuito().getCargas().add(carga);
-                AtualizaDados.carga(carga);
+
+                for (int i = 1; i <= carga.getQuantidade(); i++) {
+                    Carga cargaQuant = new Carga();
+                    cargaQuant = getDados();
+                    cargaQuant.setQuantidade(1);
+                    cargaQuant.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
+                    cargaQuant.getCircuito().getCargas().add(cargaQuant);
+                    AtualizaDados.carga(cargaQuant);
+                }
+
                 carga = new Carga();
                 Ids.setIdCarga(0);
                 carga = getDados();
+                carga.setQuantidade(1);
                 carga.setCircuito(null);
                 CargaService.salva(carga);
 
             } else {
-                //carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
-                //carga.getCircuito().getCargas().add(carga);
-                AtualizaDados.carga(carga);
+                if (carga.getQuantidade() > 1) {
+                    for (int i = 1; i <= carga.getQuantidade(); i++) {
+                        Carga q = CargaService.getById(Ids.getIdCarga()).clonarSemID();
+                        q.setQuantidade(1);
+                        AtualizaDados.carga(q);
+
+                    }
+
+                    CargaService.removeById(Ids.getIdCarga());
+                }else{
+                    AtualizaDados.carga(CargaService.getById(Ids.getIdCarga()));
+                }
+
+                
             }
 
         } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() == 0) {
@@ -544,7 +572,7 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        ProjetoService.salva(ProjetoService.getById(1));
+        //ProjetoService.salva(ProjetoService.getById(1));
         CargaService.removeById(Ids.getIdCarga());
 
         this.iniciaTabelaCargas("Exclui");
@@ -631,7 +659,7 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
                 }
                 int linha = tabelaEquipamento.getSelectedRow();
                 if (evt.getValueIsAdjusting() == true && linha > -1) {
-                    Carga carga = (Carga) tabelaModelo.loadItem(linha);
+                    Carga carga = (Carga) tabelaModeloCarga.getCarga(linha);
                     setDados(carga);
                     Ids.setIdCarga(carga.getId());
                     Ids.imprimiIds();
@@ -662,8 +690,8 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
             lista = CargaService.getByExpres("from Carga where circuito = :ID", new Object[]{"ID", CircuitoService.getById(Ids.getIdCircuito())});
         }
         if (!lista.isEmpty()) {
-            tabelaModelo = new GenericTableModel(lista, Carga.class);
-            tabelaEquipamento.setModel(tabelaModelo);
+            tabelaModeloCarga = new CargaTableModel(lista);
+            tabelaEquipamento.setModel(tabelaModeloCarga);
         } else {
             DefaultTableModel model = new DefaultTableModel();
             this.tabelaEquipamento.setModel(model);
@@ -675,9 +703,9 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         Carga carga;
         if (Ids.getIdCarga() > 0) {
             carga = CargaService.getById(TrataID.IntegerToInteger(Ids.getIdCarga()));
+
         } else {
             carga = new Carga();
-
         }
 
         carga.setFd(Numero.stringToDouble(this.campoFd.getText(), 1));
@@ -699,7 +727,6 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         carga.setUnidade((UnidadePotencia) cbUnidade.getModel().getSelectedItem());
         carga.setComprimentoInstal(Numero.stringToDouble(this.campoComprimento.getText(), 0));
 
-        Ids.imprimiIds();
         return carga;
     }
 

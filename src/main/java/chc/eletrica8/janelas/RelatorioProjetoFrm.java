@@ -130,8 +130,6 @@ public class RelatorioProjetoFrm extends javax.swing.JInternalFrame {
         Map parametros = new HashMap();
         for (int i = 0; i < projeto.getFontes().size(); i++) {
 
-            parametros.put("DemandaFonte", projeto.getFontes().get(i).getPotenciaDemandada(UnidadePotencia.VA) / 1000);
-            parametros.put("PotenciaFonte", projeto.getFontes().get(i).getPotenciaInstalada(UnidadePotencia.VA) / 1000);
         }
         try {
             // abre o relatório

@@ -17,7 +17,7 @@ public class PotenciaDemandadaQuadro {
         try {
             for (Circuito c : quadro.getCircuitos()) {
                 for (Carga e : c.getListaCarga()) {
-                    valor += e.getQuantidade() * e.getPotenciaDemandada(unidadeDestino) * e.getfSimu();
+                    valor += e.getQuantidade() * e.getPotenciaAtivaDem(unidadeDestino) * e.getfSimu();
                 }
             }
         } catch (Exception e) {
@@ -27,7 +27,7 @@ public class PotenciaDemandadaQuadro {
             if (quadro.getQuadroGeral() == null) {
                 for (Circuito c : quadro.getCircuitos()) {
                     for (Carga e : c.getListaCarga()) {
-                        valor += e.getQuantidade() * e.getPotenciaDemandada(unidadeDestino) * e.getfSimu();
+                        valor += e.getQuantidade() * e.getPotenciaAtivaDem(unidadeDestino) * e.getfSimu();
                     }
                 }
             }
