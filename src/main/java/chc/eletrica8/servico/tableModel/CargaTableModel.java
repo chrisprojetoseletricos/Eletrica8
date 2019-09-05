@@ -18,7 +18,7 @@ public class CargaTableModel extends AbstractTableModel {
 
     /* Array de Strings com o nome das colunas. */
     private String[] colunas = new String[]{
-        "Nome", "IAt", "IReat", "IApar", "IAtDem", "IReatDem", "IAparDem", "Ligação", "PotAtiva", "PotAtivaDem"};
+        "Nome", "IAt","IAtDem", "Ligação", "PotAtiva", "PotAtivaDem", "PotReat", "PotReatDem", "PotApar", "PotAparDem"};
 
 
     /* Cria um CircuitoTableModel vazio. */
@@ -89,6 +89,7 @@ public class CargaTableModel extends AbstractTableModel {
                 return String.class;
             case 9:
                 return String.class;
+
             default:
                 // Se o índice da coluna não for válido, lança um
                 // IndexOutOfBoundsException (Exceção de índice fora dos limites).
@@ -114,23 +115,23 @@ public class CargaTableModel extends AbstractTableModel {
             case 0:
                 return carg.getNome();
             case 1:
-                return Numero.decimal(carg.getResultados().getCorrenteAtiva(), "##.#");
+                return Numero.decimal(carg.getResultados().getCorrenteAtiva(), "##.##");
             case 2:
-                return Numero.decimal(carg.getResultados().getCorrenteReativa(), "##.#");
+                return Numero.decimal(carg.getResultados().getCorrenteAtivaDem(), "##.##");
             case 3:
-                return Numero.decimal(carg.getResultados().getCorrenteAparente(), "##.#");
-            case 4:
-                return Numero.decimal(carg.getResultados().getCorrenteAtivaDem(), "##.#");
-            case 5:
-                return Numero.decimal(carg.getResultados().getCorrenteReativaDem(), "##.#");
-            case 6:
-                return Numero.decimal(carg.getResultados().getCorrenteAparenteDem(), "##.#");
-            case 7:
                 return carg.getResultados().getLigacaoReal();
+            case 4:
+                return Numero.decimal(carg.getResultados().getPotAtiva(), "##.##");
+            case 5:
+                return Numero.decimal(carg.getResultados().getPotAtivaDem(), "##.##");
+            case 6:
+                return Numero.decimal(carg.getResultados().getPotReativa(), "##.##");
+            case 7:
+                return Numero.decimal(carg.getResultados().getPotReativaDem(), "##.##");
             case 8:
-                return Numero.decimal(carg.getResultados().getPotAtiva(), "##.#");
+                return Numero.decimal(carg.getResultados().getPotAparente(), "##.##");
             case 9:
-                return Numero.decimal(carg.getResultados().getPotAtivaDem(), "##.#");
+                return Numero.decimal(carg.getResultados().getPotAparenteDem(), "##.##");
 
             default:
                 // Se o índice da coluna não for válido, lança um

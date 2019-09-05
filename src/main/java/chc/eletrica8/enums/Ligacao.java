@@ -21,6 +21,22 @@ public enum Ligacao {
         return Integer.parseInt(numero);
     }
 
+    public int getNumeroCondutCarregados() {
+        int condCarr = 0;
+        switch (this) {
+            case FF:
+            case FN:
+                condCarr = 2;
+                break;
+            case FFF:
+            case FFN:
+            case FFFN:
+                condCarr = 3;
+                break;
+        }
+        return condCarr;
+    }
+
     public static List<Ligacao> getLista() {
         List<Ligacao> lista = new ArrayList<>();
         lista.add(Ligacao.FF);

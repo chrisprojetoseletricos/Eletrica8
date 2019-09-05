@@ -1,12 +1,13 @@
 package chc.eletrica8.calculos;
 
+import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.UnidadePotencia;
-
-
 
 public class ConversorPotencia {
 
     private double fatorPotencia;
+    private double rendimento;
+    private double fu;
     private double potencia;
     private UnidadePotencia unidadeDestino;
     private UnidadePotencia unidadeOrigem;
@@ -21,10 +22,13 @@ public class ConversorPotencia {
         }
 
         if (unidadeOrigem == UnidadePotencia.W && unidadeDestino == UnidadePotencia.CV) {
-            return potencia / WATT_CV;
+            return potencia * fu * rendimento / WATT_CV;
+        }
+        if (unidadeOrigem == UnidadePotencia.VA && unidadeDestino == UnidadePotencia.W) {
+            return potencia * fatorPotencia;
         }
         if (unidadeOrigem == UnidadePotencia.CV && unidadeDestino == UnidadePotencia.W) {
-            return potencia * WATT_CV;
+            return potencia * fu * WATT_CV / rendimento;
         }
         if (unidadeOrigem == UnidadePotencia.BTU && unidadeDestino == UnidadePotencia.W) {
             return potencia * WATT_BTU;
@@ -33,10 +37,10 @@ public class ConversorPotencia {
             return potencia / WATT_BTU;
         }
         if (unidadeOrigem == UnidadePotencia.HP && unidadeDestino == UnidadePotencia.W) {
-            return potencia * WATT_HP;
+            return potencia * fu * WATT_HP / rendimento;
         }
         if (unidadeOrigem == UnidadePotencia.W && unidadeDestino == UnidadePotencia.HP) {
-            return potencia / WATT_HP;
+            return potencia * fu * rendimento / WATT_HP;
         }
         if (unidadeOrigem == UnidadePotencia.W && unidadeDestino == UnidadePotencia.VA) {
             return potencia / fatorPotencia;
@@ -45,10 +49,10 @@ public class ConversorPotencia {
             return potencia * WATT_BTU / fatorPotencia;
         }
         if (unidadeOrigem == UnidadePotencia.CV && unidadeDestino == UnidadePotencia.VA) {
-            return potencia * WATT_CV / fatorPotencia;
+            return potencia * fu * WATT_CV / (fatorPotencia * rendimento);
         }
         if (unidadeOrigem == UnidadePotencia.HP && unidadeDestino == UnidadePotencia.VA) {
-            return potencia * WATT_HP / fatorPotencia;
+            return potencia * fu * WATT_HP / (fatorPotencia * rendimento);
         }
 
         throw new RuntimeException(
@@ -62,6 +66,16 @@ public class ConversorPotencia {
 
     public ConversorPotencia withPotencia(Double potencia) {
         this.potencia = potencia;
+        return this;
+    }
+
+    public ConversorPotencia withFu(Double fu) {
+        this.fu = fu;
+        return this;
+    }
+
+    public ConversorPotencia withRendimento(Double rendimento) {
+        this.rendimento = rendimento;
         return this;
     }
 

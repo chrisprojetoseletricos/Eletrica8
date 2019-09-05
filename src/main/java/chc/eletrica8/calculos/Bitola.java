@@ -6,6 +6,7 @@
 package chc.eletrica8.calculos;
 
 import chc.eletrica8.entidades.Carga;
+import chc.eletrica8.entidades.Curto;
 import chc.eletrica8.enums.BitolasMili;
 import chc.eletrica8.enums.Enterrado;
 import chc.eletrica8.enums.Instalacao;
@@ -28,10 +29,8 @@ public class Bitola {
     private Enterrado enterrado;
     private String paramEspecial; //H de horizontal ou V de vestical. ex: PEH3
     private double quedaTensao;
-    private int condutoresCarregados;
     private String[][] tabelaCapacidadeCorrente;
     private double correnteCorr;
-    private double correnteIB;
     private TiposFornecimento fornecimento;
     private String material;
     private Usabilidade usabilidade;
@@ -39,10 +38,39 @@ public class Bitola {
     private Ligacao ligacao;
     private double tensaoFN;
     private double LXI;
+    private double potApaDem;
+    private Curto curto;
+
+    public double bitolaMinima(double bitola) {
+        double bitolaMin = 0;
+        switch (usabilidade) {
+            case ILUMINACAO_FLUORESCENTE:
+            case ILUMINACAO_FLUORESCENTE_PERDAS:
+            case ILUMINACAO_INCADESCENTE:
+                if (bitola < 1.5) {
+                    bitolaMin = 1.5;
+                    break;
+                }
+
+            case EQUIPAMENTOS_ESPECIAIS:
+            case GERAL:
+            case MOTOR:
+            case TOMADA_USO_GERAL:
+                if (bitola < 2.5) {
+                    bitolaMin = 2.5;
+                    break;
+                }
+
+            default:
+                bitolaMin = bitola;
+        }
+        return bitolaMin;
+    }
 
     public double fase() {
         double bitolaCapacidade = 0;
         double bitolaQuedaTensao = 0;
+        double bitolaCurtoCircuito = 0;
         double fase = 0;
 
         bitolaQuedaTensao = new BitolaQuedaTensao()//
@@ -53,47 +81,73 @@ public class Bitola {
                 .withLXI(LXI)//
                 .valor();
 
-            bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), correnteCorr, "BITOLA"), 0);
+        bitolaCurtoCircuito = new BitolaCurtoCircuito()//
+                .withIcs(curto.getCorrenteCurto())//
+                .withIsolacao(isolacao)//
+                .withTe(curto.getTempoElimDef())//
+                .valor();
 
+        bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), correnteCorr, "BITOLA"), 0);
 
-        if (bitolaCapacidade >= bitolaQuedaTensao) {
+        if (bitolaCapacidade >= bitolaQuedaTensao && bitolaCapacidade >= bitolaCurtoCircuito) {
             fase = (bitolaCapacidade);
-        } else {
+        } else if (bitolaQuedaTensao >= bitolaCapacidade && bitolaQuedaTensao >= bitolaCurtoCircuito) {
             for (int i = 0; i < BitolasMili.getLista().size(); i++) {
                 if (bitolaQuedaTensao <= BitolasMili.getLista().get(i).getNumero()) {
                     fase = BitolasMili.getLista().get(i).getNumero();
                     break;
                 }
             }
+        } else {
+            for (int i = 0; i < BitolasMili.getLista().size(); i++) {
+                if (bitolaCurtoCircuito <= BitolasMili.getLista().get(i).getNumero()) {
+                    fase = BitolasMili.getLista().get(i).getNumero();
+                    break;
+                }
+            }
         }
 
-        return fase;
+        return bitolaMinima(fase);
     }
 
     public double neutro() {
         double neutro = 0;
-        if (fase() <= 25) {
+        double potApaComNeutro = 0;
+        for (Carga carga : cargas) {
+            if (!(carga.getLigacao() == Ligacao.FF || carga.getLigacao() == Ligacao.FFF)) {
+                potApaComNeutro += carga.getPotenciaAparente();
+            }
+        }
+        //pag136. condicao para o neutro
+        if (0.1 * potApaDem < potApaComNeutro) {
             neutro = fase();
-        } else if (fase() == 35) {
-            neutro = 25;
-        } else if (fase() == 50) {
-            neutro = 25;
-        } else if (fase() == 70) {
-            neutro = 35;
-        } else if (fase() == 95) {
-            neutro = 50;
-        } else if (fase() == 120) {
-            neutro = 70;
-        } else if (fase() == 150) {
-            neutro = 70;
-        } else if (fase() == 185) {
-            neutro = 95;
-        } else if (fase() == 240) {
-            neutro = 120;
-        } else if (fase() == 300) {
-            neutro = 150;
-        } else if (fase() == 500) {
-            neutro = 185;
+        } else {
+
+            if (fase() <= 25) {
+                neutro = fase();
+            } else if (fase() == 35) {
+                neutro = 25;
+            } else if (fase() == 50) {
+                neutro = 25;
+            } else if (fase() == 70) {
+                neutro = 35;
+            } else if (fase() == 95) {
+                neutro = 50;
+            } else if (fase() == 120) {
+                neutro = 70;
+            } else if (fase() == 150) {
+                neutro = 70;
+            } else if (fase() == 185) {
+                neutro = 95;
+            } else if (fase() == 240) {
+                neutro = 120;
+            } else if (fase() == 300) {
+                neutro = 150;
+            } else if (fase() == 400) {
+                neutro = 185;
+            } else if (fase() == 500) {
+                neutro = 185;
+            }
         }
         return neutro;
     }
@@ -140,13 +194,13 @@ public class Bitola {
         this.material = material;
         return this;
     }
-    
-     public Bitola withUsabilidade(Usabilidade usabilidade) {
+
+    public Bitola withUsabilidade(Usabilidade usabilidade) {
         this.usabilidade = usabilidade;
         return this;
     }
-     
-      public Bitola withLXI(double LXI) {
+
+    public Bitola withLXI(double LXI) {
         this.LXI = LXI;
         return this;
     }
@@ -160,19 +214,14 @@ public class Bitola {
         this.correnteCorr = correnteCorr;
         return this;
     }
-    
+
     public Bitola withTensaoFN(double tensaoFN) {
         this.tensaoFN = tensaoFN;
         return this;
     }
-    
+
     public Bitola withLigacao(Ligacao ligacao) {
         this.ligacao = ligacao;
-        return this;
-    }
-    
-        public Bitola withCorrenteIB(double correnteIB) {
-        this.correnteIB = correnteIB;
         return this;
     }
 
@@ -200,7 +249,7 @@ public class Bitola {
         this.quedaTensao = quedaTensao;
         return this;
     }
-    
+
     public Bitola withCargas(List<Carga> cargas) {
         this.cargas = cargas;
         return this;
@@ -211,22 +260,27 @@ public class Bitola {
         return this;
     }
 
-    public Bitola withCondutoresCarregados(int condutoresCarregados) {
-        this.condutoresCarregados = condutoresCarregados;
+    public Bitola withParametroEspecial(String paramEspecial) {
+        this.paramEspecial = paramEspecial;
         return this;
     }
 
-    public Bitola withParametroEspecial(String paramEspecial) {
-        this.paramEspecial = paramEspecial;
+    public Bitola withPotAparenteDem(double valor) {
+        this.potApaDem = valor;
+        return this;
+    }
+    
+        public Bitola withCurto(Curto curto) {
+        this.curto = curto;
         return this;
     }
 
     private String parametro() {
         String para = "";
         if (isolacao.equalsIgnoreCase("PVC")) {
-            para = "P" + instalacao.name() + paramEspecial + condutoresCarregados;
+            para = "P" + instalacao.name() + paramEspecial + ligacao.getNumeroCondutCarregados();
         } else {
-            para = "X" + instalacao.name() + paramEspecial + condutoresCarregados;
+            para = "X" + instalacao.name() + paramEspecial + ligacao.getNumeroCondutCarregados();
         }
         System.out.println("parametro: " + para);
         return para;

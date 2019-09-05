@@ -8,7 +8,6 @@ package chc.eletrica8.janelas;
 import chc.eletrica8.controle.Ids;
 import chc.eletrica8.dao.ConnectionFactory;
 import chc.eletrica8.entidades.Fonte;
-import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.servico.FonteService;
 import chc.eletrica8.servico.report.ReportUtils;
 import java.io.InputStream;
@@ -131,9 +130,9 @@ public class RelatorioFonteFrm extends javax.swing.JInternalFrame {
         // mapa de parâmetros do relatório (ainda vamos aprender a usar)
         Map parametros = new HashMap();
 
-        parametros.put("PotAtivaFonteKVA", fonte.getResultados().getPotAtivaKVA());
-        parametros.put("PotAtivaDemFonteKVA", fonte.getResultados().getPotAtivaDemKVA());
-        parametros.put("FatorDemanda", fonte.getResultados().getPotAtivaKVA() / fonte.getResultados().getPotAtivaDemKVA());
+        parametros.put("PotAtivaFonteKVA", fonte.getResultados().getPotAparenteKVA());
+        parametros.put("PotAtivaDemFonteKVA", fonte.getResultados().getPotAparenteDemKVA());
+        parametros.put("FatorDemanda", fonte.getResultados().getPotAparenteDemKVA() / fonte.getResultados().getPotAparenteKVA());
 
         try {
             // abre o relatório

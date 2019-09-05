@@ -64,11 +64,11 @@ public class PrincipalFrm extends javax.swing.JFrame {
         desktop.setLayout(desktopLayout);
         desktopLayout.setHorizontalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 833, Short.MAX_VALUE)
+            .addGap(0, 1239, Short.MAX_VALUE)
         );
         desktopLayout.setVerticalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 522, Short.MAX_VALUE)
+            .addGap(0, 681, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Projeto");
@@ -120,7 +120,7 @@ public class PrincipalFrm extends javax.swing.JFrame {
             .addComponent(desktop)
         );
 
-        setSize(new java.awt.Dimension(843, 573));
+        setSize(new java.awt.Dimension(1249, 732));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

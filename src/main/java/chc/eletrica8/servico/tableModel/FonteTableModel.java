@@ -18,7 +18,7 @@ public class FonteTableModel extends AbstractTableModel {
 
     /* Array de Strings com o nome das colunas. */
     private String[] colunas = new String[]{
-        "Nome", "IAtiva", "IReat", "IApar", "IAtDem", "IReatDem", "IAparDem", "PotInst", "PotDemKVA", "FatorDemKVA"};
+        "Nome", "PotInstKVA", "PotInstDemKVA", "FatorDem"};
 
 
     /* Cria um CircuitoTableModel vazio. */
@@ -77,18 +77,6 @@ public class FonteTableModel extends AbstractTableModel {
                 return String.class;
             case 3:
                 return String.class;
-            case 4:
-                return String.class;
-            case 5:
-                return String.class;
-            case 6:
-                return String.class;
-            case 7:
-                return String.class;
-            case 8:
-                return String.class;
-            case 9:
-                return String.class;
 
             default:
                 // Se o índice da coluna não for válido, lança um
@@ -115,23 +103,11 @@ public class FonteTableModel extends AbstractTableModel {
             case 0:
                 return font.getNome();
             case 1:
-                return Numero.decimal(font.getResultados().getCorrenteAtiva(), "##.#");
+                return Numero.decimal(font.getResultados().getPotAparenteKVA(), "##.#");
             case 2:
-                return Numero.decimal(font.getResultados().getCorrenteReativa(), "##.#");
+                return Numero.decimal(font.getResultados().getPotAparenteDemKVA(), "##.#");
             case 3:
-                return Numero.decimal(font.getResultados().getCorrenteAparente(), "##.#");
-            case 4:
-                return Numero.decimal(font.getResultados().getCorrenteAtivaDem(), "##.#");
-            case 5:
-                return Numero.decimal(font.getResultados().getCorrenteReativaDem(), "##.#");
-            case 6:
-                return Numero.decimal(font.getResultados().getCorrenteAparenteDem(), "##.#");
-            case 7:
-                return Numero.decimal(font.getResultados().getPotAtivaKVA(), "##.#");
-            case 8:
-                return Numero.decimal(font.getResultados().getPotAtivaDemKVA(), "##.#");
-            case 9:
-                return Numero.decimal(font.getResultados().getPotAtivaDemKVA() / font.getResultados().getPotAtivaKVA(), "##.##");
+                return Numero.decimal(font.getResultados().getPotAparenteDemKVA() / font.getResultados().getPotAparenteKVA(), "##.##");
 
             default:
                 // Se o índice da coluna não for válido, lança um

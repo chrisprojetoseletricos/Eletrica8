@@ -1,6 +1,7 @@
 package chc.eletrica8.entidades;
 
 import chc.eletrica8.calculos.Bitola;
+import chc.eletrica8.calculos.CorrenteCircuito;
 import chc.eletrica8.calculos.CorrenteQuadro;
 import chc.eletrica8.controle.Ids;
 import chc.eletrica8.enums.Enterrado;
@@ -80,12 +81,192 @@ public class Quadro implements Serializable, Entidade<Quadro> {
         Collections.sort(circuitos);
     }
 
-    public void potAtivaKVA() {
-        resultados.setPotAtiva(Math.sqrt(3) * resultados.getCorrenteAtiva() * resultados.getTensao() / 1000);
+    public void correnteAtiva() {
+        double correnteAtiva = 0;
+        if (circuitos.isEmpty()) {
+            for (Quadro quadro : quadros) {
+                correnteAtiva += quadro.getResultados().getCorrenteAtiva();
+            }
+        } else {
+            double corrente1 = new CorrenteQuadro("Ativa")//
+                    .withCircuito(circuitos)//
+                    .withLigacao(resultados.getLigacao())//
+                    .valor();
+
+            double corrente2 = 0;
+            switch (resultados.getLigacao()) {
+                case FFF:
+                case FFFN:
+                    corrente2 = resultados.getPotAparente() / (Math.sqrt(3) * resultados.getTensao());
+                    break;
+                default:
+                    corrente2 = resultados.getPotAparente() / (resultados.getTensao());
+                    break;
+            }
+            if (corrente1 >= corrente2) {
+                correnteAtiva += corrente1;
+            } else {
+                correnteAtiva += corrente2;
+            }
+        }
+        resultados.setCorrenteAtiva(correnteAtiva);
     }
 
-    public void potAtivaDemKVA() {
-        resultados.setPotAtivaDem(Math.sqrt(3) * resultados.getCorrenteAtivaDem() * resultados.getTensao() / 1000);
+    public void correnteAtivaDem() {
+       double correnteAtivaDem = 0;
+        if (circuitos.isEmpty()) {
+            for (Quadro quadro : quadros) {
+                correnteAtivaDem += quadro.getResultados().getCorrenteAtivaDem();
+            }
+        } else {
+            double corrente1 = new CorrenteQuadro("AtivaDem")//
+                    .withCircuito(circuitos)//
+                    .withLigacao(resultados.getLigacao())//
+                    .valor();
+
+            double corrente2 = 0;
+            switch (resultados.getLigacao()) {
+                case FFF:
+                case FFFN:
+                    corrente2 = resultados.getPotAparenteDem() / (Math.sqrt(3) * resultados.getTensao());
+                    break;
+                default:
+                    corrente2 = resultados.getPotAparenteDem() / (resultados.getTensao());
+                    break;
+            }
+            if (corrente1 >= corrente2) {
+                correnteAtivaDem += corrente1;
+            } else {
+                correnteAtivaDem += corrente2;
+            }
+        }
+        resultados.setCorrenteAtivaDem(correnteAtivaDem);
+    }
+
+    public void potAtivaKW() {
+        double pot = 0;
+        for (Circuito circuito : this.circuitos) {
+            for (Carga carga : circuito.getCargas()) {
+                pot += carga.getPotenciaAtiva();
+            }
+        }
+        if (quadros.isEmpty()) {
+        } else {
+            List<Quadro> listaQuadros = quadros;
+            for (Quadro quadro : listaQuadros) {
+                for (Circuito circuito : quadro.circuitos) {
+                    for (Carga carga : circuito.getCargas()) {
+                        pot += carga.getPotenciaAtiva();
+                    }
+                }
+            }
+        }
+        resultados.setPotAtiva(pot);
+    }
+
+    public void potReativaKVAr() {
+        double pot = 0;
+        for (Circuito circuito : this.circuitos) {
+            for (Carga carga : circuito.getCargas()) {
+                pot += carga.getPotenciaAtiva();
+            }
+        }
+        if (quadros.isEmpty()) {
+        } else {
+            List<Quadro> listaQuadros = quadros;
+            for (Quadro quadro : listaQuadros) {
+                for (Circuito circuito : quadro.circuitos) {
+                    for (Carga carga : circuito.getCargas()) {
+                        pot += carga.getPotenciaAtiva();
+                    }
+                }
+            }
+        }
+        resultados.setPotAtiva(pot);
+    }
+
+    public void potAtivaDemKW() {
+        double pot = 0;
+        for (Circuito circuito : this.circuitos) {
+            for (Carga carga : circuito.getCargas()) {
+                pot += carga.getPotenciaAtivaDem();
+            }
+        }
+        if (quadros.isEmpty()) {
+        } else {
+            List<Quadro> listaQuadros = quadros;
+            for (Quadro quadro : listaQuadros) {
+                for (Circuito circuito : quadro.circuitos) {
+                    for (Carga carga : circuito.getCargas()) {
+                        pot += carga.getPotenciaAtivaDem();
+                    }
+                }
+            }
+        }
+        resultados.setPotAtivaDem(pot);
+    }
+
+    public void potReativaDemKVAr() {
+        double pot = 0;
+        for (Circuito circuito : this.circuitos) {
+            for (Carga carga : circuito.getCargas()) {
+                pot += carga.getPotenciaReativaDem();
+            }
+        }
+        if (quadros.isEmpty()) {
+        } else {
+            List<Quadro> listaQuadros = quadros;
+            for (Quadro quadro : listaQuadros) {
+                for (Circuito circuito : quadro.circuitos) {
+                    for (Carga carga : circuito.getCargas()) {
+                        pot += carga.getPotenciaReativaDem();
+                    }
+                }
+            }
+        }
+        resultados.setPotReativaDem(pot);
+    }
+
+    public void potAparenteKVA() {
+        double pot = 0;
+        for (Circuito circuito : this.circuitos) {
+            for (Carga carga : circuito.getCargas()) {
+                pot += carga.getPotenciaAparente();
+            }
+        }
+        if (quadros.isEmpty()) {
+        } else {
+            List<Quadro> listaQuadros = quadros;
+            for (Quadro quadro : listaQuadros) {
+                for (Circuito circuito : quadro.circuitos) {
+                    for (Carga carga : circuito.getCargas()) {
+                        pot += carga.getPotenciaAparente();
+                    }
+                }
+            }
+        }
+        resultados.setPotAparente(pot);
+    }
+
+    public void potAparenteDemKVA() {
+        double pot = 0;
+        for (Circuito circuito : this.circuitos) {
+            for (Carga carga : circuito.getCargas()) {
+                pot += carga.getPotenciaAparenteDem();
+            }
+        }
+        if (quadros.isEmpty()) {
+        } else {
+            List<Quadro> listaQuadros = quadros;
+            for (Quadro quadro : listaQuadros) {
+                for (Circuito circuito : quadro.circuitos) {
+                    for (Carga carga : circuito.getCargas()) {
+                        pot += carga.getPotenciaAparenteDem();
+                    }
+                }
+            }
+        }
+        resultados.setPotAparenteDem(pot);
     }
 
     public void tensao() {
@@ -102,7 +283,11 @@ public class Quadro implements Serializable, Entidade<Quadro> {
     }
 
     public void correnteCorr() {
-        double correnteIB = resultados.getCorrenteAtiva();
+
+        double corrente = 0;
+
+        corrente = resultados.getCorrenteAtivaDem();
+
         double fatorTemp = Numero.stringToDouble(//
                 Matriz.pegarValorMatrizEspecial(new LerCSV(tabelaCorrecaoTemp(condutor).getNome()).toMatriz(),//
                         Integer.toString(condutor.getTemperatura()),//
@@ -147,109 +332,32 @@ public class Quadro implements Serializable, Entidade<Quadro> {
             }
         }
 
-        resultados.setCorrenteCorr(correnteIB / (fatorTemp * fatorAgrupa));
+        resultados.setCorrenteCorr(corrente / (fatorTemp * fatorAgrupa));
     }
 
     public void fatorPotenciaMed() {
         double fp = 0;
         int i = 0;
+
+        for (Quadro quadro : quadros) {
+            if (quadro.getQuadroGeral() != null) {
+                fp += quadro.getResultados().getFp();
+                i++;
+            }
+        }
+
         for (Circuito circuito : circuitos) {
             for (Carga carga : circuito.getCargas()) {
                 fp += carga.getFp();
                 i++;
             }
         }
+
         if (i == 0) {
             resultados.setFp(0);
         } else {
             resultados.setFp(fp / i);
         }
-    }
-
-    public void correnteAtiva() {
-        double correnteAtiva = 0;
-        if (circuitos.isEmpty()) {
-        } else {
-            correnteAtiva = new CorrenteQuadro("Ativa")//
-                    .withCircuito(circuitos)//
-                    .withLigacao(resultados.getLigacao())//
-                    .valor();
-        }
-        if (this.somaQuadrosFilhos().isEmpty()) {
-        } else {
-            List<Quadro> listaQuadros = this.somaQuadrosFilhos();
-            for (Quadro quadro : listaQuadros) {
-                correnteAtiva += quadro.getResultados().getCorrenteAtiva();
-            }
-        }
-        resultados.setCorrenteAtiva(correnteAtiva);
-    }
-
-    public void correnteAtivaDem() {
-        double correnteAtivaDem = 0;
-        if (circuitos.isEmpty()) {
-        } else {
-            correnteAtivaDem = new CorrenteQuadro("AtivaDem")//
-                    .withCircuito(circuitos)//
-                    .withLigacao(resultados.getLigacao())//
-                    .valor();
-        }
-        if (this.somaQuadrosFilhos().isEmpty()) {
-        } else {
-            List<Quadro> listaQuadros = this.somaQuadrosFilhos();
-            for (Quadro quadro : listaQuadros) {
-                correnteAtivaDem += quadro.getResultados().getCorrenteAtivaDem();
-            }
-        }
-        resultados.setCorrenteAtivaDem(correnteAtivaDem);
-    }
-
-    public void correnteReativa() {
-        double correnteReativa = 0;
-        if (circuitos.isEmpty()) {
-        } else {
-            correnteReativa = new CorrenteQuadro("Reativa")//
-                    .withCircuito(circuitos)//
-                    .withLigacao(resultados.getLigacao())//
-                    .valor();
-        }
-        if (this.somaQuadrosFilhos().isEmpty()) {
-        } else {
-            List<Quadro> listaQuadros = this.somaQuadrosFilhos();
-            for (Quadro quadro : listaQuadros) {
-                correnteReativa += quadro.getResultados().getCorrenteReativa();
-            }
-        }
-        resultados.setCorrenteReativa(correnteReativa);
-    }
-
-    public void correnteReativaDem() {
-        double correnteReativaDem = 0;
-        if (circuitos.isEmpty()) {
-        } else {
-            correnteReativaDem = new CorrenteQuadro("ReativaDem")//
-                    .withCircuito(circuitos)//
-                    .withLigacao(resultados.getLigacao())//
-                    .valor();
-        }
-        if (this.somaQuadrosFilhos().isEmpty()) {
-        } else {
-            List<Quadro> listaQuadros = this.somaQuadrosFilhos();
-            for (Quadro quadro : listaQuadros) {
-                correnteReativaDem += quadro.getResultados().getCorrenteReativaDem();
-            }
-        }
-        resultados.setCorrenteReativaDem(correnteReativaDem);
-    }
-
-    public void correnteAparente() {
-        resultados.setCorrenteAparente((Math.sqrt(Math.pow(resultados.getCorrenteAtiva(), 2) + Math.pow(resultados.getCorrenteReativa(), 2))));
-
-    }
-
-    public void correnteAparenteDem() {
-        resultados.setCorrenteAparenteDem((Math.sqrt(Math.pow(resultados.getCorrenteAtivaDem(), 2) + Math.pow(resultados.getCorrenteReativaDem(), 2))));
-
     }
 
     public Tabelas tabelaCapacidadeCorr(Condutor condutor) {
@@ -300,21 +408,45 @@ public class Quadro implements Serializable, Entidade<Quadro> {
 
     public double LXI() {
 
-        return condutor.getComprimento() * resultados.getCorrenteAtiva();
+        return condutor.getComprimento() * resultados.getCorrenteAparenteDem();
     }
 
     public List<Carga> todasCargas() {
         List<Carga> cargas = new ArrayList<>();
-        for (Circuito circuito : this.getCircuitos()) {
+        for(Quadro quadro : quadros){
+        
+        for (Circuito circuito : quadro.getCircuitos()) {
             for (Carga carga : circuito.getCargas()) {
                 cargas.add(carga);
             }
         }
+        }
         return cargas;
     }
 
-    public void faseCondutor() {
+    public Ligacao ligacaoCargaMaior() {
+        Ligacao liga = Ligacao.FN;
+        double corrente = 0;
+        for (Circuito circuito : circuitos) {
+            for (Carga carga : circuito.getCargas()) {
+                if (resultados.getCorrenteAtiva() > corrente) {
+                    liga = carga.getLigacao();
+                    corrente = resultados.getCorrenteAtiva();
+                }
+            }
+        }
 
+        return liga;
+    }
+
+    public void faseCondutor() {
+        Ligacao ligacao = Ligacao.FN;
+
+        if (quadroGeral == null) {
+            ligacao = resultados.getLigacao();
+        } else {
+            ligacao = ligacaoCargaMaior();
+        }
         double fase = new Bitola()//
                 .withEnterrado(condutor.getEnterrado())//
                 .withInstalacao(condutor.getModoInstalacao())//
@@ -323,16 +455,16 @@ public class Quadro implements Serializable, Entidade<Quadro> {
                 .withTabelaCapacidadeCorrente(new LerCSV(tabelaCapacidadeCorr(condutor.getMaterial()).getNome()).toMatriz())//
                 .withMaterial(condutor.getMaterial())//
                 .withIsolacao(condutor.getIsolacao())//
-                .withCondutoresCarregados(resultados.numCirCarregados())//
                 .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
                 .withCargas(todasCargas())//
                 .withCorrenteCorr(resultados.getCorrenteCorr())//
-                .withCorrenteIB(resultados.getCorrenteAtiva())//
                 .withFornecimento(tipo)//
                 .withUsabilidade(usabilidade)//
-                .withLigacao(resultados.getLigacao())//
+                .withLigacao(ligacao)//
                 .withTensaoFN(fonte.getTensaoFN())//
                 .withLXI(LXI())//
+                .withPotAparenteDem(resultados.getPotAparenteDem())//
+                .withCurto(curto)//
                 .fase();
 
         resultados.setFase(fase);
@@ -340,6 +472,13 @@ public class Quadro implements Serializable, Entidade<Quadro> {
     }
 
     public void neutroCondutor() {
+        Ligacao ligacao = Ligacao.FN;
+
+        if (quadroGeral == null) {
+            ligacao = resultados.getLigacao();
+        } else {
+            ligacao = ligacaoCargaMaior();
+        }
 
         double neutro = new Bitola()//
                 .withEnterrado(condutor.getEnterrado())//
@@ -349,16 +488,16 @@ public class Quadro implements Serializable, Entidade<Quadro> {
                 .withTabelaCapacidadeCorrente(new LerCSV(tabelaCapacidadeCorr(condutor.getMaterial()).getNome()).toMatriz())//
                 .withMaterial(condutor.getMaterial())//
                 .withIsolacao(condutor.getIsolacao())//
-                .withCondutoresCarregados(resultados.numCirCarregados())//
                 .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
                 .withCargas(todasCargas())//
                 .withCorrenteCorr(resultados.getCorrenteCorr())//
-                .withCorrenteIB(resultados.getCorrenteAtiva())//
                 .withFornecimento(tipo)//
                 .withUsabilidade(usabilidade)//
-                .withLigacao(resultados.getLigacao())//
+                .withLigacao(ligacao)//
                 .withTensaoFN(fonte.getTensaoFN())//
                 .withLXI(LXI())//
+                .withPotAparenteDem(resultados.getPotAparenteDem())//
+                .withCurto(curto)//
                 .neutro();
 
         resultados.setNeutro(neutro);
@@ -366,6 +505,13 @@ public class Quadro implements Serializable, Entidade<Quadro> {
     }
 
     public void bitolaCondutor() {
+        Ligacao ligacao = Ligacao.FN;
+
+        if (quadroGeral == null) {
+            ligacao = resultados.getLigacao();
+        } else {
+            ligacao = ligacaoCargaMaior();
+        }
 
         String bitola = new Bitola()//
                 .withEnterrado(condutor.getEnterrado())//
@@ -375,16 +521,16 @@ public class Quadro implements Serializable, Entidade<Quadro> {
                 .withTabelaCapacidadeCorrente(new LerCSV(tabelaCapacidadeCorr(condutor.getMaterial()).getNome()).toMatriz())//
                 .withMaterial(condutor.getMaterial())//
                 .withIsolacao(condutor.getIsolacao())//
-                .withCondutoresCarregados(resultados.numCirCarregados())//
                 .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
                 .withCargas(todasCargas())//
                 .withCorrenteCorr(resultados.getCorrenteCorr())//
-                .withCorrenteIB(resultados.getCorrenteAtiva())//
                 .withFornecimento(tipo)//
                 .withUsabilidade(usabilidade)//
-                .withLigacao(resultados.getLigacao())//
+                .withLigacao(ligacao)//
                 .withTensaoFN(fonte.getTensaoFN())//
                 .withLXI(LXI())//
+                .withPotAparenteDem(resultados.getPotAparenteDem())//
+                .withCurto(curto)//
                 .formatado();
 
         resultados.setBitola(bitola);
@@ -392,6 +538,13 @@ public class Quadro implements Serializable, Entidade<Quadro> {
     }
 
     public void terraCondutor() {
+        Ligacao ligacao = Ligacao.FN;
+
+        if (quadroGeral == null) {
+            ligacao = resultados.getLigacao();
+        } else {
+            ligacao = ligacaoCargaMaior();
+        }
 
         double terra = new Bitola()//
                 .withEnterrado(condutor.getEnterrado())//
@@ -401,16 +554,16 @@ public class Quadro implements Serializable, Entidade<Quadro> {
                 .withTabelaCapacidadeCorrente(new LerCSV(tabelaCapacidadeCorr(condutor.getMaterial()).getNome()).toMatriz())//
                 .withMaterial(condutor.getMaterial())//
                 .withIsolacao(condutor.getIsolacao())//
-                .withCondutoresCarregados(resultados.numCirCarregados())//
                 .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
                 .withCargas(todasCargas())//
                 .withCorrenteCorr(resultados.getCorrenteCorr())//
-                .withCorrenteIB(resultados.getCorrenteAtiva())//
                 .withFornecimento(tipo)//
                 .withUsabilidade(usabilidade)//
-                .withLigacao(resultados.getLigacao())//
+                .withLigacao(ligacao)//
                 .withTensaoFN(fonte.getTensaoFN())//
                 .withLXI(LXI())//
+                .withPotAparenteDem(resultados.getPotAparenteDem())//
+                .withCurto(curto)//
                 .terra();
 
         resultados.setTerra(terra);
@@ -453,7 +606,8 @@ public class Quadro implements Serializable, Entidade<Quadro> {
         } else {
             int num = 0;
             String n = "Não";
-            for (Quadro quadro : fonte.getQuadros()) {
+            
+            for (Quadro quadro : quadros) {
 
                 if (quadro.getResultados().getLigacao().getNumeroFases() >= num) {
                     num = quadro.getResultados().getLigacao().getNumeroFases();
@@ -495,20 +649,19 @@ public class Quadro implements Serializable, Entidade<Quadro> {
         resultados.setLigacao(temp);
     }
 
-    public List<Quadro> somaQuadrosFilhos() {
+    public List<Quadro> listaQuadrosFilhos() {
         List<Quadro> quadros = new ArrayList<>();
         for (Quadro quadro : FonteService.getById(Ids.getIdFonte()).getQuadros()) {
-            try {
-                String nome = quadro.getQuadroGeral().nome;
-                String esseNome = this.nome;
-                System.out.println("Nome: " + quadro.getQuadroGeral().nome + "  Nome desse quadro: " + quadro.getQuadroGeral().nome);
-                if (nome.equals(esseNome)) {
-                    quadros.add(quadro);
+            if (quadro.getNome().equals(this.nome)) {
+            } else {
+                if (quadro.getQuadroGeral() != null) {
+                    String nome = quadro.getQuadroGeral().nome;
+                    String esseNome = this.nome;
+                    if (nome.equals(esseNome)) {
+                        quadros.add(quadro);
+                    }
                 }
-            } catch (Exception e) {
-
             }
-
         }
         return quadros;
     }

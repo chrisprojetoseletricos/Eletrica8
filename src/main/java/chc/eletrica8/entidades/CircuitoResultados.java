@@ -32,7 +32,11 @@ public class CircuitoResultados implements Serializable, Entidade<CircuitoResult
     private String ligacaoReal;
     private double fp = 0;
     private double potAtiva = 0;
+    private double potReativa = 0;
+    private double potReativaDem = 0;
     private double potAtivaDem = 0;
+        private double potAparente = 0;
+    private double potAparenteDem = 0;
     private double tensao = 0;
 
     public void limpa() {
@@ -60,14 +64,8 @@ public class CircuitoResultados implements Serializable, Entidade<CircuitoResult
     }
 
     public int numCirCarregados() {
-        int num = 0;
-        if (ligacao.getNumeroFases() == 1 || ligacao.getNumeroFases() == 2) {
-            num = 2;
-        } else {
-            num = 3;
-        }
 
-        return num;
+        return ligacao.getNumeroFases();
     }
 
     /**
@@ -225,6 +223,34 @@ public class CircuitoResultados implements Serializable, Entidade<CircuitoResult
     }
 
     /**
+     * @return the potReativa
+     */
+    public double getPotReativa() {
+        return potReativa;
+    }
+
+    /**
+     * @param potReativa the potReativa to set
+     */
+    public void setPotReativa(double potReativa) {
+        this.potReativa = potReativa;
+    }
+
+    /**
+     * @return the potReativaDem
+     */
+    public double getPotReativaDem() {
+        return potReativaDem;
+    }
+
+    /**
+     * @param potReativaDem the potReativaDem to set
+     */
+    public void setPotReativaDem(double potReativaDem) {
+        this.potReativaDem = potReativaDem;
+    }
+
+    /**
      * @return the fp
      */
     public double getFp() {
@@ -321,6 +347,34 @@ public class CircuitoResultados implements Serializable, Entidade<CircuitoResult
     @Override
     public Integer getId() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /**
+     * @return the potAparente
+     */
+    public double getPotAparente() {
+        return potAparente;
+    }
+
+    /**
+     * @param potAparente the potAparente to set
+     */
+    public void setPotAparente(double potAparente) {
+        this.potAparente = potAparente;
+    }
+
+    /**
+     * @return the potAparenteDem
+     */
+    public double getPotAparenteDem() {
+        return potAparenteDem;
+    }
+
+    /**
+     * @param potAparenteDem the potAparenteDem to set
+     */
+    public void setPotAparenteDem(double potAparenteDem) {
+        this.potAparenteDem = potAparenteDem;
     }
 
 }

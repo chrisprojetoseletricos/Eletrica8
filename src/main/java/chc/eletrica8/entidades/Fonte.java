@@ -45,12 +45,24 @@ public class Fonte implements Serializable, Entidade<Fonte> {
     private String descricao;
     private TiposFornecimento tipo = TiposFornecimento.TRIFASICO;
 
-    public void potAtivaKVA() {
-        resultados.setPotAtivaKVA(Math.sqrt(3) * resultados.getCorrenteAtiva() * resultados.getTensao() / 1000);
+    public void potAparenteDemKVA() {
+        double pot = 0;
+        for (Quadro quadro : quadros) {
+            if(quadro.getQuadroGeral() == null){
+            pot += quadro.getResultados().getPotAparenteDem();
+            }
+        }
+        resultados.setPotAparenteDemKVA(pot / 1000);
     }
 
-    public void potAtivaDemKVA() {
-        resultados.setPotAtivaDemKVA(Math.sqrt(3) * resultados.getCorrenteAtivaDem() * resultados.getTensao() / 1000);
+    public void potAparenteKVA() {
+        double pot = 0;
+        for (Quadro quadro : quadros) {
+            if(quadro.getQuadroGeral() == null){
+            pot += quadro.getResultados().getPotAparente();
+            }
+        }
+        resultados.setPotAparenteKVA(pot / 1000);
     }
 
     public void fatorPotenciaMed() {
@@ -100,6 +112,7 @@ public class Fonte implements Serializable, Entidade<Fonte> {
     public void correnteReativa() {
         double correnteReativa = 0;
         if (quadros.isEmpty()) {
+
         } else {
             for (Quadro quadro : quadros) {
                 if (quadro.getQuadroGeral() == null) {
@@ -113,6 +126,7 @@ public class Fonte implements Serializable, Entidade<Fonte> {
     public void correnteReativaDem() {
         double correnteReativaDem = 0;
         if (quadros.isEmpty()) {
+
         } else {
             for (Quadro quadro : quadros) {
                 if (quadro.getQuadroGeral() == null) {

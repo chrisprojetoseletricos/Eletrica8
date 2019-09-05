@@ -5,8 +5,7 @@
  */
 package chc.eletrica8.entidades;
 
-import chc.eletrica8.calculos.PotenciaAtivaDemCarga;
-import chc.eletrica8.calculos.PotenciaAtivaCarga;
+import chc.eletrica8.calculos.ConversorPotencia;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.enums.Usabilidade;
@@ -46,79 +45,35 @@ public class Carga implements Comparable<Carga>, Serializable, Entidade<Carga> {
     private double fs = 1;
     private double fu = 1;
     private double fSimu = 1;
+    private double fp = 1;
+    private double fm = 1;
     @Enumerated(EnumType.STRING)
     private Usabilidade usabilidade;
-    //@Column(colName = "Nome", colPosition = 1)
     private String nome;
     private int nPolos = 2;
-    private double perdasReator = 0;
-
+    private double perdasW = 0;
     private double potencia = 0;
     private double rendimento = 1;
-    private double fp = 1;
     @Enumerated(EnumType.STRING)
     private UnidadePotencia unidade;
     private double comprimentoInstal;
 
     public void correnteAtiva() {
-        if (ligacao == Ligacao.FFF || ligacao == Ligacao.FFFN) {
-            resultados.setCorrenteAtiva(getPotenciaAtiva(UnidadePotencia.VA) / (Math.sqrt(3) * resultados.getTensao()));
+        double corrente = fs * (getPotenciaAtiva() / (resultados.getTensao() * fp));
 
-        } else {
-            resultados.setCorrenteAtiva(getPotenciaAtiva(UnidadePotencia.VA) / (resultados.getTensao()));
+        switch (ligacao) {
+            case FFF:
+            case FFFN:
+                resultados.setCorrenteAtiva(corrente / (Math.sqrt(3)));
+                break;
+            default:
+                resultados.setCorrenteAtiva(corrente);
+                break;
         }
-
-    }
-
-    public void correnteReativa() {
-        if (fp != 1) {
-            if (ligacao == Ligacao.FFF || ligacao == Ligacao.FFFN) {
-                resultados.setCorrenteReativa(getPotenciaAtiva(UnidadePotencia.VA) / (Math.sqrt(3) * resultados.getTensao() * (Math.sin(Math.acos(fp)))));
-
-            } else {
-
-                resultados.setCorrenteReativa(getPotenciaAtiva(UnidadePotencia.VA) / (resultados.getTensao() * (Math.sin(Math.acos(fp)))));
-
-            }
-        }else{
-            resultados.setCorrenteReativa(0);
-        }
-        
-    }
-
-    public void correnteAparente() {
-        resultados.setCorrenteAparente((Math.sqrt(Math.pow(resultados.getCorrenteAtiva(), 2) + Math.pow(resultados.getCorrenteReativa(), 2))));
-
     }
 
     public void correnteAtivaDem() {
-        if (ligacao == Ligacao.FFF || ligacao == Ligacao.FFFN) {
-            resultados.setCorrenteAtivaDem(getPotenciaAtivaDem(UnidadePotencia.VA) / (Math.sqrt(3) * resultados.getTensao()));
-
-        } else {
-            resultados.setCorrenteAtivaDem(getPotenciaAtivaDem(UnidadePotencia.VA) / (resultados.getTensao()));
-        }
-    }
-
-    public void correnteReativaDem() {
-        if (fp != 1) {
-            if (ligacao == Ligacao.FFF || ligacao == Ligacao.FFFN) {
-                resultados.setCorrenteReativaDem(getPotenciaAtivaDem(UnidadePotencia.VA) / (Math.sqrt(3) * resultados.getTensao() * (Math.sin(Math.acos(fp)))));
-
-            } else {
-                resultados.setCorrenteReativaDem(getPotenciaAtivaDem(UnidadePotencia.VA) / (resultados.getTensao() * (Math.sin(Math.acos(fp)))));
-            }
-        }else{
-            resultados.setCorrenteReativaDem(0);
-        }
-        
-    }
-
-    public void correnteAparenteDem() {
-        double cad = Math.pow(resultados.getCorrenteAtivaDem(), 2);
-        double crd = Math.pow(resultados.getCorrenteReativaDem(), 2);
-        double res = Math.sqrt(cad + crd);
-        resultados.setCorrenteAparenteDem(res);
+        resultados.setCorrenteAtivaDem(resultados.getCorrenteAtiva() * fd * fSimu);
     }
 
     public void tensao() {
@@ -134,54 +89,91 @@ public class Carga implements Comparable<Carga>, Serializable, Entidade<Carga> {
         }
     }
 
-    public double getPotenciaAtivaDem(UnidadePotencia unidadeDestino) {
-        double demanda = 0;
-        try {
-            demanda = new PotenciaAtivaDemCarga()//
-                    .withFd(fd)//
-                    .withFp(fp)//
-                    .withFu(fu)//
-                    .withSimu(fSimu)//
-                    .withRendimento(rendimento)//
-                    .withFatorCompensacaoPerdas(1.8)//
-                    .withPerdasReator(perdasReator)//
-                    .withPotencia(potencia)//
-                    .withUnidadeOrigem(unidade)//
-                    .withUnidadeDestino(unidadeDestino)//
-                    .withUsabilidade(usabilidade)//
-                    .valor();
-        } catch (Exception e) {
-
+    public double getPotenciaAtiva() {
+        double valor = 0;
+        switch (usabilidade) {
+            case ILUMINACAO_FLUORESCENTE_PERDAS:
+                valor = fm * quantidade * (convertePotencia(UnidadePotencia.W) + perdasW);
+                break;
+            default:
+                valor = fm * quantidade * (convertePotencia(UnidadePotencia.W) + perdasW);
+                break;
         }
-        return demanda;
+        return valor;
     }
 
-    public double getPotenciaAtiva(UnidadePotencia unidadeDestino) {
-        double pot = 0;
-        try {
-            pot = new PotenciaAtivaCarga()//
-                    .withFp(fp)//
-                    .withFu(fu)//
-                    .withRendimento(rendimento)//
-                    .withFatorCompensacaoPerdas(1.8)//
-                    .withPerdasReator(perdasReator)//
-                    .withPotencia(potencia)//
-                    .withUnidadeOrigem(unidade)//
-                    .withUnidadeDestino(unidadeDestino)//
-                    .withUsabilidade(usabilidade)//
-                    .valor();
-        } catch (Exception e) {
-
+    public double getPotenciaAparente() {
+        double valor = 0;
+        switch (usabilidade) {
+            case ILUMINACAO_FLUORESCENTE_PERDAS:
+                valor = fm * quantidade * (convertePotencia(UnidadePotencia.W) + perdasW / fp);
+                break;
+            default:
+                valor = getPotenciaAtiva() / fp;
+                break;
         }
-        return pot;
+
+        return valor;
     }
 
-    public void potAtivaKVA() {
-        resultados.setPotAtiva(getPotenciaAtiva(UnidadePotencia.VA) / 1000);
+    public double getPotenciaReativa() {
+        double valor = 0;
+
+        valor = getPotenciaAparente() * Math.sin(Math.acos(fp));
+        return valor;
     }
 
-    public void potAtivaDemKVA() {
-        resultados.setPotAtivaDem(getPotenciaAtivaDem(UnidadePotencia.VA) / 1000);
+    public double getPotenciaAtivaDem() {
+        double valor = 0;
+        valor = getPotenciaAtiva() * fd * fSimu;
+        return valor;
+    }
+
+    public double getPotenciaReativaDem() {
+        double valor = 0;
+        valor = getPotenciaReativa() * fd * fSimu;
+        return valor;
+    }
+
+    public double getPotenciaAparenteDem() {
+        double valor = 0;
+        valor = getPotenciaAparente() * fd * fSimu;
+        return valor;
+    }
+
+    private double convertePotencia(UnidadePotencia destino) {
+        return new ConversorPotencia()//
+                .withFatorPotencia(fp)//
+                .withPotencia(potencia)//
+                .withUnidadeOrigem(unidade)//
+                .withFu(fu)//
+                .withRendimento(rendimento)//
+                .withUnidadeDestino(destino)//
+                .converte();
+    }
+
+    public void potAtivaKW() {
+        resultados.setPotAtiva(getPotenciaAtiva());
+    }
+
+    public void potAtivaDemKW() {
+        resultados.setPotAtivaDem(getPotenciaAtivaDem());
+    }
+
+    public void potReativaKVAr() {
+        resultados.setPotReativa(getPotenciaReativa());
+    }
+
+    public void potReativaDemKVAr() {
+        resultados.setPotReativaDem(getPotenciaReativaDem());
+    }
+
+    public void potAparenteKVA() {
+        resultados.setPotAparente(getPotenciaAparente());
+    }
+
+    public void potAparenteDemKVA() {
+        resultados.setPotAparenteDem(getPotenciaAparenteDem());
     }
 
     /**
@@ -210,6 +202,20 @@ public class Carga implements Comparable<Carga>, Serializable, Entidade<Carga> {
      */
     public void setComprimentoInstal(double comprimentoInstal) {
         this.comprimentoInstal = comprimentoInstal;
+    }
+
+    /**
+     * @return the fm
+     */
+    public double getFm() {
+        return fm;
+    }
+
+    /**
+     * @param fm the fm to set
+     */
+    public void setFm(double fm) {
+        this.fm = fm;
     }
 
     /**
@@ -257,15 +263,15 @@ public class Carga implements Comparable<Carga>, Serializable, Entidade<Carga> {
     /**
      * @return the perdasReator
      */
-    public double getPerdasReator() {
-        return perdasReator;
+    public double getPerdasW() {
+        return perdasW;
     }
 
     /**
-     * @param perdasReator the perdasReator to set
+     * @param perdasW the perdasReator to set
      */
-    public void setPerdasReator(double perdasReator) {
-        this.perdasReator = perdasReator;
+    public void setPerdasW(double perdasW) {
+        this.perdasW = perdasW;
     }
 
     /**
@@ -425,7 +431,7 @@ public class Carga implements Comparable<Carga>, Serializable, Entidade<Carga> {
         e.setLocalizacao(localizacao);
         e.setNome(nome);
         e.setnPolos(nPolos);
-        e.setPerdasReator(perdasReator);
+        e.setPerdasW(perdasW);
         e.setPotencia(potencia);
         e.setRendimento(rendimento);
         e.setFp(fp);

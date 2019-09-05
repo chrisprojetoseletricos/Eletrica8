@@ -141,7 +141,7 @@ public class Ex1_1 {
         lampFlu.setQuantidade(150);
         lampFlu.setPotencia(40);
         lampFlu.setUnidade(UnidadePotencia.W);
-        lampFlu.setPerdasReator(15.3);
+        lampFlu.setPerdasW(15.3);
         lampFlu.setFp(0.4);
         lampFlu.setUsabilidade(Usabilidade.ILUMINACAO_FLUORESCENTE_PERDAS);
         lampFlu.setCircuito(CIR_FL);

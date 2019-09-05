@@ -22,8 +22,8 @@ public class FonteResultados implements Serializable, Entidade<FonteResultados> 
     private double correnteAtivaDem = 0;
     private double correnteAparenteDem = 0;
     private double correnteReativaDem = 0;
-    private double potAtivaKVA = 0;
-    private double potAtivaDemKVA = 0;
+    private double potAparenteKVA = 0;
+    private double potAparenteDemKVA = 0;
     private Ligacao ligacao = Ligacao.FN;
     private double fp = 0;
     private double tensao = 0;
@@ -113,33 +113,32 @@ public class FonteResultados implements Serializable, Entidade<FonteResultados> 
         this.correnteReativaDem = correnteReativaDem;
     }
 
-
     /**
-     * @return the potAtivaKVA
+     * @return the potAparenteKVA
      */
-    public double getPotAtivaKVA() {
-        return potAtivaKVA;
+    public double getPotAparenteKVA() {
+        return potAparenteKVA;
     }
 
     /**
-     * @param potAtivaKVA the potAtivaKVA to set
+     * @param potAparenteKVA the potAparenteKVA to set
      */
-    public void setPotAtivaKVA(double potAtivaKVA) {
-        this.potAtivaKVA = potAtivaKVA;
+    public void setPotAparenteKVA(double potAparenteKVA) {
+        this.potAparenteKVA = potAparenteKVA;
     }
 
     /**
-     * @return the potAtivaDemKVA
+     * @return the potAparenteDemKVA
      */
-    public double getPotAtivaDemKVA() {
-        return potAtivaDemKVA;
+    public double getPotAparenteDemKVA() {
+        return potAparenteDemKVA;
     }
 
     /**
-     * @param potAtivaDemKVA the potAtivaDemKVA to set
+     * @param potAparenteDemKVA the potAparenteDemKVA to set
      */
-    public void setPotAtivaDemKVA(double potAtivaDemKVA) {
-        this.potAtivaDemKVA = potAtivaDemKVA;
+    public void setPotAparenteDemKVA(double potAparenteDemKVA) {
+        this.potAparenteDemKVA = potAparenteDemKVA;
     }
 
     /**

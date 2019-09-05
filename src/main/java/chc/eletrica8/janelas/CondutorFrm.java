@@ -97,6 +97,7 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
 
         jLabel1.setText("Queda de tensão:");
 
+        campoQuedaTensao.setText("1");
         campoQuedaTensao.setName("campoQuedaTensao"); // NOI18N
 
         jLabel3.setText("Multipolar:");
@@ -118,6 +119,8 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         jLabel9.setText("Temperatura ambiente (°C):");
 
         cbMultipolar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Não", "Sim" }));
+
+        cbInstalacao.setToolTipText("");
 
         jLabel11.setText("Isolação:");
 
@@ -141,12 +144,15 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
 
         jLabel4.setText("Resistividade térmica do solo:");
 
+        campoResistividade.setText("0");
         campoResistividade.setName("campoResistividade"); // NOI18N
 
+        campoTemperatura.setText("30");
         campoTemperatura.setName("campoTemperatura"); // NOI18N
 
         jLabel10.setText("Comprimento (m):");
 
+        campoComprimento.setText("5");
         campoComprimento.setName("campoComprimento"); // NOI18N
 
         jLabel16.setText("Espaçamento entre duto:");
@@ -301,7 +307,6 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         condutor = getDados();
-        // CondutorService.salva(condutor);
     }//GEN-LAST:event_formWindowClosing
 
     /**
@@ -499,6 +504,7 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         this.campoQuedaTensao.addKeyListener(this);
         this.campoResistividade.addKeyListener(this);
         this.campoTemperatura.addKeyListener(this);
+        this.campoComprimento.addKeyListener(this);
     }
 
     public Condutor getCondutor() {
@@ -549,6 +555,7 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         ApenasNumero.campo(e, "campoQuedaTensao");
         ApenasNumero.campo(e, "campoResistividade");
         ApenasNumero.campo(e, "campoTemperatura");
+        ApenasNumero.campo(e, "campoComprimento");
     }
 
     @Override

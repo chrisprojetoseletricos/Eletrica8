@@ -24,6 +24,10 @@ public class CargaResultados implements Serializable, Entidade<CargaResultados> 
     private double tensao = 0;
     private String LigacaoReal;
     private double potAtiva = 0;
+    private double potReativa = 0;
+    private double potAparente = 0;
+    private double potReativaDem = 0;
+    private double potAparenteDem = 0;
     private double potAtivaDem = 0;
 
     public void limpa() {
@@ -155,6 +159,62 @@ public class CargaResultados implements Serializable, Entidade<CargaResultados> 
      */
     public void setPotAtivaDem(double potAtivaDem) {
         this.potAtivaDem = potAtivaDem;
+    }
+
+    /**
+     * @return the potReativa
+     */
+    public double getPotReativa() {
+        return potReativa;
+    }
+
+    /**
+     * @param potReativa the potReativa to set
+     */
+    public void setPotReativa(double potReativa) {
+        this.potReativa = potReativa;
+    }
+
+    /**
+     * @return the potAparente
+     */
+    public double getPotAparente() {
+        return potAparente;
+    }
+
+    /**
+     * @param potAparente the potAparente to set
+     */
+    public void setPotAparente(double potAparente) {
+        this.potAparente = potAparente;
+    }
+
+    /**
+     * @return the potReativaDem
+     */
+    public double getPotReativaDem() {
+        return potReativaDem;
+    }
+
+    /**
+     * @param potReativaDem the potReativaDem to set
+     */
+    public void setPotReativaDem(double potReativaDem) {
+        this.potReativaDem = potReativaDem;
+    }
+
+    /**
+     * @return the potAparenteDem
+     */
+    public double getPotAparenteDem() {
+        return potAparenteDem;
+    }
+
+    /**
+     * @param potAparenteDem the potAparenteDem to set
+     */
+    public void setPotAparenteDem(double potAparenteDem) {
+        this.potAparenteDem = potAparenteDem;
     }
 
     /**

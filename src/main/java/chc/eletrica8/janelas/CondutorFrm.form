@@ -236,6 +236,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="campoQuedaTensao">
               <Properties>
+                <Property name="text" type="java.lang.String" value="1"/>
                 <Property name="name" type="java.lang.String" value="campoQuedaTensao" noResource="true"/>
               </Properties>
               <AuxValues>
@@ -349,6 +350,7 @@
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -461,6 +463,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="campoResistividade">
               <Properties>
+                <Property name="text" type="java.lang.String" value="0"/>
                 <Property name="name" type="java.lang.String" value="campoResistividade" noResource="true"/>
               </Properties>
               <AuxValues>
@@ -469,6 +472,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="campoTemperatura">
               <Properties>
+                <Property name="text" type="java.lang.String" value="30"/>
                 <Property name="name" type="java.lang.String" value="campoTemperatura" noResource="true"/>
               </Properties>
             </Component>
@@ -479,6 +483,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="campoComprimento">
               <Properties>
+                <Property name="text" type="java.lang.String" value="5"/>
                 <Property name="name" type="java.lang.String" value="campoComprimento" noResource="true"/>
               </Properties>
             </Component>

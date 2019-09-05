@@ -84,7 +84,7 @@
                           <Component id="campoCorrenteCurto" alignment="0" max="32767" attributes="0"/>
                           <Component id="campoTempoAdimiss" alignment="0" pref="49" max="32767" attributes="0"/>
                           <Component id="campoTempoMaxCurto" alignment="0" pref="49" max="32767" attributes="0"/>
-                          <Component id="campoTempoEliminacao" alignment="1" pref="49" max="32767" attributes="0"/>
+                          <Component id="campoTempoEliminacao" alignment="1" pref="59" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -100,6 +100,11 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoTempoEliminacao" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="campoTempoAdimiss" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -107,11 +112,6 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="campoTempoMaxCurto" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="campoTempoEliminacao" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="72" max="32767" attributes="0"/>
                   </Group>
@@ -121,7 +121,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Corrente de curto (A):"/>
+                <Property name="text" type="java.lang.String" value="Corrente de curto (KA):"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="campoCorrenteCurto">

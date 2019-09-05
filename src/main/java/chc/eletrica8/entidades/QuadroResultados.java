@@ -16,11 +16,13 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class QuadroResultados implements Serializable, Entidade<QuadroResultados> {
 
-
     private double correnteCorr = 0;
     private double correnteAtiva = 0;
     private double correnteAparente = 0;
     private double correnteReativa = 0;
+    private double correnteAtivaGeral = 0;
+    private double correnteAparenteGeral = 0;
+    private double correnteReativaGeral = 0;
     private double correnteAtivaDem = 0;
     private double correnteAparenteDem = 0;
     private double correnteReativaDem = 0;
@@ -30,9 +32,13 @@ public class QuadroResultados implements Serializable, Entidade<QuadroResultados
     private String bitola = "";
     private Ligacao ligacao = Ligacao.FN;
     private double fp = 0;
-    private double tensao =0;
+    private double tensao = 0;
     private double potAtiva = 0;
     private double potAtivaDem = 0;
+    private double potReativa = 0;
+    private double potReativaDem = 0;
+    private double potAparente = 0;
+    private double potAparenteDem = 0;
 
     public void limpa() {
 
@@ -80,6 +86,34 @@ public class QuadroResultados implements Serializable, Entidade<QuadroResultados
      */
     public void setBitola(String bitola) {
         this.bitola = bitola;
+    }
+
+    /**
+     * @return the potReativa
+     */
+    public double getPotReativa() {
+        return potReativa;
+    }
+
+    /**
+     * @param potReativa the potReativa to set
+     */
+    public void setPotReativa(double potReativa) {
+        this.potReativa = potReativa;
+    }
+
+    /**
+     * @return the potReativaDem
+     */
+    public double getPotReativaDem() {
+        return potReativaDem;
+    }
+
+    /**
+     * @param potReativaDem the potReativaDem to set
+     */
+    public void setPotReativaDem(double potReativaDem) {
+        this.potReativaDem = potReativaDem;
     }
 
     /**
@@ -178,6 +212,76 @@ public class QuadroResultados implements Serializable, Entidade<QuadroResultados
      */
     public void setCorrenteReativaDem(double correnteReativaDem) {
         this.correnteReativaDem = correnteReativaDem;
+    }
+
+    /**
+     * @return the correnteAtivaGeral
+     */
+    public double getCorrenteAtivaGeral() {
+        return correnteAtivaGeral;
+    }
+
+    /**
+     * @param correnteAtivaGeral the correnteAtivaGeral to set
+     */
+    public void setCorrenteAtivaGeral(double correnteAtivaGeral) {
+        this.correnteAtivaGeral = correnteAtivaGeral;
+    }
+
+    /**
+     * @return the correnteAparenteGeral
+     */
+    public double getCorrenteAparenteGeral() {
+        return correnteAparenteGeral;
+    }
+
+    /**
+     * @param correnteAparenteGeral the correnteAparenteGeral to set
+     */
+    public void setCorrenteAparenteGeral(double correnteAparenteGeral) {
+        this.correnteAparenteGeral = correnteAparenteGeral;
+    }
+
+    /**
+     * @return the correnteReativaGeral
+     */
+    public double getCorrenteReativaGeral() {
+        return correnteReativaGeral;
+    }
+
+    /**
+     * @param correnteReativaGeral the correnteReativaGeral to set
+     */
+    public void setCorrenteReativaGeral(double correnteReativaGeral) {
+        this.correnteReativaGeral = correnteReativaGeral;
+    }
+
+    /**
+     * @return the potAparente
+     */
+    public double getPotAparente() {
+        return potAparente;
+    }
+
+    /**
+     * @param potAparente the potAparente to set
+     */
+    public void setPotAparente(double potAparente) {
+        this.potAparente = potAparente;
+    }
+
+    /**
+     * @return the potAparenteDem
+     */
+    public double getPotAparenteDem() {
+        return potAparenteDem;
+    }
+
+    /**
+     * @param potAparenteDem the potAparenteDem to set
+     */
+    public void setPotAparenteDem(double potAparenteDem) {
+        this.potAparenteDem = potAparenteDem;
     }
 
     /**
