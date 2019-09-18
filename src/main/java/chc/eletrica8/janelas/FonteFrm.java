@@ -5,7 +5,7 @@
  */
 package chc.eletrica8.janelas;
 
-import chc.eletrica8.calculos.AtualizaDados;
+import chc.eletrica8.calculos.CalculaDados;
 import chc.eletrica8.controle.DesktopPane;
 import chc.eletrica8.controle.Ids;
 import chc.eletrica8.entidades.Concessionaria;
@@ -333,7 +333,7 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
 
         Fonte fonte = this.getDados();
 
-        AtualizaDados.fonte(fonte);
+        CalculaDados.fonte(fonte);
         this.apagaDadosFrm();
         this.iniciaTabelaFontes();
         Ids.setIdFonte(0);
@@ -347,7 +347,7 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
         Ids.setIdQuadro(0);
         Ids.setIdCircuito(0);
         Ids.setIdCarga(0);
-        Ids.imprimiIds();
+
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopiarActionPerformed
@@ -355,7 +355,7 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
         for (int i = 0; i < fonte.getQuadros().size(); i++) {
             fonte.getQuadros().get(i).setFonte(fonte);
         }
-        AtualizaDados.fonte(fonte);
+        CalculaDados.fonte(fonte);
 
         this.iniciaTabelaFontes();
         this.apagaDadosFrm();

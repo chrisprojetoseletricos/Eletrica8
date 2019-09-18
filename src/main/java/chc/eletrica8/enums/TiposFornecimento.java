@@ -7,7 +7,7 @@ public enum TiposFornecimento {
     MONOFASICO("Monofásico"),
     BIFASICO("Bifásico"),
     TRIFASICO("Trifásico");
-    
+
     private final String texto;
 
     private TiposFornecimento(String sigla) {
@@ -24,5 +24,25 @@ public enum TiposFornecimento {
         lista.add(TiposFornecimento.BIFASICO);
         lista.add(TiposFornecimento.TRIFASICO);
         return lista;
+    }
+
+    public static TiposFornecimento getTipo(Ligacao ligacao) {
+        TiposFornecimento tipo = MONOFASICO;
+        switch (ligacao) {
+            case FFF:
+            case FFFN:
+                tipo = TRIFASICO;
+                break;
+            case FF:
+            case FFN:
+                tipo = BIFASICO;
+                break;
+            case FN:
+                tipo = MONOFASICO;
+                break;
+            default:
+                break;
+        }
+        return tipo;
     }
 }

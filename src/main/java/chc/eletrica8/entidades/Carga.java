@@ -56,7 +56,10 @@ public class Carga implements Comparable<Carga>, Serializable, Entidade<Carga> {
     private double rendimento = 1;
     @Enumerated(EnumType.STRING)
     private UnidadePotencia unidade;
-    private double comprimentoInstal;
+    private double comprimentoInstal =1;
+    private double relacaoPartidaMotor = 1;
+    private double tempoPartidaMotor = 1;
+    private double CS = 0;//corrente de curto circuito
 
     public void correnteAtiva() {
         double corrente = fs * (getPotenciaAtiva() / (resultados.getTensao() * fp));
@@ -205,6 +208,20 @@ public class Carga implements Comparable<Carga>, Serializable, Entidade<Carga> {
     }
 
     /**
+     * @return the relacaoPartidaMotor
+     */
+    public double getRelacaoPartidaMotor() {
+        return relacaoPartidaMotor;
+    }
+
+    /**
+     * @param relacaoPartidaMotor the relacaoPartidaMotor to set
+     */
+    public void setRelacaoPartidaMotor(double relacaoPartidaMotor) {
+        this.relacaoPartidaMotor = relacaoPartidaMotor;
+    }
+
+    /**
      * @return the fm
      */
     public double getFm() {
@@ -330,12 +347,40 @@ public class Carga implements Comparable<Carga>, Serializable, Entidade<Carga> {
         this.unidade = unidade;
     }
 
+    /**
+     * @return the tempoPartidaMotor
+     */
+    public double getTempoPartidaMotor() {
+        return tempoPartidaMotor;
+    }
+
+    /**
+     * @param tempoPartidaMotor the tempoPartidaMotor to set
+     */
+    public void setTempoPartidaMotor(double tempoPartidaMotor) {
+        this.tempoPartidaMotor = tempoPartidaMotor;
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * @return the CS
+     */
+    public double getCS() {
+        return CS;
+    }
+
+    /**
+     * @param CS the CS to set
+     */
+    public void setCS(double CS) {
+        this.CS = CS;
     }
 
     public Ligacao getLigacao() {
@@ -438,7 +483,10 @@ public class Carga implements Comparable<Carga>, Serializable, Entidade<Carga> {
         e.setUnidade(unidade);
         e.setCircuito(circuito);
         e.setComprimentoInstal(comprimentoInstal);
+        e.setRelacaoPartidaMotor(relacaoPartidaMotor);
+        e.setTempoPartidaMotor(tempoPartidaMotor);
         e.setResultados(resultados);
+        e.setCS(CS);
 
         return e;
     }

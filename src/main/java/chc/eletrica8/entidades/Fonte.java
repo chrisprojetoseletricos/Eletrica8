@@ -109,44 +109,6 @@ public class Fonte implements Serializable, Entidade<Fonte> {
         resultados.setCorrenteAtivaDem(correnteAtivaDem);
     }
 
-    public void correnteReativa() {
-        double correnteReativa = 0;
-        if (quadros.isEmpty()) {
-
-        } else {
-            for (Quadro quadro : quadros) {
-                if (quadro.getQuadroGeral() == null) {
-                    correnteReativa += quadro.getResultados().getCorrenteReativa();
-                }
-            }
-        }
-        resultados.setCorrenteReativa(correnteReativa);
-    }
-
-    public void correnteReativaDem() {
-        double correnteReativaDem = 0;
-        if (quadros.isEmpty()) {
-
-        } else {
-            for (Quadro quadro : quadros) {
-                if (quadro.getQuadroGeral() == null) {
-                    correnteReativaDem += quadro.getResultados().getCorrenteReativaDem();
-                }
-            }
-        }
-        resultados.setCorrenteReativaDem(correnteReativaDem);
-    }
-
-    public void correnteAparente() {
-        resultados.setCorrenteAparente((Math.sqrt(Math.pow(resultados.getCorrenteAtiva(), 2) + Math.pow(resultados.getCorrenteReativa(), 2))));
-
-    }
-
-    public void correnteAparenteDem() {
-        resultados.setCorrenteAparenteDem((Math.sqrt(Math.pow(resultados.getCorrenteAtivaDem(), 2) + Math.pow(resultados.getCorrenteReativaDem(), 2))));
-
-    }
-
     public List<Carga> todasCargas() {
         List<Carga> cargas = new ArrayList<>();
         for (Quadro quadros : quadros) {
@@ -162,11 +124,11 @@ public class Fonte implements Serializable, Entidade<Fonte> {
     public void defineTipo() {
         TiposFornecimento tipo = TiposFornecimento.MONOFASICO;
         for (Quadro quadro : quadros) {
-            if (quadro.getTipo() == TiposFornecimento.TRIFASICO && (tipo == TiposFornecimento.BIFASICO || tipo == TiposFornecimento.BIFASICO)) {
+            if (quadro.getResultados().getTipo() == TiposFornecimento.TRIFASICO && (tipo == TiposFornecimento.BIFASICO || tipo == TiposFornecimento.BIFASICO)) {
                 tipo = TiposFornecimento.TRIFASICO;
-            } else if (quadro.getTipo() == TiposFornecimento.BIFASICO && (tipo == TiposFornecimento.MONOFASICO)) {
+            } else if (quadro.getResultados().getTipo() == TiposFornecimento.BIFASICO && (tipo == TiposFornecimento.MONOFASICO)) {
                 tipo = TiposFornecimento.BIFASICO;
-            } else if (quadro.getTipo() == TiposFornecimento.MONOFASICO && (tipo == TiposFornecimento.MONOFASICO)) {
+            } else if (quadro.getResultados().getTipo() == TiposFornecimento.MONOFASICO && (tipo == TiposFornecimento.MONOFASICO)) {
                 tipo = TiposFornecimento.MONOFASICO;
             }
         }

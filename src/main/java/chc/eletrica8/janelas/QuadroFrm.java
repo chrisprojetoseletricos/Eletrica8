@@ -5,12 +5,11 @@
  */
 package chc.eletrica8.janelas;
 
-import chc.eletrica8.calculos.AtualizaDados;
+import chc.eletrica8.calculos.CalculaDados;
 import chc.eletrica8.controle.DesktopPane;
 import chc.eletrica8.controle.Ids;
-import chc.eletrica8.entidades.Fonte;
 import chc.eletrica8.entidades.Quadro;
-import chc.eletrica8.enums.TiposFornecimento;
+import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.enums.UsoDr;
 import chc.eletrica8.servico.FonteService;
@@ -50,7 +49,7 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         this.adicionarKeyListener();
         this.cbUsabilidadeItens();
         this.cbUsoDeDRItens();
-        this.cbTipoItens();
+        this.cbLigacaoItens();
         Ids.setIdQuadro(0);
         Ids.imprimiIds();
     }
@@ -87,9 +86,9 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         jLabel9 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         campoPot100Demanda = new javax.swing.JTextField();
-        campoTemperaturaAmbiente = new javax.swing.JTextField();
+        campoTemperatura = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        cbTipo = new javax.swing.JComboBox<>();
+        cbLigacao = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -258,19 +257,19 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
             }
         });
 
-        jLabel9.setText("Temperatura ambiente (°C):");
+        jLabel9.setText("Temperatura (°C):");
 
         jLabel11.setText("Potência para 100% de demanda:");
 
         campoPot100Demanda.setName("campoPot100Demanda"); // NOI18N
 
-        campoTemperaturaAmbiente.setName("campoTemperaturaAmbiente"); // NOI18N
+        campoTemperatura.setName("campoTemperatura"); // NOI18N
 
-        jLabel10.setText("Fornecimento:");
+        jLabel10.setText("Ligação:");
 
-        cbTipo.addFocusListener(new java.awt.event.FocusAdapter() {
+        cbLigacao.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                cbTipoFocusGained(evt);
+                cbLigacaoFocusGained(evt);
             }
         });
 
@@ -290,7 +289,7 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
                     .addComponent(campoNome, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
                     .addComponent(campoPot100Demanda, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(campoLocal, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(campoTemperaturaAmbiente))
+                    .addComponent(campoTemperatura))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(painelEsquerdoLayout.createSequentialGroup()
@@ -306,8 +305,9 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
                     .addGroup(painelEsquerdoLayout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(138, Short.MAX_VALUE))
+                        .addComponent(cbLigacao, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(94, 94, 94)))
+                .addContainerGap(157, Short.MAX_VALUE))
         );
         painelEsquerdoLayout.setVerticalGroup(
             painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,7 +329,7 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
-                            .addComponent(campoTemperaturaAmbiente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(campoTemperatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(painelEsquerdoLayout.createSequentialGroup()
                         .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
@@ -345,7 +345,7 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(painelEsquerdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(cbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cbLigacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
 
@@ -395,23 +395,24 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         } catch (Exception e) {
         }
 
-        AtualizaDados.quadro(quadro);
+        CalculaDados.quadro(quadro);
 
         this.apagaDadosFrm();
         this.iniciaTabelaQuadros();
         Ids.setIdQuadro(0);
-        Ids.imprimiIds();
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         QuadroService.removeById(Ids.getIdQuadro());
+        CalculaDados.fonte(FonteService.getById(Ids.getIdFonte()));
         this.iniciaTabelaQuadros();
         this.apagaDadosFrm();
         Ids.setIdQuadro(0);
         Ids.setIdCircuito(0);
         Ids.setIdCarga(0);
-        Ids.imprimiIds();
+
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopiarActionPerformed
@@ -420,12 +421,12 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         for (int i = 0; i < q.getCircuitos().size(); i++) {
             q.getCircuitos().get(i).setQuadro(q);
         }
-        AtualizaDados.quadro(q);
+        CalculaDados.quadro(q);
 
         this.iniciaTabelaQuadros();
         this.apagaDadosFrm();
         Ids.setIdQuadro(0);
-        Ids.imprimiIds();
+
     }//GEN-LAST:event_btnCopiarActionPerformed
 
     private void tabelaQuadroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaQuadroMouseClicked
@@ -439,7 +440,6 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
                 DesktopPane.desktop.add(circuito);
                 circuito.setVisible(true);
             }
-            Ids.imprimiIds();
         }
     }//GEN-LAST:event_tabelaQuadroMouseClicked
 
@@ -447,7 +447,7 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         this.apagaDadosFrm();
         this.iniciaTabelaQuadros();
         Ids.setIdQuadro(0);
-        Ids.imprimiIds();
+
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
@@ -455,16 +455,16 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         DesktopPane.desktop.add(frm);
         frm.setVisible(true);
         Ids.setIdQuadro(0);
-        Ids.imprimiIds();
+
     }//GEN-LAST:event_formInternalFrameClosing
 
     private void cbQuadroPaiFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbQuadroPaiFocusGained
         cbQuadroPaiItens();
     }//GEN-LAST:event_cbQuadroPaiFocusGained
 
-    private void cbTipoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbTipoFocusGained
+    private void cbLigacaoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cbLigacaoFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbTipoFocusGained
+    }//GEN-LAST:event_cbLigacaoFocusGained
 
     private void cbUsabilidadeItens() {
         cbUsabilidade.removeAllItems();
@@ -474,11 +474,20 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         }
     }
 
+    private void cbLigacaoItens() {
+        cbLigacao.removeAllItems();
+        cbLigacao.addItem(null);
+        for (Ligacao usa : Ligacao.getLista()) {
+            cbLigacao.addItem(usa);
+        }
+        cbLigacao.setSelectedIndex(1);
+    }
+
     private void cbQuadroPaiItens() {
         cbQuadroPai.removeAllItems();
         cbQuadroPai.addItem(null);
         for (Quadro quadro : FonteService.getById(Ids.getIdFonte()).getQuadros()) {
-            
+
             cbQuadroPai.addItem(quadro);
         }
     }
@@ -488,14 +497,6 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         cbUsoDeDR.addItem(null);
         for (UsoDr uso : UsoDr.getLista()) {
             cbUsoDeDR.addItem(uso);
-        }
-    }
-
-    private void cbTipoItens() {
-        cbTipo.removeAllItems();
-        cbTipo.addItem(null);
-        for (TiposFornecimento var : TiposFornecimento.getLista()) {
-            cbTipo.addItem(var);
         }
     }
 
@@ -515,7 +516,7 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
     }
 
     private void adicionarKeyListener() {
-        this.campoTemperaturaAmbiente.addKeyListener(this);
+        this.campoTemperatura.addKeyListener(this);
     }
 
     /*  public void iniciaTabelaQuadros() {
@@ -556,9 +557,9 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         quadro.setPot100PercDem(Numero.stringToDouble(this.campoPot100Demanda.getText(), 1));
         quadro.setUsabilidade((Usabilidade) cbUsabilidade.getModel().getSelectedItem());
         quadro.setUsoDeDR((UsoDr) cbUsoDeDR.getModel().getSelectedItem());
-        quadro.setTempAmbiente(Numero.stringToInteger(campoTemperaturaAmbiente.getText(), 0));
+        quadro.setTempAmbiente(Numero.stringToInteger(campoTemperatura.getText(), 30));
         quadro.setQuadroGeral((Quadro) cbQuadroPai.getModel().getSelectedItem());
-        quadro.setTipo((TiposFornecimento) cbTipo.getModel().getSelectedItem());
+        quadro.getResultados().setLigacao((Ligacao) cbLigacao.getModel().getSelectedItem());
 
         return quadro;
     }
@@ -571,8 +572,8 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         this.cbQuadroPai.setSelectedIndex(-1);
         this.cbUsabilidade.setSelectedIndex(-1);
         this.cbUsoDeDR.setSelectedIndex(-1);
-        this.campoTemperaturaAmbiente.setText("");
-        this.cbTipo.setSelectedIndex(-1);
+        this.campoTemperatura.setText("30");
+        this.cbLigacao.setSelectedIndex(-1);
     }
 
     public void setDados(Quadro quadro) {
@@ -584,8 +585,8 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
             this.campoPot100Demanda.setText(Numero.decimal(quadro.getPot100PercDem(), "##.##"));
             this.cbUsabilidade.getModel().setSelectedItem(quadro.getUsabilidade());
             this.cbUsoDeDR.getModel().setSelectedItem(quadro.getUsoDeDR());
-            this.campoTemperaturaAmbiente.setText(Integer.toString(quadro.getTempAmbiente()));
-            this.cbTipo.getModel().setSelectedItem(quadro.getTipo());
+            this.campoTemperatura.setText(Integer.toString(quadro.getTempAmbiente()));
+            this.cbLigacao.getModel().setSelectedItem(quadro.getResultados().getLigacao());
             try {
                 this.cbQuadroPai.getModel().setSelectedItem(quadro.getQuadroGeral());
             } catch (Exception e) {
@@ -602,9 +603,9 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
     private javax.swing.JTextField campoLocal;
     private javax.swing.JTextField campoNome;
     private javax.swing.JTextField campoPot100Demanda;
-    private javax.swing.JTextField campoTemperaturaAmbiente;
+    private javax.swing.JTextField campoTemperatura;
+    private javax.swing.JComboBox<Ligacao> cbLigacao;
     private javax.swing.JComboBox<Quadro> cbQuadroPai;
-    private javax.swing.JComboBox<TiposFornecimento> cbTipo;
     private javax.swing.JComboBox<Usabilidade> cbUsabilidade;
     private javax.swing.JComboBox<UsoDr> cbUsoDeDR;
     private javax.swing.JLabel jLabel1;
@@ -626,7 +627,7 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
     @Override
     public void keyTyped(KeyEvent e) {
         ApenasNumero.campo(e, "campoPot100Demanda");
-        ApenasNumero.campo(e, "campoTemperaturaAmbiente");
+        ApenasNumero.campo(e, "campoTemperatura");
     }
 
     @Override

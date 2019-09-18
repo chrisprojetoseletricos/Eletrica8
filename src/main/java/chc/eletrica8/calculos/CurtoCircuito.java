@@ -9,15 +9,16 @@ package chc.eletrica8.calculos;
  *
  * @author chris
  */
-public class BitolaCurtoCircuito {
+public class CurtoCircuito {
 
     private String isolacao;
     private double Te;
     private double Ics;
     private double Tf;
     private double Ti;
+    private double fase;
 
-    public double valor() {
+    public double bitola() {
         double valor = 0;
         if (isolacao.equals("PVC")) {
             Tf = 160;
@@ -35,19 +36,45 @@ public class BitolaCurtoCircuito {
 
         return valor;
     }
+    
+    public double tempo(){
+        double valor = 0;
+        if (isolacao.equals("PVC")) {
+            Tf = 160;
+            Ti = 70;
+        } else {
+            Tf = 250;
+            Ti = 90;
+        }
+        
+        double parte4 = (234 + Tf) / (234 + Ti);
+        double parte2 = Math.log10(parte4);
+        double parte3 = 0.34 * fase * Math.sqrt(parte2);
+        double parte1 = Math.pow(parte3/Ics,2);
+        
+        
+        valor = parte1;
 
-    public BitolaCurtoCircuito withIsolacao(String isolacao) {
+        return valor;
+    }
+
+    public CurtoCircuito withIsolacao(String isolacao) {
         this.isolacao = isolacao;
         return this;
     }
 
-    public BitolaCurtoCircuito withTe(double Te) {
+    public CurtoCircuito withTe(double Te) {
         this.Te = Te;
         return this;
     }
 
-    public BitolaCurtoCircuito withIcs(double Ics) {
+    public CurtoCircuito withIcs(double Ics) {
         this.Ics = Ics;
+        return this;
+    }
+    
+        public CurtoCircuito withFase(double fase) {
+        this.fase = fase;
         return this;
     }
 }

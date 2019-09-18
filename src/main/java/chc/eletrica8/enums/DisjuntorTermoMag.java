@@ -13,10 +13,13 @@ public enum DisjuntorTermoMag {
     D35("35"),
     D40("40"),
     D50("50"),
+    D60("60"),
     D63("63"),
+    D70("70"),
     D80("80"),
     D100("100"),
-    D125("125");
+    D125("125"),
+    D150("150");
     
 
     private final String numero;
@@ -39,10 +42,13 @@ public enum DisjuntorTermoMag {
         lista.add(DisjuntorTermoMag.D35);
         lista.add(DisjuntorTermoMag.D40);
         lista.add(DisjuntorTermoMag.D50);
+        lista.add(DisjuntorTermoMag.D60);
         lista.add(DisjuntorTermoMag.D63);
+        lista.add(DisjuntorTermoMag.D70);
         lista.add(DisjuntorTermoMag.D80);
         lista.add(DisjuntorTermoMag.D100);
         lista.add(DisjuntorTermoMag.D125);
+        lista.add(DisjuntorTermoMag.D150);
         return lista;
     }
 }

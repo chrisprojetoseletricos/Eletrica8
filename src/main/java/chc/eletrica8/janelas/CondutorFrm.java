@@ -474,7 +474,7 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
         condutor.setnCirAgrupa(Numero.stringToInteger(cbNCircuitosAgrupados.getModel().getSelectedItem().toString(), 1));
         condutor.setnCamadas(Numero.stringToInteger(cbNCamadas.getModel().getSelectedItem().toString(), 0));
         condutor.setTemperatura(Numero.stringToInteger(campoTemperatura.getText(), 0));
-        condutor.setComprimento(Numero.stringToDouble(campoComprimento.getText(), 0));
+        condutor.setComprim(Numero.stringToDouble(campoComprimento.getText(), 0));
 
         return condutor;
     }
@@ -484,7 +484,7 @@ public class CondutorFrm extends javax.swing.JDialog implements KeyListener {
             campoQuedaTensao.setText(Numero.decimal(condutor.getQuedaTensao(), "##.##"));
             campoResistividade.setText(Numero.decimal(condutor.getResistiTermica(), "##.##"));
             campoTemperatura.setText(Integer.toString(condutor.getTemperatura()));
-            campoComprimento.setText(Numero.decimal(condutor.getComprimento(), "##.##"));
+            campoComprimento.setText(Numero.decimal(condutor.getComprim(), "##.##"));
             cbInstalacao.getModel().setSelectedItem(condutor.getModoInstalacao().name());
             cbMaterial.getModel().setSelectedItem(condutor.getMaterial());
             cbIsolacao.getModel().setSelectedItem(condutor.getIsolacao());

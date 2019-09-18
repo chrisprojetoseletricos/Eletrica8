@@ -15,6 +15,7 @@ import chc.eletrica8.enums.TiposFornecimento;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.uteis.Matriz;
 import chc.eletrica8.uteis.Numero;
+import chc.eletrica8.uteis.codigoTabelaCapacidade;
 import java.util.List;
 
 /**
@@ -40,6 +41,7 @@ public class Bitola {
     private double LXI;
     private double potApaDem;
     private Curto curto;
+    private double faseDefDisjuntor;
 
     public double bitolaMinima(double bitola) {
         double bitolaMin = 0;
@@ -67,7 +69,7 @@ public class Bitola {
         return bitolaMin;
     }
 
-    public double fase() {
+    public String fase() {
         double bitolaCapacidade = 0;
         double bitolaQuedaTensao = 0;
         double bitolaCurtoCircuito = 0;
@@ -81,16 +83,17 @@ public class Bitola {
                 .withLXI(LXI)//
                 .valor();
 
-        bitolaCurtoCircuito = new BitolaCurtoCircuito()//
+        bitolaCurtoCircuito = new CurtoCircuito()//
                 .withIcs(curto.getCorrenteCurto())//
                 .withIsolacao(isolacao)//
                 .withTe(curto.getTempoElimDef())//
-                .valor();
+                .bitola();
 
         bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), correnteCorr, "BITOLA"), 0);
 
         if (bitolaCapacidade >= bitolaQuedaTensao && bitolaCapacidade >= bitolaCurtoCircuito) {
             fase = (bitolaCapacidade);
+
         } else if (bitolaQuedaTensao >= bitolaCapacidade && bitolaQuedaTensao >= bitolaCurtoCircuito) {
             for (int i = 0; i < BitolasMili.getLista().size(); i++) {
                 if (bitolaQuedaTensao <= BitolasMili.getLista().get(i).getNumero()) {
@@ -106,11 +109,16 @@ public class Bitola {
                 }
             }
         }
+        if (faseDefDisjuntor >= fase) {
+            fase = bitolaMinima(faseDefDisjuntor);
+        } else {
+            fase = bitolaMinima(fase);
+        }
 
-        return bitolaMinima(fase);
+        return Numero.decimal(fase, "0.#");
     }
 
-    public double neutro() {
+    public String neutro() {
         double neutro = 0;
         double potApaComNeutro = 0;
         for (Carga carga : cargas) {
@@ -118,50 +126,52 @@ public class Bitola {
                 potApaComNeutro += carga.getPotenciaAparente();
             }
         }
+        double fase = Numero.stringToDouble(fase(), 0);
         //pag136. condicao para o neutro
         if (0.1 * potApaDem < potApaComNeutro) {
-            neutro = fase();
+            neutro = fase;
         } else {
 
-            if (fase() <= 25) {
-                neutro = fase();
-            } else if (fase() == 35) {
+            if (fase <= 25) {
+                neutro = fase;
+            } else if (fase == 35) {
                 neutro = 25;
-            } else if (fase() == 50) {
+            } else if (fase == 50) {
                 neutro = 25;
-            } else if (fase() == 70) {
+            } else if (fase == 70) {
                 neutro = 35;
-            } else if (fase() == 95) {
+            } else if (fase == 95) {
                 neutro = 50;
-            } else if (fase() == 120) {
+            } else if (fase == 120) {
                 neutro = 70;
-            } else if (fase() == 150) {
+            } else if (fase == 150) {
                 neutro = 70;
-            } else if (fase() == 185) {
+            } else if (fase == 185) {
                 neutro = 95;
-            } else if (fase() == 240) {
+            } else if (fase == 240) {
                 neutro = 120;
-            } else if (fase() == 300) {
+            } else if (fase == 300) {
                 neutro = 150;
-            } else if (fase() == 400) {
+            } else if (fase == 400) {
                 neutro = 185;
-            } else if (fase() == 500) {
+            } else if (fase == 500) {
                 neutro = 185;
             }
         }
-        return neutro;
+        return Numero.decimal(neutro, "0.#");
     }
 
-    public double terra() {
+    public String terra() {
         double terra = 0;
-        if (fase() <= 16) {
-            terra = fase();
-        } else if (fase() > 16 && fase() <= 35) {
+        double fase = Numero.stringToDouble(fase(), 0);
+        if (fase <= 16) {
+            terra = fase;
+        } else if (fase > 16 && fase <= 35) {
             terra = 16;
-        } else if (fase() > 35) {
-            terra = 0.5 * fase();
+        } else if (fase > 35) {
+            terra = 0.5 * fase;
         }
-        return terra;
+        return Numero.decimal(terra, "0.#");
     }
 
     public String formatado() {
@@ -192,6 +202,11 @@ public class Bitola {
 
     public Bitola withMaterial(String material) {
         this.material = material;
+        return this;
+    }
+
+    public Bitola withFaseDefDisjuntor(double FaseDefDisjuntor) {
+        this.faseDefDisjuntor = FaseDefDisjuntor;
         return this;
     }
 
@@ -269,20 +284,18 @@ public class Bitola {
         this.potApaDem = valor;
         return this;
     }
-    
-        public Bitola withCurto(Curto curto) {
+
+    public Bitola withCurto(Curto curto) {
         this.curto = curto;
         return this;
     }
 
     private String parametro() {
-        String para = "";
-        if (isolacao.equalsIgnoreCase("PVC")) {
-            para = "P" + instalacao.name() + paramEspecial + ligacao.getNumeroCondutCarregados();
-        } else {
-            para = "X" + instalacao.name() + paramEspecial + ligacao.getNumeroCondutCarregados();
-        }
-        System.out.println("parametro: " + para);
-        return para;
+        return new codigoTabelaCapacidade()//
+                .withInstalacao(instalacao)//
+                .withIsolacao(isolacao)//
+                .withLigacao(ligacao)//
+                .withParametroEspecial(paramEspecial)//
+                .cod();
     }
 }

@@ -297,7 +297,7 @@
                       <Component id="campoNome" pref="54" max="32767" attributes="0"/>
                       <Component id="campoPot100Demanda" alignment="0" max="32767" attributes="0"/>
                       <Component id="campoLocal" alignment="0" max="32767" attributes="0"/>
-                      <Component id="campoTemperaturaAmbiente" max="32767" attributes="0"/>
+                      <Component id="campoTemperatura" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
@@ -317,10 +317,11 @@
                       <Group type="102" attributes="0">
                           <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="cbTipo" min="-2" pref="183" max="-2" attributes="0"/>
+                          <Component id="cbLigacao" min="-2" pref="89" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="138" max="32767" attributes="0"/>
+                  <EmptySpace pref="157" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -347,7 +348,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                              <Component id="campoTemperaturaAmbiente" min="-2" max="-2" attributes="0"/>
+                              <Component id="campoTemperatura" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -368,7 +369,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="cbTipo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbLigacao" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -446,7 +447,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Temperatura ambiente (&#xb0;C):"/>
+            <Property name="text" type="java.lang.String" value="Temperatura (&#xb0;C):"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel11">
@@ -459,28 +460,28 @@
             <Property name="name" type="java.lang.String" value="campoPot100Demanda" noResource="true"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="campoTemperaturaAmbiente">
+        <Component class="javax.swing.JTextField" name="campoTemperatura">
           <Properties>
-            <Property name="name" type="java.lang.String" value="campoTemperaturaAmbiente" noResource="true"/>
+            <Property name="name" type="java.lang.String" value="campoTemperatura" noResource="true"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel10">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Fornecimento:"/>
+            <Property name="text" type="java.lang.String" value="Liga&#xe7;&#xe3;o:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cbTipo">
+        <Component class="javax.swing.JComboBox" name="cbLigacao">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="cbTipoFocusGained"/>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="cbLigacaoFocusGained"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="QuadroFrm_cbQuadroPai"/>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;TiposFornecimento&gt;"/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Ligacao&gt;"/>
           </AuxValues>
         </Component>
       </SubComponents>

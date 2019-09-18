@@ -18,7 +18,7 @@ public class CircuitoTableModel extends AbstractTableModel {
 
     /* Array de Strings com o nome das colunas. */
     private String[] colunas = new String[]{
-        "Nome", "IAtiva", "IAtDem", "IC", "Compri", "Bitola (F/N/T)", "Ligação", "PotAtiva", "PotAtivaDem", "PotReat", "PotReatDem", "PotApar", "PotAparDem"};
+        "Nome", "IAtiva", "IAtDem", "IB", "IC", "Compri", "Bitola (F/N/T)", "Ligação", "PotAtiva", "PotAtivaDem", "PotReat", "PotReatDem", "PotApar", "PotAparDem", "Ajuste Térmico (A)"};
 
 
     /* Cria um CircuitoTableModel vazio. */
@@ -95,6 +95,10 @@ public class CircuitoTableModel extends AbstractTableModel {
                 return String.class;
             case 12:
                 return String.class;
+            case 13:
+                return String.class;
+            case 14:
+                return String.class;
 
             default:
                 // Se o índice da coluna não for válido, lança um
@@ -125,25 +129,29 @@ public class CircuitoTableModel extends AbstractTableModel {
             case 2:
                 return Numero.decimal(cir.getResultados().getCorrenteAtivaDem(), "##.##");
             case 3:
-                return Numero.decimal(cir.getResultados().getCorrenteCorr(), "##.##");
+                return Numero.decimal(cir.getResultados().getCorrenteProjeto(), "##.##");
             case 4:
-                return cir.getResultados().getComprimento();
+                return Numero.decimal(cir.getResultados().getCorrenteCorr(), "##.##");
             case 5:
-                return cir.getResultados().getBitola();
+                return cir.getResultados().getComprimento();
             case 6:
-                return cir.getResultados().getLigacaoReal();
+                return cir.getResultados().getBitola();
             case 7:
-                return Numero.decimal(cir.getResultados().getPotAtiva(), "##.##");
+                return cir.getResultados().getLigacaoReal();
             case 8:
-                return Numero.decimal(cir.getResultados().getPotAtivaDem(), "##.##");
+                return Numero.decimal(cir.getResultados().getPotAtiva(), "##.##");
             case 9:
-                return Numero.decimal(cir.getResultados().getPotReativa(), "##.##");
+                return Numero.decimal(cir.getResultados().getPotAtivaDem(), "##.##");
             case 10:
-                return Numero.decimal(cir.getResultados().getPotReativaDem(), "##.##");
+                return Numero.decimal(cir.getResultados().getPotReativa(), "##.##");
             case 11:
-                return Numero.decimal(cir.getResultados().getPotAparente(), "##.##");
+                return Numero.decimal(cir.getResultados().getPotReativaDem(), "##.##");
             case 12:
+                return Numero.decimal(cir.getResultados().getPotAparente(), "##.##");
+            case 13:
                 return Numero.decimal(cir.getResultados().getPotAparenteDem(), "##.##");
+            case 14:
+                return cir.getResultados().getDisjuntorTM();
             default:
                 // Se o índice da coluna não for válido, lança um
                 // IndexOutOfBoundsException (Exceção de índice fora dos limites).

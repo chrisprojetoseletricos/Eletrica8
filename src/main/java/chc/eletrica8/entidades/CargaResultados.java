@@ -16,11 +16,7 @@ import javax.persistence.Embeddable;
 public class CargaResultados implements Serializable, Entidade<CargaResultados> {
 
     private double correnteAtiva = 0;
-    private double correnteAparente = 0;
-    private double correnteReativa = 0;
     private double correnteAtivaDem = 0;
-    private double correnteAparenteDem = 0;
-    private double correnteReativaDem = 0;
     private double tensao = 0;
     private String LigacaoReal;
     private double potAtiva = 0;
@@ -63,33 +59,6 @@ public class CargaResultados implements Serializable, Entidade<CargaResultados> 
         this.correnteAtiva = correnteAtiva;
     }
 
-    /**
-     * @return the correnteAparente
-     */
-    public double getCorrenteAparente() {
-        return correnteAparente;
-    }
-
-    /**
-     * @param correnteAparente the correnteAparente to set
-     */
-    public void setCorrenteAparente(double correnteAparente) {
-        this.correnteAparente = correnteAparente;
-    }
-
-    /**
-     * @return the correnteReativa
-     */
-    public double getCorrenteReativa() {
-        return correnteReativa;
-    }
-
-    /**
-     * @param correnteReativa the correnteReativa to set
-     */
-    public void setCorrenteReativa(double correnteReativa) {
-        this.correnteReativa = correnteReativa;
-    }
 
     /**
      * @return the correnteAtivaDem
@@ -104,35 +73,6 @@ public class CargaResultados implements Serializable, Entidade<CargaResultados> 
     public void setCorrenteAtivaDem(double correnteAtivaDem) {
         this.correnteAtivaDem = correnteAtivaDem;
     }
-
-    /**
-     * @return the correnteAparenteDem
-     */
-    public double getCorrenteAparenteDem() {
-        return correnteAparenteDem;
-    }
-
-    /**
-     * @param correnteAparenteDem the correnteAparenteDem to set
-     */
-    public void setCorrenteAparenteDem(double correnteAparenteDem) {
-        this.correnteAparenteDem = correnteAparenteDem;
-    }
-
-    /**
-     * @return the correnteReativaDem
-     */
-    public double getCorrenteReativaDem() {
-        return correnteReativaDem;
-    }
-
-    /**
-     * @param correnteReativaDem the correnteReativaDem to set
-     */
-    public void setCorrenteReativaDem(double correnteReativaDem) {
-        this.correnteReativaDem = correnteReativaDem;
-    }
-
     /**
      * @return the potAtiva
      */

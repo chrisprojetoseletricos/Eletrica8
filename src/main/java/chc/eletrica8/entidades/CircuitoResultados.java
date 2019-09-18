@@ -6,6 +6,7 @@
 package chc.eletrica8.entidades;
 
 import chc.eletrica8.enums.Ligacao;
+import chc.eletrica8.enums.TiposFornecimento;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
 
@@ -16,28 +17,27 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class CircuitoResultados implements Serializable, Entidade<CircuitoResultados> {
 
+    private double correnteProjeto = 0;
     private double correnteCorr = 0;
     private double comprimento = 0;
     private double correnteAtiva = 0;
-    private double correnteAparente = 0;
-    private double correnteReativa = 0;
     private double correnteAtivaDem = 0;
-    private double correnteAparenteDem = 0;
-    private double correnteReativaDem = 0;
     private double fase = 0;
     private double neutro = 0;
     private double terra = 0;
     private String bitola = "";
     private Ligacao ligacao = Ligacao.FN;
+    private TiposFornecimento tipo = TiposFornecimento.TRIFASICO;
     private String ligacaoReal;
     private double fp = 0;
     private double potAtiva = 0;
     private double potReativa = 0;
     private double potReativaDem = 0;
     private double potAtivaDem = 0;
-        private double potAparente = 0;
+    private double potAparente = 0;
     private double potAparenteDem = 0;
     private double tensao = 0;
+    private String disjuntorTM = "";
 
     public void limpa() {
         correnteCorr = 0;
@@ -125,73 +125,14 @@ public class CircuitoResultados implements Serializable, Entidade<CircuitoResult
     }
 
     /**
-     * @return the correnteAparente
-     */
-    public double getCorrenteAparente() {
-        return correnteAparente;
-    }
-
-    /**
-     * @param correnteAparente the correnteAparente to set
-     */
-    public void setCorrenteAparente(double correnteAparente) {
-        this.correnteAparente = correnteAparente;
-    }
-
-    /**
-     * @return the correnteReativa
-     */
-    public double getCorrenteReativa() {
-        return correnteReativa;
-    }
-
-    /**
-     * @param correnteReativa the correnteReativa to set
-     */
-    public void setCorrenteReativa(double correnteReativa) {
-        this.correnteReativa = correnteReativa;
-    }
-
-    /**
      * @return the correnteAtiva
      */
     public double getCorrenteAtivaDem() {
         return correnteAtivaDem;
     }
 
-    /**
-     * @param correnteAtiva the correnteAtiva to set
-     */
     public void setCorrenteAtivaDem(double correnteAtivaDem) {
         this.correnteAtivaDem = correnteAtivaDem;
-    }
-
-    /**
-     * @return the correnteAparente
-     */
-    public double getCorrenteAparenteDem() {
-        return correnteAparenteDem;
-    }
-
-    /**
-     * @param correnteAparente the correnteAparente to set
-     */
-    public void setCorrenteAparenteDem(double correnteAparenteDem) {
-        this.correnteAparenteDem = correnteAparenteDem;
-    }
-
-    /**
-     * @return the correnteReativa
-     */
-    public double getCorrenteReativaDem() {
-        return correnteReativaDem;
-    }
-
-    /**
-     * @param correnteReativa the correnteReativa to set
-     */
-    public void setCorrenteReativaDem(double correnteReativaDem) {
-        this.correnteReativaDem = correnteReativaDem;
     }
 
     /**
@@ -265,6 +206,20 @@ public class CircuitoResultados implements Serializable, Entidade<CircuitoResult
     }
 
     /**
+     * @return the tipo
+     */
+    public TiposFornecimento getTipo() {
+        return tipo;
+    }
+
+    /**
+     * @param tipo the tipo to set
+     */
+    public void setTipo(TiposFornecimento tipo) {
+        this.tipo = tipo;
+    }
+
+    /**
      * @return the ligacaoReal
      */
     public String getLigacaoReal() {
@@ -334,6 +289,20 @@ public class CircuitoResultados implements Serializable, Entidade<CircuitoResult
         this.fase = fase;
     }
 
+    /**
+     * @return the disjuntorTM
+     */
+    public String getDisjuntorTM() {
+        return disjuntorTM;
+    }
+
+    /**
+     * @param disjuntorTM the disjuntorTM to set
+     */
+    public void setDisjuntorTM(String disjuntorTM) {
+        this.disjuntorTM = disjuntorTM;
+    }
+
     @Override
     public CircuitoResultados clonarSemID() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -375,6 +344,20 @@ public class CircuitoResultados implements Serializable, Entidade<CircuitoResult
      */
     public void setPotAparenteDem(double potAparenteDem) {
         this.potAparenteDem = potAparenteDem;
+    }
+
+    /**
+     * @return the correnteProjeto
+     */
+    public double getCorrenteProjeto() {
+        return correnteProjeto;
+    }
+
+    /**
+     * @param correnteProjeto the correnteProjeto to set
+     */
+    public void setCorrenteProjeto(double correnteProjeto) {
+        this.correnteProjeto = correnteProjeto;
     }
 
 }

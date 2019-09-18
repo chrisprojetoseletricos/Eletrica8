@@ -55,21 +55,10 @@ public class CorrenteQuadro {
                 case "Ativa":
                     corrente = circuito.get(i).getResultados().getCorrenteAtiva();
                     break;
-                case "Reativa":
-                    corrente = circuito.get(i).getResultados().getCorrenteReativa();
-                    break;
-                case "Aparente":
-                    corrente = circuito.get(i).getResultados().getCorrenteAparente();
-                    break;
                 case "AtivaDem":
                     corrente = circuito.get(i).getResultados().getCorrenteAtivaDem();
                     break;
-                case "ReativaDem":
-                    corrente = circuito.get(i).getResultados().getCorrenteReativaDem();
-                    break;
-                case "AparenteDem":
-                    corrente = circuito.get(i).getResultados().getCorrenteAparenteDem();
-                    break;
+
                 default:
                     break;
             }

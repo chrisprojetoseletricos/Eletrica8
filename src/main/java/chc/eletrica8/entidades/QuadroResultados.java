@@ -6,6 +6,7 @@
 package chc.eletrica8.entidades;
 
 import chc.eletrica8.enums.Ligacao;
+import chc.eletrica8.enums.TiposFornecimento;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
 
@@ -16,21 +17,16 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class QuadroResultados implements Serializable, Entidade<QuadroResultados> {
 
+     private double correnteProjeto = 0;
     private double correnteCorr = 0;
     private double correnteAtiva = 0;
-    private double correnteAparente = 0;
-    private double correnteReativa = 0;
-    private double correnteAtivaGeral = 0;
-    private double correnteAparenteGeral = 0;
-    private double correnteReativaGeral = 0;
     private double correnteAtivaDem = 0;
-    private double correnteAparenteDem = 0;
-    private double correnteReativaDem = 0;
     private double fase = 0;
     private double neutro = 0;
     private double terra = 0;
     private String bitola = "";
     private Ligacao ligacao = Ligacao.FN;
+    private TiposFornecimento tipo = TiposFornecimento.MONOFASICO;
     private double fp = 0;
     private double tensao = 0;
     private double potAtiva = 0;
@@ -39,12 +35,15 @@ public class QuadroResultados implements Serializable, Entidade<QuadroResultados
     private double potReativaDem = 0;
     private double potAparente = 0;
     private double potAparenteDem = 0;
+    private String disjuntorTM = "";
+    private double fusivel = 0;
+
 
     public void limpa() {
 
         correnteCorr = 0;
         fase = 0;
-        neutro = 0;
+        setNeutro(0);
         terra = 0;
         setBitola("");
     }
@@ -145,34 +144,6 @@ public class QuadroResultados implements Serializable, Entidade<QuadroResultados
     }
 
     /**
-     * @return the correnteAparente
-     */
-    public double getCorrenteAparente() {
-        return correnteAparente;
-    }
-
-    /**
-     * @param correnteAparente the correnteAparente to set
-     */
-    public void setCorrenteAparente(double correnteAparente) {
-        this.correnteAparente = correnteAparente;
-    }
-
-    /**
-     * @return the correnteReativa
-     */
-    public double getCorrenteReativa() {
-        return correnteReativa;
-    }
-
-    /**
-     * @param correnteReativa the correnteReativa to set
-     */
-    public void setCorrenteReativa(double correnteReativa) {
-        this.correnteReativa = correnteReativa;
-    }
-
-    /**
      * @return the correnteAtivaDem
      */
     public double getCorrenteAtivaDem() {
@@ -184,76 +155,6 @@ public class QuadroResultados implements Serializable, Entidade<QuadroResultados
      */
     public void setCorrenteAtivaDem(double correnteAtivaDem) {
         this.correnteAtivaDem = correnteAtivaDem;
-    }
-
-    /**
-     * @return the correnteAparenteDem
-     */
-    public double getCorrenteAparenteDem() {
-        return correnteAparenteDem;
-    }
-
-    /**
-     * @param correnteAparenteDem the correnteAparenteDem to set
-     */
-    public void setCorrenteAparenteDem(double correnteAparenteDem) {
-        this.correnteAparenteDem = correnteAparenteDem;
-    }
-
-    /**
-     * @return the correnteReativaDem
-     */
-    public double getCorrenteReativaDem() {
-        return correnteReativaDem;
-    }
-
-    /**
-     * @param correnteReativaDem the correnteReativaDem to set
-     */
-    public void setCorrenteReativaDem(double correnteReativaDem) {
-        this.correnteReativaDem = correnteReativaDem;
-    }
-
-    /**
-     * @return the correnteAtivaGeral
-     */
-    public double getCorrenteAtivaGeral() {
-        return correnteAtivaGeral;
-    }
-
-    /**
-     * @param correnteAtivaGeral the correnteAtivaGeral to set
-     */
-    public void setCorrenteAtivaGeral(double correnteAtivaGeral) {
-        this.correnteAtivaGeral = correnteAtivaGeral;
-    }
-
-    /**
-     * @return the correnteAparenteGeral
-     */
-    public double getCorrenteAparenteGeral() {
-        return correnteAparenteGeral;
-    }
-
-    /**
-     * @param correnteAparenteGeral the correnteAparenteGeral to set
-     */
-    public void setCorrenteAparenteGeral(double correnteAparenteGeral) {
-        this.correnteAparenteGeral = correnteAparenteGeral;
-    }
-
-    /**
-     * @return the correnteReativaGeral
-     */
-    public double getCorrenteReativaGeral() {
-        return correnteReativaGeral;
-    }
-
-    /**
-     * @param correnteReativaGeral the correnteReativaGeral to set
-     */
-    public void setCorrenteReativaGeral(double correnteReativaGeral) {
-        this.correnteReativaGeral = correnteReativaGeral;
     }
 
     /**
@@ -285,6 +186,35 @@ public class QuadroResultados implements Serializable, Entidade<QuadroResultados
     }
 
     /**
+     * @return the disjuntorTM
+     */
+    public String getDisjuntorTM() {
+        return disjuntorTM;
+    }
+
+    /**
+     * @param disjuntorTM the disjuntorTM to set
+     */
+    public void setDisjuntorTM(String disjuntorTM) {
+        this.disjuntorTM = disjuntorTM;
+    }
+
+    /**
+     * @return the fusivel
+     */
+    public double getFusivel() {
+        return fusivel;
+    }
+
+    /**
+     * @param fusivel the fusivel to set
+     */
+    public void setFusivel(double fusivel) {
+        this.fusivel = fusivel;
+    }
+
+ 
+    /**
      * @return the fp
      */
     public double getFp() {
@@ -296,6 +226,20 @@ public class QuadroResultados implements Serializable, Entidade<QuadroResultados
      */
     public void setFp(double fp) {
         this.fp = fp;
+    }
+
+    /**
+     * @return the tipo
+     */
+    public TiposFornecimento getTipo() {
+        return tipo;
+    }
+
+    /**
+     * @param tipo the tipo to set
+     */
+    public void setTipo(TiposFornecimento tipo) {
+        this.tipo = tipo;
     }
 
     /**
@@ -339,6 +283,7 @@ public class QuadroResultados implements Serializable, Entidade<QuadroResultados
     public void setFase(double fase) {
         this.fase = fase;
     }
+
 
     @Override
     public QuadroResultados clonarSemID() {
@@ -395,6 +340,20 @@ public class QuadroResultados implements Serializable, Entidade<QuadroResultados
      */
     public void setPotAtivaDem(double potAtivaDem) {
         this.potAtivaDem = potAtivaDem;
+    }
+
+    /**
+     * @return the correnteProjeto
+     */
+    public double getCorrenteProjeto() {
+        return correnteProjeto;
+    }
+
+    /**
+     * @param correnteProjeto the correnteProjeto to set
+     */
+    public void setCorrenteProjeto(double correnteProjeto) {
+        this.correnteProjeto = correnteProjeto;
     }
 
 }

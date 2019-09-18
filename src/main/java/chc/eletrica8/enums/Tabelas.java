@@ -5,6 +5,7 @@
  */
 package chc.eletrica8.enums;
 
+import chc.eletrica8.entidades.Condutor;
 import chc.eletrica8.uteis.LerCSV;
 
 /**
@@ -32,8 +33,9 @@ public enum Tabelas {
     public String getNome() {
         return arquivo;
     }
-    
+
     public String[][] getMatriz() {
         return new LerCSV(arquivo).toMatriz();
     }
+
 }

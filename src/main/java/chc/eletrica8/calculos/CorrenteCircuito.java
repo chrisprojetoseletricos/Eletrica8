@@ -55,21 +55,10 @@ public class CorrenteCircuito {
                 case "Ativa":
                     corrente = carga.get(i).getResultados().getCorrenteAtiva();
                     break;
-                case "Reativa":
-                    corrente = carga.get(i).getResultados().getCorrenteReativa();
-                    break;
-                case "Aparente":
-                    corrente = carga.get(i).getResultados().getCorrenteAparente();
-                    break;
                 case "AtivaDem":
                     corrente = carga.get(i).getResultados().getCorrenteAtivaDem();
                     break;
-                case "ReativaDem":
-                    corrente = carga.get(i).getResultados().getCorrenteReativaDem();
-                    break;
-                case "AparenteDem":
-                    corrente = carga.get(i).getResultados().getCorrenteAparenteDem();
-                    break;
+
                 default:
                     break;
             }

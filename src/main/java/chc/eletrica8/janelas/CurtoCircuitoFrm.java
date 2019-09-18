@@ -194,7 +194,7 @@ public class CurtoCircuitoFrm extends javax.swing.JDialog implements KeyListener
 
         curto = new Curto();
 
-        this.curto.setCorrenteCurto(Numero.stringToDouble(campoCorrenteCurto.getText(), 1));
+        this.curto.setCorrenteCurto(Numero.stringToDouble(campoCorrenteCurto.getText(), 0.1));
         this.curto.setTempAdmissRegime(Numero.stringToDouble(campoTempoAdimiss.getText(), 1));
         this.curto.setTempoElimDef(Numero.stringToDouble(campoTempoEliminacao.getText(), 1));
         this.curto.setTempMaxCurto(Numero.stringToDouble(campoTempoMaxCurto.getText(), 1));

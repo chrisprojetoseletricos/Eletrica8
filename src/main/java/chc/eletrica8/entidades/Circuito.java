@@ -7,7 +7,8 @@ package chc.eletrica8.entidades;
 
 import chc.eletrica8.calculos.Bitola;
 import chc.eletrica8.calculos.CorrenteCircuito;
-import chc.eletrica8.enums.Enterrado;
+import chc.eletrica8.calculos.DisjuntorTM;
+import chc.eletrica8.calculos.Fator;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.Tabelas;
 import chc.eletrica8.enums.TiposFornecimento;
@@ -15,7 +16,6 @@ import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.servico.tableModel.Column;
 import chc.eletrica8.servico.tableModel.TableModel;
 import chc.eletrica8.uteis.LerCSV;
-import chc.eletrica8.uteis.Matriz;
 import chc.eletrica8.uteis.Numero;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -60,10 +60,30 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
     private String nome;
     @Enumerated(EnumType.STRING)
     private Usabilidade usabilidade;
-    private TiposFornecimento tipo = TiposFornecimento.TRIFASICO;
+
+    public void disjuntorTM() {
+        String disj = "";
+
+        if (cargas.isEmpty()) {
+        } else {
+            disj = new DisjuntorTM(this).valor();
+        }
+        resultados.setDisjuntorTM(disj);
+    }
+
+    public void atualizaBitola() {
+        faseCondutor();
+        neutroCondutor();
+        terraCondutor();
+        bitolaCondutor();
+    }
 
     public void ordenaDecrListaCarga() {
-        Collections.sort(cargas);
+        if (cargas.isEmpty()) {
+        } else {
+            Collections.sort(cargas);
+        }
+        
     }
 
     public void correnteAtiva() {
@@ -97,18 +117,6 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
             pot += carga.getPotenciaAtiva();
         }
         resultados.setPotAtiva(pot);
-
-        /* double potencia = resultados.getCorrenteAtiva() * resultados.getTensao() * resultados.getFp();
-
-        switch (resultados.getLigacao()) {
-            case FFF:
-            case FFFN:
-                resultados.setPotAtiva(Math.sqrt(3) * potencia);
-                break;
-            default:
-                resultados.setPotAtiva(potencia);
-                break;
-        }*/
     }
 
     public void potReativaKVAr() {
@@ -178,83 +186,36 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
         }
     }
 
-    public void correnteCorr() {
-        double correnteIB = resultados.getCorrenteAtivaDem();
-        double fatorTemp = Numero.stringToDouble(//
-                Matriz.pegarValorMatrizEspecial(new LerCSV(tabelaCorrecaoTemp(condutor).getNome()).toMatriz(),//
-                        Integer.toString(condutor.getTemperatura()),//
-                        condutor.getIsolacao()), 0);
+    public void correnteProjeto() {
+        switch (usabilidade) {
+            case MOTOR:
+            case EQUIPAMENTOS_ESPECIAIS:
+                double corrente = 0;
+                double correnteMaior = 0;
+                for (Carga carga : cargas) {
+                    if (carga.getResultados().getCorrenteAtiva() / carga.getQuantidade() > correnteMaior) {
+                        correnteMaior = carga.getResultados().getCorrenteAtiva() / carga.getQuantidade();
+                    }
+                }
 
-        double fatorAgrupa = 0;
+                corrente = resultados.getCorrenteAtiva() - correnteMaior;
+                corrente = (correnteMaior) + corrente;//1.25 * correnteMaior
 
-        switch (tabelaCorrecaoAgrupa(condutor)) {
-            case CorrecaoAgruT3_15:
-                fatorAgrupa = Numero.stringToDouble(Matriz.pegarValorMatrizEspecial(new LerCSV(Tabelas.CorrecaoAgruT3_15.getNome()).toMatriz(),//
-                        condutor.getFormaAgrupa().getNome(),//
-                        Integer.toString(condutor.getnCirAgrupa())), 0);
+                resultados.setCorrenteProjeto(corrente);
                 break;
-            case CorrecaoAgruT3_16:
-                fatorAgrupa = Numero.stringToDouble(Matriz.pegarValorMatrizEspecial(new LerCSV(Tabelas.CorrecaoAgruT3_16.getNome()).toMatriz(),//
-                        Integer.toString(condutor.getnCamadas()),//
-                        Integer.toString(condutor.getnCirAgrupa())), 0);
-                break;
-            case CorrecaoAgruT3_17:
-                fatorAgrupa = Numero.stringToDouble(Matriz.pegarValorMatrizEspecial(new LerCSV(Tabelas.CorrecaoAgruT3_17.getNome()).toMatriz(),//
-                        Integer.toString(condutor.getnCirAgrupa()),//
-                        condutor.getEspacoCabos().getNome()), 0);
-                break;
-            case CorrecaoAgruT3_18:
-                fatorAgrupa = Numero.stringToDouble(Matriz.pegarValorMatrizEspecial(new LerCSV(Tabelas.CorrecaoAgruT3_18.getNome()).toMatriz(),//
-                        Integer.toString(condutor.getnCirAgrupa()),//
-                        condutor.getEspacoEletrodutos().getNome()), 0);
-                break;
-            case CorrecaoAgruT3_19:
-                fatorAgrupa = Numero.stringToDouble(Matriz.pegarValorMatrizEspecial(new LerCSV(Tabelas.CorrecaoAgruT3_19.getNome()).toMatriz(),//
-                        Integer.toString(condutor.getnCirAgrupa()),//
-                        condutor.getEspacoEletrodutos().getNome()), 0);
-                break;
+
             default:
+                resultados.setCorrenteProjeto(resultados.getCorrenteAtiva());
                 break;
-
         }
-
-        resultados.setCorrenteCorr(correnteIB / (fatorTemp * fatorAgrupa));
     }
 
-    public Tabelas tabelaCapacidadeCorr(Condutor condutor) {
-        Tabelas tab;
-        if (condutor.getMaterial().equals("Cobre")) {
-            tab = Tabelas.CapaciCorrBaixaCobre;
-        } else {
-            tab = Tabelas.CapaciCorrBaixaAluminio;
-        }
-        return tab;
-    }
+    public void correnteCorr() {
+        double corrente = resultados.getCorrenteProjeto();
 
-    public Tabelas tabelaCorrecaoTemp(Condutor condutor) {
-        Tabelas tab;
-        if (condutor.getEnterrado().equals("Sim")) {
-            tab = Tabelas.CorrencaoTempE;
-        } else {
-            tab = Tabelas.CorrecaoTempNE;
-        }
-        return tab;
-    }
+        Fator fator = new Fator(condutor);
 
-    public Tabelas tabelaCorrecaoAgrupa(Condutor condutor) {
-        Tabelas tab = null;
-        if (condutor.getnCamadas() > 1 && condutor.getEnterrado().equals(Enterrado.Nao)) {
-            tab = Tabelas.CorrecaoAgruT3_16;
-        } else if (condutor.getnCamadas() <= 1 && condutor.getEnterrado().equals(Enterrado.Nao)) {
-            tab = Tabelas.CorrecaoAgruT3_15;
-        } else if (condutor.getEnterrado().equals(Enterrado.SimSDuto)) {
-            tab = Tabelas.CorrecaoAgruT3_17;
-        } else if (condutor.getEnterrado().equals(Enterrado.SimCDuto) && condutor.getMultipolar().equals("Sim")) {
-            tab = Tabelas.CorrecaoAgruT3_18;
-        } else if (condutor.getEnterrado().equals(Enterrado.SimCDuto) && condutor.getMultipolar().equals("Não")) {
-            tab = Tabelas.CorrecaoAgruT3_19;
-        }
-        return tab;
+        resultados.setCorrenteCorr(corrente / (fator.FCT() * fator.FCA()));
     }
 
     public double LXI() {
@@ -264,23 +225,33 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
         }
         return LXI;
     }
-    
-    public Ligacao ligacaoCargaMaior(){
+
+    public Ligacao ligacaoCargaMaior() {
         Ligacao liga = Ligacao.FN;
         double corrente = 0;
-        for(Carga carga : cargas){
-            if(resultados.getCorrenteAtiva() > corrente){
+        for (Carga carga : cargas) {
+            if (resultados.getCorrenteAtiva() > corrente) {
                 liga = carga.getLigacao();
                 corrente = resultados.getCorrenteAtiva();
             }
         }
-        
+
         return liga;
+    }
+
+    private Tabelas tabelaCapacidadeCorr(Condutor condutor) {
+        Tabelas tab;
+        if (condutor.getMaterial().equals("Cobre")) {
+            tab = Tabelas.CapaciCorrBaixaCobre;
+        } else {
+            tab = Tabelas.CapaciCorrBaixaAluminio;
+        }
+        return tab;
     }
 
     public void faseCondutor() {
 
-        double fase = new Bitola()//
+        String fase = new Bitola()//
                 .withEnterrado(condutor.getEnterrado())//
                 .withInstalacao(condutor.getModoInstalacao())//
                 .withMultipolar(condutor.getMultipolar())//
@@ -291,22 +262,22 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
                 .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
                 .withCargas(cargas)//
                 .withCorrenteCorr(resultados.getCorrenteCorr())//
-                .withFornecimento(tipo)//
+                .withFornecimento(resultados.getTipo())//
                 .withUsabilidade(usabilidade)//
                 .withLigacao(ligacaoCargaMaior())//
                 .withTensaoFN(quadro.getFonte().getTensaoFN())//
                 .withLXI(LXI())//
                 .withPotAparenteDem(resultados.getPotAparenteDem())//
                 .withCurto(curto)//
+                .withFaseDefDisjuntor(condutor.getFase())//
                 .fase();
 
-        resultados.setFase(fase);
-
+        resultados.setFase(Numero.stringToDouble(fase, 0));
     }
 
     public void neutroCondutor() {
 
-        double neutro = new Bitola()//
+        String neutro = new Bitola()//
                 .withEnterrado(condutor.getEnterrado())//
                 .withInstalacao(condutor.getModoInstalacao())//
                 .withMultipolar(condutor.getMultipolar())//
@@ -317,16 +288,17 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
                 .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
                 .withCargas(cargas)//
                 .withCorrenteCorr(resultados.getCorrenteCorr())//
-                .withFornecimento(tipo)//
+                .withFornecimento(resultados.getTipo())//
                 .withUsabilidade(usabilidade)//
                 .withLigacao(ligacaoCargaMaior())//
                 .withTensaoFN(quadro.getFonte().getTensaoFN())//
                 .withLXI(LXI())//
                 .withPotAparenteDem(resultados.getPotAparenteDem())//
                 .withCurto(curto)//
+                .withFaseDefDisjuntor(condutor.getFase())//
                 .neutro();
 
-        resultados.setNeutro(neutro);
+        resultados.setNeutro(Numero.stringToDouble(neutro, 0));
 
     }
 
@@ -343,13 +315,14 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
                 .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
                 .withCargas(cargas)//
                 .withCorrenteCorr(resultados.getCorrenteCorr())//
-                .withFornecimento(tipo)//
+                .withFornecimento(resultados.getTipo())//
                 .withUsabilidade(usabilidade)//
                 .withLigacao(ligacaoCargaMaior())//
                 .withTensaoFN(quadro.getFonte().getTensaoFN())//
                 .withLXI(LXI())//
                 .withPotAparenteDem(resultados.getPotAparenteDem())//
                 .withCurto(curto)//
+                .withFaseDefDisjuntor(condutor.getFase())//
                 .formatado();
 
         resultados.setBitola(bitola);
@@ -358,7 +331,7 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
 
     public void terraCondutor() {
 
-        double terra = new Bitola()//
+        String terra = new Bitola()//
                 .withEnterrado(condutor.getEnterrado())//
                 .withInstalacao(condutor.getModoInstalacao())//
                 .withMultipolar(condutor.getMultipolar())//
@@ -369,54 +342,35 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
                 .withParametroEspecial("")//H de horizontal ou V de vestical. ex: PEH3
                 .withCargas(cargas)//
                 .withCorrenteCorr(resultados.getCorrenteCorr())//
-                .withFornecimento(tipo)//
+                .withFornecimento(resultados.getTipo())//
                 .withUsabilidade(usabilidade)//
                 .withLigacao(ligacaoCargaMaior())//
                 .withTensaoFN(quadro.getFonte().getTensaoFN())//
                 .withLXI(LXI())//
                 .withPotAparenteDem(resultados.getPotAparenteDem())//
                 .withCurto(curto)//
+                .withFaseDefDisjuntor(condutor.getFase())//
                 .terra();
 
-        resultados.setTerra(terra);
+        resultados.setTerra(Numero.stringToDouble(terra, 0));
 
     }
 
     //Define tipo do circuito e Ligação do condutor
-    public void ligacaoCondutor() {
-        Ligacao temp = Ligacao.FFF;
-        String neutro = "Nao";
-        if (!this.getCargas().isEmpty()) {
-            for (Carga carga : this.getCargas()) {
-                if (carga.getLigacao() == Ligacao.FF || carga.getLigacao() == Ligacao.FFF) {
-                } else {
-                    neutro = "Sim";
-                    break;
-                }
-            }
-            switch (tipo) {
-                case TRIFASICO:
-                    if (neutro.equals("Sim")) {
-                        temp = Ligacao.FFFN;
-                    } else {
-                        temp = Ligacao.FFF;
-                    }
-                    break;
-                case BIFASICO:
-                    if (neutro.equals("Sim")) {
-                        temp = Ligacao.FFN;
-                    } else {
-                        temp = Ligacao.FF;
-                    }
-                    break;
-                case MONOFASICO:
-                    temp = Ligacao.FN;
-                    break;
-                default:
-                    break;
+    public void tipoFornCondutor() {
+        TiposFornecimento tipo = TiposFornecimento.MONOFASICO;
+
+        for (Carga carga : cargas) {
+            if (carga.getLigacao() == Ligacao.FFFN || carga.getLigacao() == Ligacao.FFF) {
+                tipo = TiposFornecimento.TRIFASICO;
+            } else if (carga.getLigacao() == Ligacao.FF || carga.getLigacao() == Ligacao.FFN) {
+                tipo = TiposFornecimento.BIFASICO;
+            } else {
+                tipo = TiposFornecimento.MONOFASICO;
             }
         }
-        resultados.setLigacao(temp);
+
+        resultados.setTipo(tipo);
     }
 
     public void defineComprimento() {
@@ -424,7 +378,7 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
         for (int i = 0; i < cargas.size(); i++) {
             if (cargas.get(i).getComprimentoInstal() >= resultados.getComprimento()) {
                 resultados.setComprimento(cargas.get(i).getComprimentoInstal());
-                condutor.setComprimento(cargas.get(i).getComprimentoInstal());
+                condutor.setComprim(cargas.get(i).getComprimentoInstal());
             }
         }
 
@@ -484,20 +438,6 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
      */
     public void setQuadro(Quadro quadro) {
         this.quadro = quadro;
-    }
-
-    /**
-     * @return the tipo
-     */
-    public TiposFornecimento getTipo() {
-        return tipo;
-    }
-
-    /**
-     * @param tipo the tipo to set
-     */
-    public void setTipo(TiposFornecimento tipo) {
-        this.tipo = tipo;
     }
 
     public List<Carga> getListaCarga() {
@@ -594,7 +534,6 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
         c.setCondutor(condutor);
         c.setCurto(curto);
         c.setResultados(resultados);
-        c.setTipo(tipo);
         c.setUsabilidade(usabilidade);
 
         List<Carga> lista = new ArrayList<>();

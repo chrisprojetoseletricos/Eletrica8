@@ -18,7 +18,7 @@ public class QuadroTableModel extends AbstractTableModel {
 
     /* Array de Strings com o nome das colunas. */
     private String[] colunas = new String[]{
-        "Nome", "IAt", "IAtDem", "IC", "Compri", "Bitola (F/N/T)", "PotAt", "PotAtDem", "PotReat", "PotReatDem", "PotApar", "PotAparDem"};
+        "Nome", "IAt", "IAtDem", "IB", "IC", "Compri", "Bitola (F/N/T)", "PotAt", "PotAtDem", "PotReat", "PotReatDem", "PotApar", "PotAparDem", "<=Fusível", "Ajuste Tér"};
 
 
     /* Cria um CircuitoTableModel vazio. */
@@ -93,6 +93,12 @@ public class QuadroTableModel extends AbstractTableModel {
                 return String.class;
             case 11:
                 return String.class;
+            case 12:
+                return String.class;
+            case 13:
+                return String.class;
+            case 14:
+                return String.class;
             default:
                 // Se o índice da coluna não for válido, lança um
                 // IndexOutOfBoundsException (Exceção de índice fora dos limites).
@@ -122,23 +128,29 @@ public class QuadroTableModel extends AbstractTableModel {
             case 2:
                 return Numero.decimal(quad.getResultados().getCorrenteAtivaDem(), "##.#");
             case 3:
-                return Numero.decimal(quad.getResultados().getCorrenteCorr(), "##.#");
+                return Numero.decimal(quad.getResultados().getCorrenteProjeto(), "##.#");
             case 4:
-                return quad.getCondutor().getComprimento();
+                return Numero.decimal(quad.getResultados().getCorrenteCorr(), "##.#");
             case 5:
-                return quad.getResultados().getBitola();
+                return quad.getCondutor().getComprim();
             case 6:
-                return Numero.decimal(quad.getResultados().getPotAtiva(), "##.#");
+                return quad.getResultados().getBitola();
             case 7:
-                return Numero.decimal(quad.getResultados().getPotAtivaDem(), "##.#");
+                return Numero.decimal(quad.getResultados().getPotAtiva(), "##.#");
             case 8:
-                return Numero.decimal(quad.getResultados().getPotReativa(), "##.#");
+                return Numero.decimal(quad.getResultados().getPotAtivaDem(), "##.#");
             case 9:
-                return Numero.decimal(quad.getResultados().getPotReativaDem(), "##.#");
+                return Numero.decimal(quad.getResultados().getPotReativa(), "##.#");
             case 10:
-                return Numero.decimal(quad.getResultados().getPotAparente(), "##.#");
+                return Numero.decimal(quad.getResultados().getPotReativaDem(), "##.#");
             case 11:
+                return Numero.decimal(quad.getResultados().getPotAparente(), "##.#");
+            case 12:
                 return Numero.decimal(quad.getResultados().getPotAparenteDem(), "##.#");
+            case 13:
+                return Numero.decimal(quad.getResultados().getFusivel(), "##.#");
+            case 14:
+                return quad.getResultados().getDisjuntorTM();
             default:
                 // Se o índice da coluna não for válido, lança um
                 // IndexOutOfBoundsException (Exceção de índice fora dos limites).

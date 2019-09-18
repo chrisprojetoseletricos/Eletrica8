@@ -35,6 +35,7 @@ public class Condutor implements Serializable, Entidade<Condutor> {
     private double resistiTermica;
     private int temperatura = 30;
     private double comprim;
+    private double faseCondutor;
 
     public String getBitolaSucessiva() {
         return bitolaSucessiva;
@@ -44,18 +45,32 @@ public class Condutor implements Serializable, Entidade<Condutor> {
         this.bitolaSucessiva = bitolaSucessiva;
     }
 
-    /**
-     * @return the comprimento
+     /**
+     * @return the comprim
      */
-    public double getComprimento() {
+    public double getComprim() {
         return comprim;
     }
 
     /**
-     * @param comprimento the comprimento to set
+     * @param comprim the comprim to set
      */
-    public void setComprimento(double comprimento) {
-        this.comprim = comprimento;
+    public void setComprim(double comprim) {
+        this.comprim = comprim;
+    }
+
+    /**
+     * @return the fase
+     */
+    public double getFase() {
+        return faseCondutor;
+    }
+
+    /**
+     * @param fase the fase to set
+     */
+    public void setFase(double fase) {
+        this.faseCondutor = fase;
     }
 
     public Enterrado getEnterrado() {

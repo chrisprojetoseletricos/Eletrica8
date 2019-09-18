@@ -5,7 +5,7 @@
  */
 package chc.eletrica8.janelas;
 
-import chc.eletrica8.calculos.AtualizaDados;
+import chc.eletrica8.calculos.CalculaDados;
 import chc.eletrica8.controle.DesktopPane;
 import chc.eletrica8.controle.Ids;
 import chc.eletrica8.entidades.Carga;
@@ -34,7 +34,6 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
 
     //private GenericTableModel tabelaModelo;
     private CargaTableModel tabelaModeloCarga;
-    private Carga carga;
 
     /**
      * Creates new form ProjetoFrm
@@ -48,7 +47,7 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         this.cbLigacaoItens();
         this.cbUnidades();
         Ids.setIdCarga(0);
-        Ids.imprimiIds();
+
     }
 
     /**
@@ -104,6 +103,12 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         campoComprimento = new javax.swing.JTextField();
         campoFatorComp = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        campoRelaCorrentePartida = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        campoTempoPartida = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        campoCorrenteCurto = new javax.swing.JTextField();
         lblAtualizacao = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jScrollPane14 = new javax.swing.JScrollPane();
@@ -297,13 +302,25 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
 
         campoFPotencia.setName("campoFPotencia"); // NOI18N
 
-        jLabel20.setText("Distância de instalação:");
+        jLabel20.setText("Distância de instalação (m):");
 
         campoComprimento.setName("campoComprimento"); // NOI18N
 
         campoFatorComp.setName("campoFatorComp"); // NOI18N
 
         jLabel7.setText("Fator compen:");
+
+        jLabel16.setText("Inp/In:");
+
+        campoRelaCorrentePartida.setName("campoRelaCorrentePartida"); // NOI18N
+
+        jLabel21.setText("Tempo partida:");
+
+        campoTempoPartida.setName("campoTempoPartida"); // NOI18N
+
+        jLabel22.setText("Curto circuito:");
+
+        campoCorrenteCurto.setName("campoCorrenteCurto"); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -312,45 +329,47 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel10))
-                        .addGap(49, 49, 49)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(campoFutil, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
-                            .addComponent(campoFd)
-                            .addComponent(campoFServico)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(campoSimutaneidade))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
-                            .addComponent(jLabel13))
-                        .addGap(49, 49, 49)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(campoNome)
-                            .addComponent(cbLigacao, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cbTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel19)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(cbLigacao, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(14, 14, 14))
+                            .addComponent(campoNome)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel19)
+                                .addComponent(jLabel20)
+                                .addComponent(jLabel15))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(campoSimutaneidade, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                                .addComponent(campoComprimento)
+                                .addComponent(campoFPotencia, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel11)
+                                .addComponent(jLabel12)
+                                .addComponent(jLabel10))
+                            .addGap(76, 76, 76)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(campoFutil, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(campoFServico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(campoFd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel2)
-                            .addComponent(jLabel20))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(campoComprimento)
-                            .addComponent(campoFPotencia)
-                            .addComponent(campoLocal, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(campoLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
@@ -358,20 +377,35 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
                             .addComponent(jLabel18)
                             .addComponent(jLabel17)
                             .addComponent(jLabel4)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel9))
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel9))
                         .addGap(13, 13, 13)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(campoQuantidade)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(campoPerdas, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoNPolos, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoFatorComp, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbUnidade, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(campoRendimento)
-                            .addComponent(cbUnidade, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(campoPotencia, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(campoPerdas, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(campoNPolos, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(campoFatorComp, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addContainerGap())
+                            .addComponent(campoPotencia, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoQuantidade, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(campoRelaCorrentePartida, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel21)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(campoTempoPartida, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoCorrenteCurto, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(470, 470, 470))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,12 +414,17 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(campoQuantidade)
-                        .addComponent(jLabel5))
+                        .addComponent(jLabel5)
+                        .addComponent(campoRelaCorrentePartida)
+                        .addComponent(jLabel16))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
                         .addComponent(cbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(campoTempoPartida)
+                        .addComponent(jLabel21))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(campoPotencia)
                         .addComponent(jLabel18))
@@ -415,9 +454,13 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
                             .addComponent(campoSimutaneidade)
                             .addComponent(jLabel15)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(campoCorrenteCurto)
+                                .addComponent(jLabel22))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(cbUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel9)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(campoFatorComp)
@@ -478,24 +521,26 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(painelBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblAtualizacao, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(593, Short.MAX_VALUE))
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(painelBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblAtualizacao, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(painelBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblAtualizacao, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
+                    .addComponent(lblAtualizacao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(painelBotoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -517,24 +562,26 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
             carga = getDados();
             carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
             carga.getCircuito().getCargas().add(carga);
-            AtualizaDados.carga(carga);
+            CalculaDados.carga(carga);
 
-            carga = getDados();
+            carga = getDados().clonarSemID();
             carga.setCircuito(null);
             CargaService.salva(carga);
 
         } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() > 0) {
             carga = getDados();
             if (carga.getCircuito() == null) {
+
                 carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
                 carga.getCircuito().getCargas().add(carga);
-                AtualizaDados.carga(carga);
+                CalculaDados.carga(carga);
 
-                carga = getDados();
+                carga = getDados().clonarSemID();
                 carga.setCircuito(null);
                 CargaService.salva(carga);
+
             } else {
-                AtualizaDados.carga(CargaService.getById(Ids.getIdCarga()));
+                CalculaDados.carga(carga);
             }
 
         } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() == 0) {
@@ -546,33 +593,34 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         this.iniciaTabelaCargas("Salva");
         this.apagaDadosFrm();
         Ids.setIdCarga(0);
-        Ids.imprimiIds();
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         CargaService.removeById(Ids.getIdCarga());
-        AtualizaDados.circuito(CircuitoService.getById(Ids.getIdCircuito()));
+        if (Ids.getIdCircuito() != 0) {
+            CalculaDados.circuito(CircuitoService.getById(Ids.getIdCircuito()));
+        }
+
         this.iniciaTabelaCargas("Exclui");
         this.apagaDadosFrm();
         Ids.setIdCarga(0);
-        Ids.imprimiIds();
+
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopiarActionPerformed
         Carga q = CargaService.getById(Ids.getIdCarga()).clonarSemID();
         CargaService.salva(q);
-        AtualizaDados.circuito(CircuitoService.getById(Ids.getIdCircuito()));
+        CalculaDados.carga(q);
         this.iniciaTabelaCargas("Copia");
         this.apagaDadosFrm();
         Ids.setIdCarga(0);
-        Ids.imprimiIds();
     }//GEN-LAST:event_btnCopiarActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         this.iniciaTabelaCargas("Novo");
         this.apagaDadosFrm();
         Ids.setIdCarga(0);
-        Ids.imprimiIds();
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
@@ -581,7 +629,7 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
             DesktopPane.desktop.add(frm);
             frm.setVisible(true);
             Ids.setIdCarga(0);
-            Ids.imprimiIds();
+
         }
 
     }//GEN-LAST:event_formInternalFrameClosing
@@ -628,18 +676,13 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         tabelaEquipamento.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent evt) {
-                if (Ids.getIdCircuito() == 0) {
-                    lblAtualizacao.setText("Atualização");
-                }
-                if (getLblAtualizacao().getText().equals("Novo com cópia")) {
-                    getLblAtualizacao().setText("Novo");
-                }
+
                 int linha = tabelaEquipamento.getSelectedRow();
                 if (evt.getValueIsAdjusting() == true && linha > -1) {
                     Carga carga = (Carga) tabelaModeloCarga.getCarga(linha);
                     setDados(carga);
                     Ids.setIdCarga(carga.getId());
-                    Ids.imprimiIds();
+
                 }
             }
         }
@@ -658,6 +701,9 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         this.campoNPolos.addKeyListener(this);
         this.campoPerdas.addKeyListener(this);
         this.campoFatorComp.addKeyListener(this);
+        this.campoRelaCorrentePartida.addKeyListener(this);
+        this.campoTempoPartida.addKeyListener(this);
+        this.campoCorrenteCurto.addKeyListener(this);
     }
 
     public void iniciaTabelaCargas(String dica) {
@@ -674,7 +720,6 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
             DefaultTableModel model = new DefaultTableModel();
             this.tabelaEquipamento.setModel(model);
         }
-        Ids.imprimiIds();
     }
 
     private Carga getDados() {
@@ -703,8 +748,11 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         carga.setRendimento(Numero.stringToDouble(this.campoRendimento.getText(), 1));
         carga.setFp(Numero.stringToDouble(this.campoFPotencia.getText(), 1));
         carga.setUnidade((UnidadePotencia) cbUnidade.getModel().getSelectedItem());
-        carga.setComprimentoInstal(Numero.stringToDouble(this.campoComprimento.getText(), 0));
+        carga.setComprimentoInstal(Numero.stringToDouble(this.campoComprimento.getText(), 1));
         carga.setFm(Numero.stringToDouble(this.campoFatorComp.getText(), 1));
+        carga.setRelacaoPartidaMotor(Numero.stringToDouble(this.campoRelaCorrentePartida.getText(), 1));
+        carga.setTempoPartidaMotor(Numero.stringToDouble(this.campoTempoPartida.getText(), 1));
+        carga.setCS(Numero.stringToDouble(this.campoCorrenteCurto.getText(), 0.1));
         return carga;
     }
 
@@ -727,7 +775,9 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         this.campoPotencia.setText("");
         this.campoComprimento.setText("");
         this.campoFatorComp.setText("");
-        Ids.imprimiIds();
+        this.campoRelaCorrentePartida.setText("");
+        this.campoTempoPartida.setText("");
+        this.campoCorrenteCurto.setText("");
     }
 
     public void setDados(Carga carga) {
@@ -750,7 +800,9 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
             this.campoPotencia.setText(Numero.decimal(carga.getPotencia(), "##.##"));
             this.campoComprimento.setText(Numero.decimal(carga.getComprimentoInstal(), "##.##"));
             this.campoFatorComp.setText(Numero.decimal(carga.getFm(), "##.##"));
-            Ids.imprimiIds();
+            this.campoRelaCorrentePartida.setText(Numero.decimal(carga.getRelacaoPartidaMotor(), "##.##"));
+            this.campoTempoPartida.setText(Numero.decimal(carga.getTempoPartidaMotor(), "0.#"));
+            this.campoCorrenteCurto.setText(Numero.decimal(carga.getCS(), "0.#"));
         }
     }
 
@@ -761,6 +813,7 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
     private javax.swing.JButton btnRelatorios;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JTextField campoComprimento;
+    private javax.swing.JTextField campoCorrenteCurto;
     private javax.swing.JTextField campoFPotencia;
     private javax.swing.JTextField campoFServico;
     private javax.swing.JTextField campoFatorComp;
@@ -772,8 +825,10 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
     private javax.swing.JTextField campoPerdas;
     private javax.swing.JTextField campoPotencia;
     private javax.swing.JTextField campoQuantidade;
+    private javax.swing.JTextField campoRelaCorrentePartida;
     private javax.swing.JTextField campoRendimento;
     private javax.swing.JTextField campoSimutaneidade;
+    private javax.swing.JTextField campoTempoPartida;
     private javax.swing.JComboBox<Ligacao> cbLigacao;
     private javax.swing.JComboBox<Usabilidade> cbTipo;
     private javax.swing.JComboBox<UnidadePotencia> cbUnidade;
@@ -783,11 +838,14 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -818,6 +876,9 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
         ApenasNumero.campo(e, "campoNPolos");
         ApenasNumero.campo(e, "campoPerdas");
         ApenasNumero.campo(e, "campoFatorComp");
+        ApenasNumero.campo(e, "campoRelaCorrentePartida");
+        ApenasNumero.campo(e, "campoTempoPartida");
+        ApenasNumero.campo(e, "campoCorrenteCurto");
     }
 
     @Override
