@@ -39,7 +39,7 @@ public class DisjuntorTM {
     private Quadro quadro;
 
     public DisjuntorTM(Circuito circuito) {
-        this.circuito = new Circuito();
+        //this.circuito = new Circuito();
         this.circuito = circuito;
         fase();
         condutor();
@@ -50,7 +50,7 @@ public class DisjuntorTM {
     }
 
     public DisjuntorTM(Quadro quadro) {
-        this.quadro = new Quadro();
+        //this.quadro = new Quadro();
         this.quadro = quadro;
         usabilidade();
         ligacao();
@@ -80,13 +80,7 @@ public class DisjuntorTM {
 
     private void correnteProjeto() {
         if (circuito != null) {
-            switch (usabilidade) {
-                case MOTOR:
-                case EQUIPAMENTOS_ESPECIAIS:
-                    correnteProjeto = circuito.getResultados().getCorrenteProjeto();
-                    break;
-            }
-
+            correnteProjeto = circuito.getResultados().getCorrenteProjeto();
         } else {
             correnteProjeto = quadro.getResultados().getCorrenteProjeto();
         }
@@ -172,7 +166,7 @@ public class DisjuntorTM {
         FCTCondutor = new Fator(condutor).FCT();
         if (circuito != null) {
             FCTDisjuntor = new Fator(condutor).FCT(circuito.getQuadro().getTempAmbiente());
-        }else{
+        } else {
             FCTDisjuntor = new Fator(condutor).FCT(quadro.getTempAmbiente());
         }
         while (condicao.equals("false")) {
@@ -191,22 +185,7 @@ public class DisjuntorTM {
             } else {
                 Ia = correnteProjeto;
             }
-//procura correnteDisjuntor na classe enum de dijuntores
-            /*for (int i = 0; i < DisjuntorTermoMag.getLista().size(); i++) {
-                if (Ia <= DisjuntorTermoMag.getLista().get(i).getNumero()) {
-                    Ia = DisjuntorTermoMag.getLista().get(i).getNumero();
-                    break;
-                }
-            }*/
 
- /* if (!(Ia > correnteProjeto)) {
-                for (int i = 0; i < BitolasMili.getLista().size(); i++) {
-                    if (correnteProjeto < BitolasMili.getLista().get(i).getNumero()) {
-                        Ia = BitolasMili.getLista().get(i).getNumero();
-                        break;
-                    }
-                }
-            }*/
             if (Ia <= Iz) {
                 condicao = "true";
                 valor = Numero.decimal(correnteProjeto, "#.0") + " - " + Numero.decimal(capacidadeFase() * FCA * FCTCondutor, "#.0");

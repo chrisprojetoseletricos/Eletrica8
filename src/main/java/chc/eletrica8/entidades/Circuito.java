@@ -7,6 +7,7 @@ package chc.eletrica8.entidades;
 
 import chc.eletrica8.calculos.Bitola;
 import chc.eletrica8.calculos.CorrenteCircuito;
+import chc.eletrica8.calculos.CorrenteProjeto;
 import chc.eletrica8.calculos.DisjuntorTM;
 import chc.eletrica8.calculos.Fator;
 import chc.eletrica8.enums.Ligacao;
@@ -187,27 +188,9 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
     }
 
     public void correnteProjeto() {
-        switch (usabilidade) {
-            case MOTOR:
-            case EQUIPAMENTOS_ESPECIAIS:
-                double corrente = 0;
-                double correnteMaior = 0;
-                for (Carga carga : cargas) {
-                    if (carga.getResultados().getCorrenteAtiva() / carga.getQuantidade() > correnteMaior) {
-                        correnteMaior = carga.getResultados().getCorrenteAtiva() / carga.getQuantidade();
-                    }
-                }
-
-                corrente = resultados.getCorrenteAtiva() - correnteMaior;
-                corrente = (correnteMaior) + corrente;//1.25 * correnteMaior
-
-                resultados.setCorrenteProjeto(corrente);
-                break;
-
-            default:
-                resultados.setCorrenteProjeto(resultados.getCorrenteAtiva());
-                break;
-        }
+        new CorrenteProjeto()//
+                .withCircuito(this)//
+                .calcula();
     }
 
     public void correnteCorr() {

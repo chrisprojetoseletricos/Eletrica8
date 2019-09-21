@@ -65,8 +65,9 @@ public class CalculaDados {
         carga.getCircuito().getQuadro().potAparenteDemKVA();
         carga.getCircuito().getQuadro().correnteAtiva();
         carga.getCircuito().getQuadro().correnteAtivaDem();
-        carga.getCircuito().getQuadro().correnteCorr();
         carga.getCircuito().getQuadro().correnteProjeto();
+        carga.getCircuito().getQuadro().correnteCorr();
+        
         carga.getCircuito().getQuadro().faseCondutor();
         carga.getCircuito().getQuadro().neutroCondutor();
         carga.getCircuito().getQuadro().terraCondutor();
@@ -125,8 +126,9 @@ public class CalculaDados {
         circuito.getQuadro().potAparenteDemKVA();
         circuito.getQuadro().correnteAtiva();
         circuito.getQuadro().correnteAtivaDem();
-        circuito.getQuadro().correnteCorr();
         circuito.getQuadro().correnteProjeto();
+        circuito.getQuadro().correnteCorr();
+        
         circuito.getQuadro().faseCondutor();
         circuito.getQuadro().neutroCondutor();
         circuito.getQuadro().terraCondutor();
@@ -162,6 +164,7 @@ public class CalculaDados {
         quadro.potAparenteDemKVA();
         quadro.correnteAtiva();
         quadro.correnteAtivaDem();
+        quadro.correnteProjeto();
         quadro.correnteCorr();
         quadro.faseCondutor();
         quadro.neutroCondutor();

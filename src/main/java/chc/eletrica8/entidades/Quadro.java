@@ -1,6 +1,7 @@
 package chc.eletrica8.entidades;
 
 import chc.eletrica8.calculos.Bitola;
+import chc.eletrica8.calculos.CorrenteProjeto;
 import chc.eletrica8.calculos.CorrenteQuadro;
 import chc.eletrica8.calculos.DisjuntorTM;
 import chc.eletrica8.calculos.Fator;
@@ -148,7 +149,7 @@ public class Quadro implements Serializable, Entidade<Quadro> {
         } else {
             Collections.sort(circuitos);
         }
-        
+
     }
 
     public void correnteAtiva() {
@@ -353,29 +354,9 @@ public class Quadro implements Serializable, Entidade<Quadro> {
     }
 
     public void correnteProjeto() {
-        switch (usabilidade) {
-            case MOTOR:
-                double corrente = 0;
-                double correnteMaior = 0;
-
-                for (Carga carga : todasCargas()) {
-                    if ((carga.getResultados().getCorrenteAtiva() / carga.getQuantidade()) > correnteMaior) {
-                        correnteMaior = carga.getResultados().getCorrenteAtiva() / carga.getQuantidade();
-                    }
-                }
-               /* for (Carga carga : todasCargas()) {
-                    double cAtiva = carga.getResultados().getCorrenteAtiva();
-                    corrente += cAtiva;
-                }*/
-                corrente = resultados.getCorrenteAtiva() - correnteMaior;
-                corrente = (1.25 * correnteMaior) + corrente;
-
-                resultados.setCorrenteProjeto(corrente);
-                break;
-            default:
-                resultados.setCorrenteProjeto(resultados.getCorrenteAtiva());
-                break;
-        }
+        new CorrenteProjeto()//
+                .withQuadro(this)//
+                .calcula();
     }
 
     public void correnteCorr() {
