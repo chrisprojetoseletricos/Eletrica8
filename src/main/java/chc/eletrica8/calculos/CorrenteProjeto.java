@@ -32,24 +32,40 @@ public class CorrenteProjeto {
 
     public void calcula() {
         quadroOuCircuito();
+        String maisDeUmaCarga = "false";
+
         switch (usabilidade) {
             case MOTOR:
             case EQUIPAMENTOS_ESPECIAIS:
                 double corrente = 0;
                 double correnteMaior = 0;
 
-                for (Carga carga : cargas) {
-                    if (carga.getResultados().getCorrenteAtiva() / carga.getQuantidade() > correnteMaior) {
-                        correnteMaior = carga.getResultados().getCorrenteAtiva() / carga.getQuantidade();
+                for (int i = 0; i < cargas.size(); i++) {
+                    if (cargas.get(i).getResultados().getCorrenteAtiva() / cargas.get(i).getQuantidade() > correnteMaior) {
+                        correnteMaior = cargas.get(i).getResultados().getCorrenteAtiva() / cargas.get(i).getQuantidade();
+                    }
+                    if (i > 0) {
+                        maisDeUmaCarga = "true";
                     }
                 }
                 if (circuito != null) {
                     corrente = circuito.getResultados().getCorrenteAtiva() - correnteMaior;
-                    corrente = (correnteMaior) + corrente;//1.25 * correnteMaior
+                    
+                    if (maisDeUmaCarga.equals("true")) {
+                        corrente = (1.25 * correnteMaior) + corrente;//1.25 * correnteMaior
+                    } else {
+                        corrente = (correnteMaior) + corrente;//1.25 * correnteMaior
+                    }
                     circuito.getResultados().setCorrenteProjeto(corrente);
-                } else {
+                    
+                } else if (quadro != null) {
                     corrente = quadro.getResultados().getCorrenteAtiva() - correnteMaior;
-                    corrente = (correnteMaior) + corrente;//1.25 * correnteMaior
+                    
+                    if (maisDeUmaCarga.equals("true")) {
+                        corrente = (1.25 * correnteMaior) + corrente;//1.25 * correnteMaior
+                    } else {
+                        corrente = (correnteMaior) + corrente;//1.25 * correnteMaior
+                    }
                     quadro.getResultados().setCorrenteProjeto(corrente);
                 }
                 break;

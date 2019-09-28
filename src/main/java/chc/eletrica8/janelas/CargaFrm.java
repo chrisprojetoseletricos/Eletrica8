@@ -9,6 +9,7 @@ import chc.eletrica8.calculos.CalculaDados;
 import chc.eletrica8.controle.DesktopPane;
 import chc.eletrica8.controle.Ids;
 import chc.eletrica8.entidades.Carga;
+import chc.eletrica8.entidades.Circuito;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.UnidadePotencia;
 import chc.eletrica8.enums.Usabilidade;
@@ -336,12 +337,13 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoNome)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(cbLigacao, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(14, 14, 14))
-                            .addComponent(campoNome)))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(cbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cbLigacao, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -562,7 +564,8 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
             carga = getDados();
             carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
             carga.getCircuito().getCargas().add(carga);
-            CalculaDados.carga(carga);
+           // CargaService.salva(carga);
+            CalculaDados.calculaCarga(carga);
 
             carga = getDados().clonarSemID();
             carga.setCircuito(null);
@@ -574,14 +577,16 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
 
                 carga.setCircuito(CircuitoService.getById(Ids.getIdCircuito()));
                 carga.getCircuito().getCargas().add(carga);
-                CalculaDados.carga(carga);
+                //CargaService.salva(carga);
+                CalculaDados.calculaCarga(carga);
 
                 carga = getDados().clonarSemID();
                 carga.setCircuito(null);
                 CargaService.salva(carga);
 
             } else {
-                CalculaDados.carga(carga);
+
+                CalculaDados.calculaCarga(carga);
             }
 
         } else if (Ids.getIdCarga() > 0 && Ids.getIdCircuito() == 0) {
@@ -589,7 +594,7 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
             carga.setCircuito(null);
             CargaService.salva(carga);
         }
-
+        CalculaDados.calculaCircuito(CircuitoService.getById(Ids.getIdCircuito()));
         this.iniciaTabelaCargas("Salva");
         this.apagaDadosFrm();
         Ids.setIdCarga(0);
@@ -598,9 +603,9 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         CargaService.removeById(Ids.getIdCarga());
-        if (Ids.getIdCircuito() != 0) {
-            CalculaDados.circuito(CircuitoService.getById(Ids.getIdCircuito()));
-        }
+        //if (Ids.getIdCircuito() != 0) {
+        //   CalculaDados.circuito(CircuitoService.getById(Ids.getIdCircuito()));
+        //}
 
         this.iniciaTabelaCargas("Exclui");
         this.apagaDadosFrm();
@@ -610,8 +615,7 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
 
     private void btnCopiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopiarActionPerformed
         Carga q = CargaService.getById(Ids.getIdCarga()).clonarSemID();
-        CargaService.salva(q);
-        CalculaDados.carga(q);
+        CalculaDados.calculaCarga(q);
         this.iniciaTabelaCargas("Copia");
         this.apagaDadosFrm();
         Ids.setIdCarga(0);
@@ -625,9 +629,13 @@ public class CargaFrm extends javax.swing.JInternalFrame implements KeyListener 
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         if (Ids.getIdCircuito() != 0) {
+
+            
+
             CircuitoFrm frm = new CircuitoFrm();
             DesktopPane.desktop.add(frm);
             frm.setVisible(true);
+           
             Ids.setIdCarga(0);
 
         }

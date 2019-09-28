@@ -45,7 +45,7 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
         this.eventoSelecaoTabela();
         this.eventoDigitar();
         this.cbConcessionariaItens();
-        Ids.setIdFonte(0);
+        Ids.setIdQuadro(0);
     }
 
     /**
@@ -333,7 +333,7 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
 
         Fonte fonte = this.getDados();
 
-        CalculaDados.fonte(fonte);
+        CalculaDados.calculaFonte(fonte);
         this.apagaDadosFrm();
         this.iniciaTabelaFontes();
         Ids.setIdFonte(0);
@@ -355,7 +355,7 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
         for (int i = 0; i < fonte.getQuadros().size(); i++) {
             fonte.getQuadros().get(i).setFonte(fonte);
         }
-        CalculaDados.fonte(fonte);
+        CalculaDados.calculaFonte(fonte);
 
         this.iniciaTabelaFontes();
         this.apagaDadosFrm();
@@ -368,7 +368,8 @@ public final class FonteFrm extends javax.swing.JInternalFrame {
         }
         if (evt.getClickCount() == 2) {
             if (Ids.getIdFonte() > 0) {
-                this.setVisible(false);
+                //this.setVisible(false);
+                this.dispose();
                 QuadroFrm frm = new QuadroFrm();
                 DesktopPane.desktop.add(frm);
                 frm.setVisible(true);

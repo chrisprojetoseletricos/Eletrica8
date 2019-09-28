@@ -38,6 +38,7 @@ public class CircuitoResultados implements Serializable, Entidade<CircuitoResult
     private double potAparenteDem = 0;
     private double tensao = 0;
     private String disjuntorTM = "";
+    private String fusivel = "";
 
     public void limpa() {
         correnteCorr = 0;
@@ -203,6 +204,20 @@ public class CircuitoResultados implements Serializable, Entidade<CircuitoResult
      */
     public void setFp(double fp) {
         this.fp = fp;
+    }
+
+    /**
+     * @return the fusivel
+     */
+    public String getFusivel() {
+        return fusivel;
+    }
+
+    /**
+     * @param fusivel the fusivel to set
+     */
+    public void setFusivel(String fusivel) {
+        this.fusivel = fusivel;
     }
 
     /**

@@ -10,6 +10,7 @@ import chc.eletrica8.calculos.CorrenteCircuito;
 import chc.eletrica8.calculos.CorrenteProjeto;
 import chc.eletrica8.calculos.DisjuntorTM;
 import chc.eletrica8.calculos.Fator;
+import chc.eletrica8.calculos.Fusivel;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.Tabelas;
 import chc.eletrica8.enums.TiposFornecimento;
@@ -62,6 +63,16 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
     @Enumerated(EnumType.STRING)
     private Usabilidade usabilidade;
 
+    public void fusivel() {
+        String fusivel = "";
+
+        if (cargas.isEmpty()) {
+        } else {
+            fusivel = new Fusivel(this).valor();
+        }
+        resultados.setFusivel(fusivel);
+    }
+
     public void disjuntorTM() {
         String disj = "";
 
@@ -80,11 +91,11 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
     }
 
     public void ordenaDecrListaCarga() {
-        if (cargas.isEmpty()) {
+        if (cargas.size() < 2) {
         } else {
             Collections.sort(cargas);
         }
-        
+
     }
 
     public void correnteAtiva() {
@@ -253,6 +264,7 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
                 .withPotAparenteDem(resultados.getPotAparenteDem())//
                 .withCurto(curto)//
                 .withFaseDefDisjuntor(condutor.getFase())//
+                .withDivFase(condutor.getDivFase())//
                 .fase();
 
         resultados.setFase(Numero.stringToDouble(fase, 0));
@@ -279,6 +291,7 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
                 .withPotAparenteDem(resultados.getPotAparenteDem())//
                 .withCurto(curto)//
                 .withFaseDefDisjuntor(condutor.getFase())//
+                .withDivFase(condutor.getDivFase())//
                 .neutro();
 
         resultados.setNeutro(Numero.stringToDouble(neutro, 0));
@@ -306,6 +319,7 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
                 .withPotAparenteDem(resultados.getPotAparenteDem())//
                 .withCurto(curto)//
                 .withFaseDefDisjuntor(condutor.getFase())//
+                .withDivFase(condutor.getDivFase())//
                 .formatado();
 
         resultados.setBitola(bitola);
@@ -333,6 +347,7 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
                 .withPotAparenteDem(resultados.getPotAparenteDem())//
                 .withCurto(curto)//
                 .withFaseDefDisjuntor(condutor.getFase())//
+                .withDivFase(condutor.getDivFase())//
                 .terra();
 
         resultados.setTerra(Numero.stringToDouble(terra, 0));
@@ -542,7 +557,9 @@ public class Circuito implements Comparable<Circuito>, Serializable, Entidade<Ci
     @Override
     public int compareTo(Circuito outroCircuito) {
         if (resultados.getCorrenteAtiva() > outroCircuito.getResultados().getCorrenteAtiva()) {
+            
             return -1;
+            
         }
         if (resultados.getCorrenteAtiva() < outroCircuito.getResultados().getCorrenteAtiva()) {
             return 1;

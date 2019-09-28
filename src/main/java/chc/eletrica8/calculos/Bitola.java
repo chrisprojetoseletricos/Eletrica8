@@ -42,32 +42,7 @@ public class Bitola {
     private double potApaDem;
     private Curto curto;
     private double faseDefDisjuntor;
-
-    public double bitolaMinima(double bitola) {
-        double bitolaMin = 0;
-        switch (usabilidade) {
-            case ILUMINACAO_FLUORESCENTE:
-            case ILUMINACAO_FLUORESCENTE_PERDAS:
-            case ILUMINACAO_INCADESCENTE:
-                if (bitola < 1.5) {
-                    bitolaMin = 1.5;
-                    break;
-                }
-
-            case EQUIPAMENTOS_ESPECIAIS:
-            case GERAL:
-            case MOTOR:
-            case TOMADA_USO_GERAL:
-                if (bitola < 2.5) {
-                    bitolaMin = 2.5;
-                    break;
-                }
-
-            default:
-                bitolaMin = bitola;
-        }
-        return bitolaMin;
-    }
+    private String divFase;
 
     public String fase() {
         double bitolaCapacidade = 0;
@@ -83,13 +58,17 @@ public class Bitola {
                 .withLXI(LXI)//
                 .valor();
 
-        bitolaCurtoCircuito = new CurtoCircuito()//
+       /* bitolaCurtoCircuito = new CurtoCircuito()//
                 .withIcs(curto.getCorrenteCurto())//
                 .withIsolacao(isolacao)//
                 .withTe(curto.getTempoElimDef())//
-                .bitola();
+                .bitola();*/
 
-        bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), correnteCorr, "BITOLA"), 0);
+        if (divFase.equals("1x")) {
+            bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), correnteCorr, "BITOLA"), 0);
+        } else {
+            bitolaCapacidade = Numero.stringToDouble(Matriz.pegaValor(tabelaCapacidadeCorrente, parametro(), correnteCorr / 2, "BITOLA"), 0);
+        }
 
         if (bitolaCapacidade >= bitolaQuedaTensao && bitolaCapacidade >= bitolaCurtoCircuito) {
             fase = (bitolaCapacidade);
@@ -109,6 +88,7 @@ public class Bitola {
                 }
             }
         }
+
         if (faseDefDisjuntor >= fase) {
             fase = bitolaMinima(faseDefDisjuntor);
         } else {
@@ -121,12 +101,19 @@ public class Bitola {
     public String neutro() {
         double neutro = 0;
         double potApaComNeutro = 0;
+
         for (Carga carga : cargas) {
             if (!(carga.getLigacao() == Ligacao.FF || carga.getLigacao() == Ligacao.FFF)) {
                 potApaComNeutro += carga.getPotenciaAparente();
             }
         }
+
+        if (divFase.equals("2x")) {
+            divFase = "1x";
+        }
+
         double fase = Numero.stringToDouble(fase(), 0);
+
         //pag136. condicao para o neutro
         if (0.1 * potApaDem < potApaComNeutro) {
             neutro = fase;
@@ -163,6 +150,11 @@ public class Bitola {
 
     public String terra() {
         double terra = 0;
+
+        if (divFase.equals("2x")) {
+            divFase = "1x";
+        }
+
         double fase = Numero.stringToDouble(fase(), 0);
         if (fase <= 16) {
             terra = fase;
@@ -179,19 +171,39 @@ public class Bitola {
 
         switch (ligacao.name()) {
             case "FFF":
-                bitola = "3#" + fase() + "/-/" + terra() + " mm²";
+                if (divFase.equals("1x")) {
+                    bitola = "3#" + fase() + "/-/" + terra() + " mm²";
+                } else {
+                    bitola = "3#(2x" + fase() + ")/-/" + terra() + " mm²";
+                }
                 break;
             case "FFFN":
-                bitola = "3#" + fase() + "/" + neutro() + "/" + terra() + " mm²";
+                if (divFase.equals("1x")) {
+                    bitola = "3#" + fase() + "/" + neutro() + "/" + terra() + " mm²";
+                } else {
+                    bitola = "3#(2x" + fase() + ")/" + neutro() + "/" + terra() + " mm²";
+                }
                 break;
             case "FF":
-                bitola = "2#" + fase() + "/-/" + terra() + " mm²";
+                if (divFase.equals("1x")) {
+                    bitola = "2#" + fase() + "/-/" + terra() + " mm²";
+                } else {
+                    bitola = "2#(2x" + fase() + ")/-/" + terra() + " mm²";
+                }
                 break;
             case "FFN":
-                bitola = "2#" + fase() + "/" + neutro() + "/" + terra() + " mm²";
+                if (divFase.equals("1x")) {
+                    bitola = "2#" + fase() + "/" + neutro() + "/" + terra() + " mm²";
+                } else {
+                    bitola = "2#(2x" + fase() + ")/" + neutro() + "/" + terra() + " mm²";
+                }
                 break;
             case "FN":
-                bitola = "1#" + fase() + "/" + neutro() + "/" + terra() + " mm²";
+                if (divFase.equals("1x")) {
+                    bitola = "1#" + fase() + "/" + neutro() + "/" + terra() + " mm²";
+                } else {
+                    bitola = "1#(2x" + fase() + ")/" + neutro() + "/" + terra() + " mm²";
+                }
                 break;
             default:
                 break;
@@ -200,8 +212,39 @@ public class Bitola {
         return bitola;
     }
 
+    public double bitolaMinima(double bitola) {
+        double bitolaMin = 0;
+        switch (usabilidade) {
+            case ILUMINACAO_FLUORESCENTE:
+            case ILUMINACAO_FLUORESCENTE_PERDAS:
+            case ILUMINACAO_INCADESCENTE:
+                if (bitola < 1.5) {
+                    bitolaMin = 1.5;
+                    break;
+                }
+
+            case EQUIPAMENTOS_ESPECIAIS:
+            case GERAL:
+            case MOTOR:
+            case TOMADA_USO_GERAL:
+                if (bitola < 2.5) {
+                    bitolaMin = 2.5;
+                    break;
+                }
+
+            default:
+                bitolaMin = bitola;
+        }
+        return bitolaMin;
+    }
+
     public Bitola withMaterial(String material) {
         this.material = material;
+        return this;
+    }
+    
+        public Bitola withDivFase(String divFase) {
+        this.divFase = divFase;
         return this;
     }
 

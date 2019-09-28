@@ -52,9 +52,8 @@ public class CurtoCircuito {
         double parte3 = 0.34 * fase * Math.sqrt(parte2);
         double parte1 = Math.pow(parte3/Ics,2);
         
-        
         valor = parte1;
-
+       
         return valor;
     }
 

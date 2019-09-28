@@ -5,6 +5,7 @@ import chc.eletrica8.calculos.CorrenteProjeto;
 import chc.eletrica8.calculos.CorrenteQuadro;
 import chc.eletrica8.calculos.DisjuntorTM;
 import chc.eletrica8.calculos.Fator;
+import chc.eletrica8.calculos.Fusivel;
 import chc.eletrica8.enums.Enterrado;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.Tabelas;
@@ -51,7 +52,7 @@ public class Quadro implements Serializable, Entidade<Quadro> {
     private Quadro quadroGeral;
     @OneToMany(mappedBy = "quadroGeral", targetEntity = Quadro.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Quadro> quadros = new ArrayList<>();
-    @OneToMany(mappedBy = "quadro", targetEntity = Circuito.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "quadro", targetEntity = Circuito.class,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Circuito> circuitos = new ArrayList<>();
     @Embedded
     private Condutor condutor;
@@ -80,61 +81,13 @@ public class Quadro implements Serializable, Entidade<Quadro> {
 //O fusivel deve ser menor ou igual ao valor achado
 
     public void fusivel() {
+        String fusivel = "";
 
-        double K1 = 0;
-        double Ip = 0;
-        double correnteMaior = 0;
-        double relPartida = 0;
-        double correntesSoma = 0;
-//Maior corrente
-        for (Circuito circuito : circuitos) {
-            for (Carga carga : circuito.getCargas()) {
-                switch (carga.getUsabilidade()) {
-                    case MOTOR:
-                        if (carga.getResultados().getCorrenteAtiva() > correnteMaior) {
-                            relPartida = carga.getRelacaoPartidaMotor();
-                            correnteMaior = carga.getResultados().getCorrenteAtiva() / carga.getQuantidade();
-                            correntesSoma += correnteMaior * carga.getQuantidade();
-                        }
-                        break;
-                    default:
-                        correntesSoma += carga.getResultados().getCorrenteAtiva() * carga.getQuantidade();
-                        break;
-                }
-            }
-        }
-
-        for (Quadro quadro : quadros) {
-            for (Circuito circuito : quadro.getCircuitos()) {
-                for (Carga carga : circuito.getCargas()) {
-                    switch (carga.getUsabilidade()) {
-                        case MOTOR:
-                            if (carga.getResultados().getCorrenteAtiva() > correnteMaior) {
-                                relPartida = carga.getRelacaoPartidaMotor();
-                                correnteMaior = carga.getResultados().getCorrenteAtiva() / carga.getQuantidade();
-                                correntesSoma += correnteMaior * carga.getQuantidade();
-                            }
-                            break;
-                        default:
-                            correntesSoma += carga.getResultados().getCorrenteAtiva() * carga.getQuantidade();
-                            break;
-                    }
-                }
-            }
-        }
-
-        Ip = relPartida * correnteMaior;
-        correntesSoma = correntesSoma - correnteMaior;
-
-        if (Ip <= 40) {
-            K1 = 0.5;
-        } else if (Ip > 40 || Ip <= 500) {
-            K1 = 0.4;
+        if (circuitos.isEmpty()) {
         } else {
-            K1 = 0.3;
+            fusivel = new Fusivel(this).valor();
         }
-
-        resultados.setFusivel(Math.round((K1 * Ip) + correntesSoma));
+        resultados.setFusivel(fusivel);
     }
 
     public void atualizaBitola() {
@@ -145,7 +98,8 @@ public class Quadro implements Serializable, Entidade<Quadro> {
     }
 
     public void ordenaDecrListaCircuitos() {
-        if (circuitos.isEmpty()) {
+int num = circuitos.size();
+        if (num < 2) {
         } else {
             Collections.sort(circuitos);
         }
@@ -525,6 +479,7 @@ public class Quadro implements Serializable, Entidade<Quadro> {
                 .withPotAparenteDem(resultados.getPotAparenteDem())//
                 .withCurto(curto)//
                 .withFaseDefDisjuntor(condutor.getFase())//
+                .withDivFase(condutor.getDivFase())//
                 .fase();
 
         resultados.setFase(Numero.stringToDouble(fase, 0));
@@ -559,6 +514,7 @@ public class Quadro implements Serializable, Entidade<Quadro> {
                 .withPotAparenteDem(resultados.getPotAparenteDem())//
                 .withCurto(curto)//
                 .withFaseDefDisjuntor(condutor.getFase())//
+                .withDivFase(condutor.getDivFase())//
                 .neutro();
 
         resultados.setNeutro(Numero.stringToDouble(neutro, 0));
@@ -593,6 +549,7 @@ public class Quadro implements Serializable, Entidade<Quadro> {
                 .withPotAparenteDem(resultados.getPotAparenteDem())//
                 .withCurto(curto)//
                 .withFaseDefDisjuntor(condutor.getFase())//
+                .withDivFase(condutor.getDivFase())//
                 .formatado();
 
         resultados.setBitola(bitola);
@@ -627,6 +584,7 @@ public class Quadro implements Serializable, Entidade<Quadro> {
                 .withPotAparenteDem(resultados.getPotAparenteDem())//
                 .withCurto(curto)//
                 .withFaseDefDisjuntor(condutor.getFase())//
+                .withDivFase(condutor.getDivFase())//
                 .terra();
 
         resultados.setTerra(Numero.stringToDouble(terra, 0));

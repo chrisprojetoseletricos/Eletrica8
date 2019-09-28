@@ -36,7 +36,7 @@ public class QuadroResultados implements Serializable, Entidade<QuadroResultados
     private double potAparente = 0;
     private double potAparenteDem = 0;
     private String disjuntorTM = "";
-    private double fusivel = 0;
+    private String fusivel = "";
 
 
     public void limpa() {
@@ -202,14 +202,14 @@ public class QuadroResultados implements Serializable, Entidade<QuadroResultados
     /**
      * @return the fusivel
      */
-    public double getFusivel() {
+    public String getFusivel() {
         return fusivel;
     }
 
     /**
      * @param fusivel the fusivel to set
      */
-    public void setFusivel(double fusivel) {
+    public void setFusivel(String fusivel) {
         this.fusivel = fusivel;
     }
 

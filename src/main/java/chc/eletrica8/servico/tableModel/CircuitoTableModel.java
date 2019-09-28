@@ -18,7 +18,7 @@ public class CircuitoTableModel extends AbstractTableModel {
 
     /* Array de Strings com o nome das colunas. */
     private String[] colunas = new String[]{
-        "Nome", "IAtiva", "IAtDem", "IB", "IC", "Compri", "Bitola (F/N/T)", "Ligação", "PotAtiva", "PotAtivaDem", "PotReat", "PotReatDem", "PotApar", "PotAparDem", "Ajuste Térmico (A)"};
+        "Nome", "IAtiva", "IAtDem", "IB", "IC", "Compri", "Bitola (F/N/T)", "Ligação", "PotAtiva", "PotAtivaDem", "PotReat", "PotReatDem", "PotApar", "PotAparDem", "Ajuste Térmico (A)", "Fusivel (A)"};
 
 
     /* Cria um CircuitoTableModel vazio. */
@@ -99,6 +99,8 @@ public class CircuitoTableModel extends AbstractTableModel {
                 return String.class;
             case 14:
                 return String.class;
+            case 15:
+                return String.class;
 
             default:
                 // Se o índice da coluna não for válido, lança um
@@ -152,6 +154,8 @@ public class CircuitoTableModel extends AbstractTableModel {
                 return Numero.decimal(cir.getResultados().getPotAparenteDem(), "##.##");
             case 14:
                 return cir.getResultados().getDisjuntorTM();
+            case 15:
+                return cir.getResultados().getFusivel();
             default:
                 // Se o índice da coluna não for válido, lança um
                 // IndexOutOfBoundsException (Exceção de índice fora dos limites).

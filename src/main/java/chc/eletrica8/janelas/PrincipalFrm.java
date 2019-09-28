@@ -8,8 +8,15 @@ package chc.eletrica8.janelas;
 
 import chc.eletrica8.controle.DesktopPane;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.UIManager;
+import org.h2.tools.Server;
 
 /**
  *
@@ -125,9 +132,18 @@ public class PrincipalFrm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        ProjetoFrm frm = new ProjetoFrm();
-        desktop.add(frm);
-        frm.setVisible(true);
+        try {
+           Server s = Server.createTcpServer(new String[]{"-tcp","-tcpAllowOthers","-tcpPort","","-trace"}); //aqui crio e defino o servidor TCP com seus parametros
+           s.start(); //inicia o servidor
+          
+        } catch (SQLException ex) {
+          
+        }
+        
+        
+        ProjetoFrm frmProjeto = new ProjetoFrm();
+        desktop.add(frmProjeto);
+        frmProjeto.setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed

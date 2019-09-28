@@ -361,7 +361,7 @@ public class ProjetoFrm extends javax.swing.JInternalFrame {
         }
         if (evt.getClickCount() == 2) {
             if (Ids.getIdProjeto() > 0) {
-                this.setVisible(false);
+                this.dispose();
                 FonteFrm frm = new FonteFrm();
                 DesktopPane.desktop.add(frm);
                 frm.setVisible(true);

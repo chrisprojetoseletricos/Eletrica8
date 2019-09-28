@@ -12,6 +12,7 @@ import chc.eletrica8.entidades.Quadro;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.enums.UsoDr;
+import chc.eletrica8.servico.CircuitoService;
 import chc.eletrica8.servico.FonteService;
 import chc.eletrica8.servico.QuadroService;
 import chc.eletrica8.servico.tableModel.QuadroTableModel;
@@ -50,8 +51,8 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         this.cbUsabilidadeItens();
         this.cbUsoDeDRItens();
         this.cbLigacaoItens();
-        Ids.setIdQuadro(0);
-        Ids.imprimiIds();
+        Ids.setIdCircuito(0);
+
     }
 
     /**
@@ -395,7 +396,7 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         } catch (Exception e) {
         }
 
-        CalculaDados.quadro(quadro);
+        CalculaDados.calculaQuadro(quadro);
 
         this.apagaDadosFrm();
         this.iniciaTabelaQuadros();
@@ -406,7 +407,7 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         QuadroService.removeById(Ids.getIdQuadro());
-        CalculaDados.fonte(FonteService.getById(Ids.getIdFonte()));
+        //CalculaDados.fonte(FonteService.getById(Ids.getIdFonte()));
         this.iniciaTabelaQuadros();
         this.apagaDadosFrm();
         Ids.setIdQuadro(0);
@@ -421,7 +422,7 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         for (int i = 0; i < q.getCircuitos().size(); i++) {
             q.getCircuitos().get(i).setQuadro(q);
         }
-        CalculaDados.quadro(q);
+        CalculaDados.calculaQuadro(q);
 
         this.iniciaTabelaQuadros();
         this.apagaDadosFrm();
@@ -435,7 +436,7 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
         }
         if (evt.getClickCount() == 2) {
             if (Ids.getIdQuadro() > 0) {
-                this.setVisible(false);
+                this.dispose();
                 CircuitoFrm circuito = new CircuitoFrm();
                 DesktopPane.desktop.add(circuito);
                 circuito.setVisible(true);
@@ -452,6 +453,7 @@ public class QuadroFrm extends javax.swing.JInternalFrame implements KeyListener
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         FonteFrm frm = new FonteFrm();
+        CalculaDados.calculaFonte(FonteService.getById(Ids.getIdFonte()));
         DesktopPane.desktop.add(frm);
         frm.setVisible(true);
         Ids.setIdQuadro(0);

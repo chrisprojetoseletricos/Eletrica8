@@ -36,6 +36,7 @@ public class Condutor implements Serializable, Entidade<Condutor> {
     private int temperatura = 30;
     private double comprim;
     private double faseCondutor;
+    private String divFase;
 
     public String getBitolaSucessiva() {
         return bitolaSucessiva;
@@ -181,6 +182,20 @@ public class Condutor implements Serializable, Entidade<Condutor> {
 
     public void setTemperatura(int temperatura) {
         this.temperatura = temperatura;
+    }
+
+    /**
+     * @return the divFase
+     */
+    public String getDivFase() {
+        return divFase;
+    }
+
+    /**
+     * @param divFase the divFase to set
+     */
+    public void setDivFase(String divFase) {
+        this.divFase = divFase;
     }
 
     @Override

@@ -148,7 +148,7 @@ public class QuadroTableModel extends AbstractTableModel {
             case 12:
                 return Numero.decimal(quad.getResultados().getPotAparenteDem(), "##.#");
             case 13:
-                return Numero.decimal(quad.getResultados().getFusivel(), "##.#");
+                return quad.getResultados().getFusivel();
             case 14:
                 return quad.getResultados().getDisjuntorTM();
             default:

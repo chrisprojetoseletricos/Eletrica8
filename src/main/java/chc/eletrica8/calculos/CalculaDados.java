@@ -20,6 +20,97 @@ import chc.eletrica8.servico.QuadroService;
  */
 public class CalculaDados {
 
+    public static void calcula() {
+
+    }
+
+    public static void calculaCarga(Carga carga) {
+
+        carga.tensao();
+        carga.correnteAtiva();
+        carga.correnteAtivaDem();
+        carga.potAtivaKW();
+        carga.potAtivaDemKW();
+        carga.potReativaKVAr();
+        carga.potReativaDemKVAr();
+        carga.potAparenteKVA();
+        carga.potAparenteDemKVA();
+
+        CargaService.salva(carga);
+    }
+
+    public static void calculaCircuito(Circuito circuito) {
+
+        circuito.ordenaDecrListaCarga();
+        circuito.tipoFornCondutor();
+        circuito.defineComprimento();
+        circuito.fatorPotenciaMed();
+        circuito.correnteAtiva();
+        circuito.correnteAtivaDem();
+        circuito.correnteProjeto();
+        circuito.correnteCorr();
+        circuito.faseCondutor();
+        circuito.neutroCondutor();
+        circuito.terraCondutor();
+        circuito.bitolaCondutor();
+        circuito.tensao();
+        circuito.potAtivaKW();
+        circuito.potAtivaDemKW();
+        circuito.potReativaKVAr();
+        circuito.potReativaDemKVAr();
+        circuito.potAparenteKVA();
+        circuito.potAparenteDemKVA();
+        circuito.fusivel();
+        circuito.disjuntorTM();
+        circuito.atualizaBitola();
+
+        CircuitoService.salva(circuito);
+
+    }
+
+    public static void calculaQuadro(Quadro quadro) {
+
+        quadro.ordenaDecrListaCircuitos();
+        quadro.fatorPotenciaMed();
+        quadro.tipoFornCondutor();
+        quadro.tensao();
+        quadro.potAtivaKW();
+        quadro.potAtivaDemKW();
+        quadro.potReativaKVAr();
+        quadro.potReativaDemKVAr();
+        quadro.potAparenteKVA();
+        quadro.potAparenteDemKVA();
+        quadro.correnteAtiva();
+        quadro.correnteAtivaDem();
+        quadro.correnteProjeto();
+        quadro.correnteCorr();
+        quadro.faseCondutor();
+        quadro.neutroCondutor();
+        quadro.terraCondutor();
+        quadro.bitolaCondutor();
+        quadro.fusivel();
+        quadro.disjuntorTM();
+        quadro.atualizaBitola();
+
+        QuadroService.salva(quadro);
+
+    }
+
+    public static void calculaFonte(Fonte fonte) {
+
+        fonte.fatorPotenciaMed();
+        fonte.defineTipo();
+        fonte.ligacaoCondutor();
+        fonte.correnteAtiva();
+        fonte.correnteAtivaDem();
+        fonte.tensao();
+        fonte.potAparenteKVA();
+        fonte.potAparenteDemKVA();
+
+        FonteService.salva(fonte);
+
+    }
+    /*
     public static void carga(Carga carga) {
         carga.tensao();
         carga.correnteAtiva();
@@ -32,7 +123,7 @@ public class CalculaDados {
         carga.potAparenteDemKVA();
 
         carga.getCircuito().ordenaDecrListaCarga();
-        carga.getCircuito().tipoFornCondutor();
+         carga.getCircuito().tipoFornCondutor();
         carga.getCircuito().defineComprimento();
         carga.getCircuito().fatorPotenciaMed();
         carga.getCircuito().correnteAtiva();
@@ -63,11 +154,12 @@ public class CalculaDados {
         carga.getCircuito().getQuadro().potReativaDemKVAr();
         carga.getCircuito().getQuadro().potAparenteKVA();
         carga.getCircuito().getQuadro().potAparenteDemKVA();
+
         carga.getCircuito().getQuadro().correnteAtiva();
         carga.getCircuito().getQuadro().correnteAtivaDem();
         carga.getCircuito().getQuadro().correnteProjeto();
         carga.getCircuito().getQuadro().correnteCorr();
-        
+
         carga.getCircuito().getQuadro().faseCondutor();
         carga.getCircuito().getQuadro().neutroCondutor();
         carga.getCircuito().getQuadro().terraCondutor();
@@ -84,11 +176,11 @@ public class CalculaDados {
         carga.getCircuito().getQuadro().getFonte().tensao();
         carga.getCircuito().getQuadro().getFonte().potAparenteKVA();
         carga.getCircuito().getQuadro().getFonte().potAparenteDemKVA();
-
+         
         CargaService.salva(carga);
         CircuitoService.salva(carga.getCircuito());
-        QuadroService.salva(carga.getCircuito().getQuadro());
-        FonteService.salva(carga.getCircuito().getQuadro().getFonte());
+        // QuadroService.salva(carga.getCircuito().getQuadro());
+        //FonteService.salva(carga.getCircuito().getQuadro().getFonte());
     }
 
     public static void circuito(Circuito circuito) {
@@ -111,8 +203,8 @@ public class CalculaDados {
         circuito.potReativaDemKVAr();
         circuito.potAparenteKVA();
         circuito.potAparenteDemKVA();
-        circuito.disjuntorTM();
-        circuito.atualizaBitola();
+        //circuito.disjuntorTM();
+        //circuito.atualizaBitola();
 
         circuito.getQuadro().ordenaDecrListaCircuitos();
         circuito.getQuadro().fatorPotenciaMed();
@@ -128,14 +220,14 @@ public class CalculaDados {
         circuito.getQuadro().correnteAtivaDem();
         circuito.getQuadro().correnteProjeto();
         circuito.getQuadro().correnteCorr();
-        
+
         circuito.getQuadro().faseCondutor();
         circuito.getQuadro().neutroCondutor();
         circuito.getQuadro().terraCondutor();
         circuito.getQuadro().bitolaCondutor();
-        circuito.getQuadro().fusivel();
-        circuito.getQuadro().disjuntorTM();
-        circuito.getQuadro().atualizaBitola();
+        //circuito.getQuadro().fusivel();
+        //circuito.getQuadro().disjuntorTM();
+        //circuito.getQuadro().atualizaBitola();
 
         circuito.getQuadro().getFonte().fatorPotenciaMed();
         circuito.getQuadro().getFonte().defineTipo();
@@ -199,4 +291,5 @@ public class CalculaDados {
 
         FonteService.salva(fonte);
     }
+     */
 }

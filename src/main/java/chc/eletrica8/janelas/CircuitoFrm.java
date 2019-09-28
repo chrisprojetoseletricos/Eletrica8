@@ -9,6 +9,7 @@ import chc.eletrica8.calculos.CalculaDados;
 import chc.eletrica8.controle.DesktopPane;
 import chc.eletrica8.controle.Ids;
 import chc.eletrica8.entidades.Circuito;
+import chc.eletrica8.entidades.Quadro;
 import chc.eletrica8.enums.Ligacao;
 import chc.eletrica8.enums.Usabilidade;
 import chc.eletrica8.servico.CircuitoService;
@@ -43,6 +44,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         this.cbLigacaoItens();
         Ids.setIdCircuito(0);
         Ids.setIdCarga(0);
+        Ids.imprimiIds();
 
     }
 
@@ -341,7 +343,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         } catch (Exception e) {
         }
 
-       CalculaDados.circuito(circuito);
+       CalculaDados.calculaCircuito(circuito);
 
         this.apagaDadosFrm();
         this.iniciaTabelaCircuitos();
@@ -351,7 +353,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
 
     private void btnExcluirCircuitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirCircuitoActionPerformed
         CircuitoService.removeById(Ids.getIdCircuito());
-        CalculaDados.quadro(QuadroService.getById(Ids.getIdQuadro()));
+        //CalculaDados.quadro(QuadroService.getById(Ids.getIdQuadro()));
         this.iniciaTabelaCircuitos();
         this.apagaDadosFrm();
         Ids.setIdCircuito(0);
@@ -362,8 +364,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
     private void btnCopiarCircuitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCopiarCircuitoActionPerformed
 
         Circuito cir = CircuitoService.getById(Ids.getIdCircuito()).clonarSemID();
-        CircuitoService.salva(cir);
-        CalculaDados.circuito(cir);
+        CalculaDados.calculaCircuito(cir);
 
         this.iniciaTabelaCircuitos();
         this.apagaDadosFrm();
@@ -399,6 +400,10 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
         QuadroFrm frm = new QuadroFrm();
+       
+        int num = Ids.getIdQuadro();
+        Quadro quadro = QuadroService.getById(num);
+        CalculaDados.calculaQuadro(quadro);
         DesktopPane.desktop.add(frm);
         frm.setVisible(true);
         Ids.setIdCircuito(0);
@@ -418,7 +423,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
         }
         if (evt.getClickCount() == 2) {
             if (Ids.getIdCircuito() > 0) {
-                this.setVisible(false);
+                this.dispose();
                 CargaFrm frm = new CargaFrm();
                 DesktopPane.desktop.add(frm);
                 frm.setVisible(true);
@@ -437,7 +442,7 @@ public class CircuitoFrm extends javax.swing.JInternalFrame {
             DefaultTableModel model = new DefaultTableModel();
             this.tabelaCircuito.setModel(model);
         }
-        Ids.imprimiIds();
+
     }
 
     private void cbUsabilidadeItens() {
