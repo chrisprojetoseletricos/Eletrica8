@@ -5,15 +5,9 @@
  */
 package chc.eletrica8.janelas;
 
-
 import chc.eletrica8.controle.DesktopPane;
 import java.awt.Color;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.UIManager;
 import org.h2.tools.Server;
@@ -23,8 +17,6 @@ import org.h2.tools.Server;
  * @author chris
  */
 public class PrincipalFrm extends javax.swing.JFrame {
-
-
 
     /**
      * Creates new form Principal
@@ -133,14 +125,13 @@ public class PrincipalFrm extends javax.swing.JFrame {
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         try {
-           Server s = Server.createTcpServer(new String[]{"-tcp","-tcpAllowOthers","-tcpPort","","-trace"}); //aqui crio e defino o servidor TCP com seus parametros
-           s.start(); //inicia o servidor
-          
+            Server s = Server.createTcpServer(new String[]{"-tcp", "-tcpAllowOthers", "-tcpPort", "", "-trace"}); //aqui crio e defino o servidor TCP com seus parametros
+            s.start(); //inicia o servidor
+
         } catch (SQLException ex) {
-          
+
         }
-        
-        
+
         ProjetoFrm frmProjeto = new ProjetoFrm();
         desktop.add(frmProjeto);
         frmProjeto.setVisible(true);
@@ -170,7 +161,7 @@ public class PrincipalFrm extends javax.swing.JFrame {
         UIManager.put("nimbusBase", new Color(59, 140, 47));
         UIManager.put("nimbusBlueGrey", new Color(170, 190, 184));
         UIManager.put("control", new Color(214, 223, 220));
-        
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
